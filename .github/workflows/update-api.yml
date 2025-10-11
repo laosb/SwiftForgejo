@@ -1,0 +1,59 @@
+name: Update Forgejo API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-and-generate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.1"
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update OpenAPI definition
+        env:
+          FORGEJO_INSTANCE_SWAGGER_URL: ${{ secrets.FORGEJO_INSTANCE_SWAGGER_URL }}
+        run: |
+          if [[ -z "$FORGEJO_INSTANCE_SWAGGER_URL" ]]; then
+            echo "Error: FORGEJO_INSTANCE_SWAGGER_URL secret is not set"
+            exit 1
+          fi
+          ./Scripts/updateOpenAPIDefinition.sh "$FORGEJO_INSTANCE_SWAGGER_URL"
+
+      - name: Commit OpenAPI definition changes
+        run: |
+          git add Sources/ForgejoAPI/openapi.json
+          if git diff --cached --quiet; then
+            echo "No changes to OpenAPI definition"
+          else
+            VERSION=$(jq -r '.info.version' Sources/ForgejoAPI/openapi.json)
+            git commit -m "Update OpenAPI definition to version $VERSION"
+          fi
+
+      - name: Generate Swift client code
+        run: ./Scripts/generateAndCommit.sh
+
+      - name: Push changes
+        run: |
+          if git diff --quiet origin/${{ github.ref_name }}; then
+            echo "No changes to push"
+          else
+            git push origin HEAD:${{ github.ref_name }}
+          fi

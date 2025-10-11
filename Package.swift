@@ -15,8 +15,8 @@ let package = Package(
       targets: ["Forgejo"])
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-openapi-generator", from: "1.6.0"),
-    .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.7.0"),
+    .package(url: "https://github.com/apple/swift-openapi-generator", from: "1.10.0"),
+    .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.8.0"),
     .package(url: "https://github.com/swift-server/swift-openapi-async-http-client", from: "1.1.0"),
   ],
   targets: [
@@ -32,9 +32,7 @@ let package = Package(
       dependencies: [
         .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime")
       ],
-      plugins: [
-        .plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")
-      ]),
+    ),
     .testTarget(
       name: "ForgejoTests",
       dependencies: ["Forgejo"]
