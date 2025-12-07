@@ -14,7 +14,7 @@ dependencies: [
 
 Note that due to the inherent use case of this package, likely you will want to use an exact version match to ensure compatibility with your Forgejo instance. Major version bumps (before the `+`) will indicate our own breaking changes, or Forgejo ever releases a new major API version. We will **not** guarantee source compatibility of generated code between minor or patch versions. The build metadata (after the `+`) will track the version of Forgejo the API spec was generated from.
 
-Currently we only track **LTS** versions of Forgejo as we use LTS versions of Forgejo, and Forgejo OpenAPI schema is only available in deployed instances. Many LTS versions have change in OpenAPI schema, so in that case we might update `main` without releasing new version.
+Currently we only track **LTS** versions of Forgejo as we use only LTS versions, and Forgejo OpenAPI schema is only available in deployed instances. Many LTS versions have no changes in OpenAPI schema, so in that case we might update `main` without releasing new versions.
 
 Add the dependency to your target:
 
