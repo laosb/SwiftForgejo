@@ -32,6 +32,10 @@ let package = Package(
       dependencies: [
         .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime")
       ],
+      exclude: [
+        "openapi.json",
+        "openapi-generator-config.yaml",
+      ]
     ),
     .testTarget(
       name: "ForgejoTests",
