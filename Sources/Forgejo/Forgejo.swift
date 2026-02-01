@@ -15,21 +15,22 @@ extension ForgejoClient {
   }
 }
 
-struct ForgejoAuthMiddleware: ClientMiddleware {
+public struct ForgejoAuthMiddleware: ClientMiddleware {
   var credentials: ForgejoAuthCredentials?
 
-  init(credentials: ForgejoAuthCredentials? = nil) {
+  public init(credentials: ForgejoAuthCredentials? = nil) {
     self.credentials = credentials
   }
 
-  func intercept(
+  public func intercept(
     _ request: HTTPRequest,
     body: HTTPBody?,
     baseURL: URL,
     operationID: String,
-    next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (
-      HTTPResponse, HTTPBody?
-    )
+    next:
+      @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (
+        HTTPResponse, HTTPBody?
+      )
   ) async throws -> (HTTPResponse, HTTPBody?) {
     var request = request
 
