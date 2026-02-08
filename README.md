@@ -1,5 +1,8 @@
 # SwiftForgejo
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Flaosb%2FSwiftForgejo%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/laosb/SwiftForgejo)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Flaosb%2FSwiftForgejo%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/laosb/SwiftForgejo)
+
 A Swift client for Forgejo, generated from its Swagger spec.
 
 ## Usage
@@ -8,7 +11,7 @@ Add the package to your `Package.swift` file:
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/laosb/SwiftForgejo.git", exact: "1.0.0+forgejo-11.0.3-gitea-1.22.0")
+  .package(url: "https://github.com/laosb/SwiftForgejo.git", exact: "2.0.0+forgejo-11.0.10-gitea-1.22.0")
 ]
 ```
 
@@ -29,16 +32,21 @@ targets: [
 ]
 ```
 
-Import and use the package in your Swift code:
+Import and use the package in your Swift code. Note that you should pick an OpenAPI transport that suits your environment. Here we use [`OpenAPIAsyncHTTPClient`](https://github.com/swift-server/swift-openapi-async-http-client) as an example, but you can also use other transports. For example, [`OpenAPIURLSession`](https://github.com/apple/swift-openapi-urlsession) uses `URLSession` from `Foundation`, which is preferred on Apple platforms.
+
+An authentication middleware is also provided to ease Forgejo authentication. See [documentation](https://swiftpackageindex.com/laosb/SwiftForgejo/main/documentation/swiftforgejo) for more details.
 
 ```swift
 import Forgejo
+import OpenAPIAsyncHTTPClient
 
-let client = ForgejoClient(
-  url: URL(string: "https://your-forgejo-instance.com/api/v1")!,
-  credentials: .token(token: "You API Token"), // optional
-  // credentials: .login(username: "your-username", password: "your-password", totp: "123456"),
-)
+let url = URL(string: "https://your-forgejo-instance.com/api/v1")!
+let credentials: ForgejoAuthCredentials = .token(token: "You API Token")
+// let credentials: ForgejoAuthCredentials = .login(username: "your-username", password: "your-password", totp: "123456")
+let transport = AsyncHTTPClientTransport()
+let authMiddleware = ForgejoAuthMiddleware(credentials: credentials)
+
+let client = ForgejoClient(serverURL: url, transport: transport, middlewares: [authMiddleware])
 ```
 
 ## License
