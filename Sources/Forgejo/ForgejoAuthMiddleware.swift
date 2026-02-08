@@ -1,23 +1,16 @@
 @_exported import ForgejoAPI
 import Foundation
 import HTTPTypes
-import OpenAPIAsyncHTTPClient
 import OpenAPIRuntime
 
 public typealias ForgejoClient = Client
 
-extension ForgejoClient {
-  public init(url: URL, credentials: ForgejoAuthCredentials? = nil) {
-    let transport = AsyncHTTPClientTransport()
-    let authMiddleware = ForgejoAuthMiddleware(credentials: credentials)
-
-    self.init(serverURL: url, transport: transport, middlewares: [authMiddleware])
-  }
-}
-
+/// Middleware for handling Forgejo authentication.
 public struct ForgejoAuthMiddleware: ClientMiddleware {
-  var credentials: ForgejoAuthCredentials?
+  /// The authentication credentials.
+  public var credentials: ForgejoAuthCredentials?
 
+  /// Initializes the middleware with optional credentials.
   public init(credentials: ForgejoAuthCredentials? = nil) {
     self.credentials = credentials
   }
@@ -55,5 +48,6 @@ public struct ForgejoAuthMiddleware: ClientMiddleware {
 }
 
 extension HTTPField.Name {
+  /// The X-Forgejo-OTP header field name.
   public static let xForgejoOTP = HTTPField.Name("X-Forgejo-OTP")!
 }
