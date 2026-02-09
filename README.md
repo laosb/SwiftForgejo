@@ -11,7 +11,7 @@ Add the package to your `Package.swift` file:
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/laosb/SwiftForgejo.git", exact: "2.0.0+forgejo-11.0.10-gitea-1.22.0")
+  .package(url: "https://github.com/laosb/SwiftForgejo.git", exact: "2.0.1+forgejo-11.0.10-gitea-1.22.0")
 ]
 ```
 

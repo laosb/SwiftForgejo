@@ -15,7 +15,8 @@ let package = Package(
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .library(
       name: "Forgejo",
-      targets: ["Forgejo"])
+      targets: ["Forgejo"]
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-openapi-generator", from: "1.10.0"),
@@ -26,7 +27,7 @@ let package = Package(
       name: "Forgejo",
       dependencies: [
         .byName(name: "ForgejoAPI")
-      ],
+      ]
     ),
     .target(
       name: "ForgejoAPI",
