@@ -21,6 +21,11 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /activitypub/actor/inbox`.
     /// - Remark: Generated from `#/paths//activitypub/actor/inbox/post(activitypubInstanceActorInbox)`.
     func activitypubInstanceActorInbox(_ input: Operations.ActivitypubInstanceActorInbox.Input) async throws -> Operations.ActivitypubInstanceActorInbox.Output
+    /// Display the outbox (always empty)
+    ///
+    /// - Remark: HTTP `POST /activitypub/actor/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/actor/outbox/post(activitypubInstanceActorOutbox)`.
+    func activitypubInstanceActorOutbox(_ input: Operations.ActivitypubInstanceActorOutbox.Input) async throws -> Operations.ActivitypubInstanceActorOutbox.Output
     /// Returns the Repository actor for a repo
     ///
     /// - Remark: HTTP `GET /activitypub/repository-id/{repository-id}`.
@@ -31,16 +36,70 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /activitypub/repository-id/{repository-id}/inbox`.
     /// - Remark: Generated from `#/paths//activitypub/repository-id/{repository-id}/inbox/post(activitypubRepositoryInbox)`.
     func activitypubRepositoryInbox(_ input: Operations.ActivitypubRepositoryInbox.Input) async throws -> Operations.ActivitypubRepositoryInbox.Output
+    /// Display the outbox
+    ///
+    /// - Remark: HTTP `POST /activitypub/repository-id/{repository-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/repository-id/{repository-id}/outbox/post(activitypubRepositoryOutbox)`.
+    func activitypubRepositoryOutbox(_ input: Operations.ActivitypubRepositoryOutbox.Input) async throws -> Operations.ActivitypubRepositoryOutbox.Output
     /// Returns the Person actor for a user
     ///
     /// - Remark: HTTP `GET /activitypub/user-id/{user-id}`.
     /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/get(activitypubPerson)`.
     func activitypubPerson(_ input: Operations.ActivitypubPerson.Input) async throws -> Operations.ActivitypubPerson.Output
+    /// Get a specific activity object of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/get(activitypubPersonActivityNote)`.
+    func activitypubPersonActivityNote(_ input: Operations.ActivitypubPersonActivityNote.Input) async throws -> Operations.ActivitypubPersonActivityNote.Output
+    /// Get a specific activity of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}/activity`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/activity/get(activitypubPersonActivity)`.
+    func activitypubPersonActivity(_ input: Operations.ActivitypubPersonActivity.Input) async throws -> Operations.ActivitypubPersonActivity.Output
     /// Send to the inbox
     ///
     /// - Remark: HTTP `POST /activitypub/user-id/{user-id}/inbox`.
     /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)`.
     func activitypubPersonInbox(_ input: Operations.ActivitypubPersonInbox.Input) async throws -> Operations.ActivitypubPersonInbox.Output
+    /// List the user's recorded activity
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/outbox/get(activitypubPersonFeed)`.
+    func activitypubPersonFeed(_ input: Operations.ActivitypubPersonFeed.Input) async throws -> Operations.ActivitypubPersonFeed.Output
+    /// Get all runners, no matter whether they are global runners or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)`.
+    func getAdminRunners(_ input: Operations.GetAdminRunners.Input) async throws -> Operations.GetAdminRunners.Output
+    /// Register a new global runner
+    ///
+    /// - Remark: HTTP `POST /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)`.
+    func registerAdminRunner(_ input: Operations.RegisterAdminRunner.Input) async throws -> Operations.RegisterAdminRunner.Output
+    /// Get action run jobs
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/jobs`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/jobs/get(adminGetActionRunJobs)`.
+    func adminGetActionRunJobs(_ input: Operations.AdminGetActionRunJobs.Input) async throws -> Operations.AdminGetActionRunJobs.Output
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/registration-token`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
+    func adminGetRunnerRegistrationToken(_ input: Operations.AdminGetRunnerRegistrationToken.Input) async throws -> Operations.AdminGetRunnerRegistrationToken.Output
+    /// Get a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)`.
+    func getAdminRunner(_ input: Operations.GetAdminRunner.Input) async throws -> Operations.GetAdminRunner.Output
+    /// Delete a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `DELETE /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)`.
+    func deleteAdminRunner(_ input: Operations.DeleteAdminRunner.Input) async throws -> Operations.DeleteAdminRunner.Output
     /// List cron tasks
     ///
     /// - Remark: HTTP `GET /admin/cron`.
@@ -51,17 +110,17 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /admin/cron/{task}`.
     /// - Remark: Generated from `#/paths//admin/cron/{task}/post(adminCronRun)`.
     func adminCronRun(_ input: Operations.AdminCronRun.Input) async throws -> Operations.AdminCronRun.Output
-    /// List all emails
+    /// List all users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails`.
     /// - Remark: Generated from `#/paths//admin/emails/get(adminGetAllEmails)`.
     func adminGetAllEmails(_ input: Operations.AdminGetAllEmails.Input) async throws -> Operations.AdminGetAllEmails.Output
-    /// Search all emails
+    /// Search users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails/search`.
     /// - Remark: Generated from `#/paths//admin/emails/search/get(adminSearchEmails)`.
     func adminSearchEmails(_ input: Operations.AdminSearchEmails.Input) async throws -> Operations.AdminSearchEmails.Output
-    /// List system's webhooks
+    /// List global (system) webhooks
     ///
     /// - Remark: HTTP `GET /admin/hooks`.
     /// - Remark: Generated from `#/paths//admin/hooks/get(adminListHooks)`.
@@ -159,18 +218,26 @@ public protocol APIProtocol: Sendable {
     /// Deletes a quota rule
     ///
     /// - Remark: HTTP `DELETE /admin/quota/rules/{quotarule}`.
-    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)`.
-    func adminDEleteQuotaRule(_ input: Operations.AdminDEleteQuotaRule.Input) async throws -> Operations.AdminDEleteQuotaRule.Output
-    /// Search action jobs according filter conditions
+    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)`.
+    func adminDeleteQuotaRule(_ input: Operations.AdminDeleteQuotaRule.Input) async throws -> Operations.AdminDeleteQuotaRule.Output
+    /// Search action jobs according to filter conditions
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use [`/admin/actions/runners/jobs`](#/admin/adminGetActionRunJobs) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/jobs`.
     /// - Remark: Generated from `#/paths//admin/runners/jobs/get(adminSearchRunJobs)`.
+    @available(*, deprecated)
     func adminSearchRunJobs(_ input: Operations.AdminSearchRunJobs.Input) async throws -> Operations.AdminSearchRunJobs.Output
-    /// Get an global actions runner registration token
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/registration-token`.
-    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
-    func adminGetRunnerRegistrationToken(_ input: Operations.AdminGetRunnerRegistrationToken.Input) async throws -> Operations.AdminGetRunnerRegistrationToken.Output
+    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRegistrationToken)`.
+    @available(*, deprecated)
+    func adminGetRegistrationToken(_ input: Operations.AdminGetRegistrationToken.Input) async throws -> Operations.AdminGetRegistrationToken.Output
     /// List unadopted repositories
     ///
     /// - Remark: HTTP `GET /admin/unadopted`.
@@ -191,7 +258,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /admin/users`.
     /// - Remark: Generated from `#/paths//admin/users/get(adminSearchUsers)`.
     func adminSearchUsers(_ input: Operations.AdminSearchUsers.Input) async throws -> Operations.AdminSearchUsers.Output
-    /// Create a user
+    /// Create a user account
     ///
     /// - Remark: HTTP `POST /admin/users`.
     /// - Remark: Generated from `#/paths//admin/users/post(adminCreateUser)`.
@@ -201,17 +268,27 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `PATCH /admin/users/{username}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/patch(adminEditUser)`.
     func adminEditUser(_ input: Operations.AdminEditUser.Input) async throws -> Operations.AdminEditUser.Output
-    /// Delete a user
+    /// Delete user account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/delete(adminDeleteUser)`.
     func adminDeleteUser(_ input: Operations.AdminDeleteUser.Input) async throws -> Operations.AdminDeleteUser.Output
-    /// Add a public key on behalf of a user
+    /// List all email addresses for a user
+    ///
+    /// - Remark: HTTP `GET /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)`.
+    func adminListUserEmails(_ input: Operations.AdminListUserEmails.Input) async throws -> Operations.AdminListUserEmails.Output
+    /// Delete email addresses from a user's account
+    ///
+    /// - Remark: HTTP `DELETE /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)`.
+    func adminDeleteUserEmails(_ input: Operations.AdminDeleteUserEmails.Input) async throws -> Operations.AdminDeleteUserEmails.Output
+    /// Add an SSH public key to user's account
     ///
     /// - Remark: HTTP `POST /admin/users/{username}/keys`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/post(adminCreatePublicKey)`.
     func adminCreatePublicKey(_ input: Operations.AdminCreatePublicKey.Input) async throws -> Operations.AdminCreatePublicKey.Output
-    /// Delete a user's public key
+    /// Remove a public key from user's account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}/keys/{id}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/{id}/delete(adminDeleteUserPublicKey)`.
@@ -322,7 +399,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: Generated from `#/paths//org/{org}/repos/post(createOrgRepoDeprecated)`.
     @available(*, deprecated)
     func createOrgRepoDeprecated(_ input: Operations.CreateOrgRepoDeprecated.Input) async throws -> Operations.CreateOrgRepoDeprecated.Output
-    /// Get list of organizations
+    /// List all organizations
     ///
     /// - Remark: HTTP `GET /orgs`.
     /// - Remark: Generated from `#/paths//orgs/get(orgGetAll)`.
@@ -347,17 +424,41 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /orgs/{org}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/delete(orgDelete)`.
     func orgDelete(_ input: Operations.OrgDelete.Input) async throws -> Operations.OrgDelete.Output
+    /// Get the organization's runners
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)`.
+    func getOrgRunners(_ input: Operations.GetOrgRunners.Input) async throws -> Operations.GetOrgRunners.Output
+    /// Register a new organization-level runner
+    ///
+    /// - Remark: HTTP `POST /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)`.
+    func registerOrgRunner(_ input: Operations.RegisterOrgRunner.Input) async throws -> Operations.RegisterOrgRunner.Output
     /// Search for organization's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/jobs`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/jobs/get(orgSearchRunJobs)`.
     func orgSearchRunJobs(_ input: Operations.OrgSearchRunJobs.Input) async throws -> Operations.OrgSearchRunJobs.Output
-    /// Get an organization's actions runner registration token
+    /// Get the organization's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/orgs/{org}/actions/runners`](#/organization/registerOrgRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/registration-token/get(orgGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
     func orgGetRunnerRegistrationToken(_ input: Operations.OrgGetRunnerRegistrationToken.Input) async throws -> Operations.OrgGetRunnerRegistrationToken.Output
-    /// List an organization's actions secrets
+    /// Get a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)`.
+    func getOrgRunner(_ input: Operations.GetOrgRunner.Input) async throws -> Operations.GetOrgRunner.Output
+    /// Delete a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `DELETE /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)`.
+    func deleteOrgRunner(_ input: Operations.DeleteOrgRunner.Input) async throws -> Operations.DeleteOrgRunner.Output
+    /// List actions secrets of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/secrets`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/secrets/get(orgListActionsSecrets)`.
@@ -372,27 +473,27 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /orgs/{org}/actions/secrets/{secretname}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/secrets/{secretname}/delete(deleteOrgSecret)`.
     func deleteOrgSecret(_ input: Operations.DeleteOrgSecret.Input) async throws -> Operations.DeleteOrgSecret.Output
-    /// Get an org-level variables list
+    /// List variables of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/get(getOrgVariablesList)`.
     func getOrgVariablesList(_ input: Operations.GetOrgVariablesList.Input) async throws -> Operations.GetOrgVariablesList.Output
-    /// Get an org-level variable
+    /// Get organization's variable by name
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/get(getOrgVariable)`.
     func getOrgVariable(_ input: Operations.GetOrgVariable.Input) async throws -> Operations.GetOrgVariable.Output
-    /// Create an org-level variable
+    /// Create a new variable in organization
     ///
     /// - Remark: HTTP `POST /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/post(createOrgVariable)`.
     func createOrgVariable(_ input: Operations.CreateOrgVariable.Input) async throws -> Operations.CreateOrgVariable.Output
-    /// Update an org-level variable
+    /// Update variable in organization
     ///
     /// - Remark: HTTP `PUT /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/put(updateOrgVariable)`.
     func updateOrgVariable(_ input: Operations.UpdateOrgVariable.Input) async throws -> Operations.UpdateOrgVariable.Output
-    /// Delete an org-level variable
+    /// Delete organization's variable by name
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)`.
@@ -402,12 +503,12 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /orgs/{org}/activities/feeds`.
     /// - Remark: Generated from `#/paths//orgs/{org}/activities/feeds/get(orgListActivityFeeds)`.
     func orgListActivityFeeds(_ input: Operations.OrgListActivityFeeds.Input) async throws -> Operations.OrgListActivityFeeds.Output
-    /// Update Avatar
+    /// Update an organization's avatar
     ///
     /// - Remark: HTTP `POST /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/post(orgUpdateAvatar)`.
     func orgUpdateAvatar(_ input: Operations.OrgUpdateAvatar.Input) async throws -> Operations.OrgUpdateAvatar.Output
-    /// Delete Avatar
+    /// Delete an organization's avatar. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/delete(orgDeleteAvatar)`.
@@ -627,16 +728,50 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/delete(repoDelete)`.
     func repoDelete(_ input: Operations.RepoDelete.Input) async throws -> Operations.RepoDelete.Output
+    /// Get runners belonging to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)`.
+    func getRepoRunners(_ input: Operations.GetRepoRunners.Input) async throws -> Operations.GetRepoRunners.Output
+    /// Register a new repository-level runner
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)`.
+    func registerRepoRunner(_ input: Operations.RegisterRepoRunner.Input) async throws -> Operations.RegisterRepoRunner.Output
     /// Search for repository's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/jobs`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/jobs/get(repoSearchRunJobs)`.
     func repoSearchRunJobs(_ input: Operations.RepoSearchRunJobs.Input) async throws -> Operations.RepoSearchRunJobs.Output
-    /// Get a repository's actions runner registration token
+    /// Get a repository's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/repos/{owner}/{repo}/actions/runners`](#/repository/registerRepoRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/registration-token/get(repoGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
     func repoGetRunnerRegistrationToken(_ input: Operations.RepoGetRunnerRegistrationToken.Input) async throws -> Operations.RepoGetRunnerRegistrationToken.Output
+    /// Get a particular runner that belongs to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)`.
+    func getRepoRunner(_ input: Operations.GetRepoRunner.Input) async throws -> Operations.GetRepoRunner.Output
+    /// Delete a particular runner that belongs to a repository
+    ///
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)`.
+    func deleteRepoRunner(_ input: Operations.DeleteRepoRunner.Input) async throws -> Operations.DeleteRepoRunner.Output
+    /// List a repository's action runs
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)`.
+    func listActionRuns(_ input: Operations.ListActionRuns.Input) async throws -> Operations.ListActionRuns.Output
+    /// Get an action run
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs/{run_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)`.
+    func actionRun(_ input: Operations.ActionRun.Input) async throws -> Operations.ActionRun.Output
     /// List an repo's actions secrets
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/secrets`.
@@ -684,8 +819,8 @@ public protocol APIProtocol: Sendable {
     func deleteRepoVariable(_ input: Operations.DeleteRepoVariable.Input) async throws -> Operations.DeleteRepoVariable.Output
     /// Dispatches a workflow
     ///
-    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)`.
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)`.
     func dispatchWorkflow(_ input: Operations.DispatchWorkflow.Input) async throws -> Operations.DispatchWorkflow.Output
     /// List a repository's activity feeds
     ///
@@ -702,12 +837,12 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/assignees`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/assignees/get(repoGetAssignees)`.
     func repoGetAssignees(_ input: Operations.RepoGetAssignees.Input) async throws -> Operations.RepoGetAssignees.Output
-    /// Update avatar
+    /// Update a repository's avatar
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/post(repoUpdateAvatar)`.
     func repoUpdateAvatar(_ input: Operations.RepoUpdateAvatar.Input) async throws -> Operations.RepoUpdateAvatar.Output
-    /// Delete avatar
+    /// Delete a repository's avatar
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/delete(repoDeleteAvatar)`.
@@ -844,6 +979,11 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/contents/{filepath}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/delete(repoDeleteFile)`.
     func repoDeleteFile(_ input: Operations.RepoDeleteFile.Input) async throws -> Operations.RepoDeleteFile.Output
+    /// Convert a mirror repo to a normal repo.
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/convert`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)`.
+    func repoConvert(_ input: Operations.RepoConvert.Input) async throws -> Operations.RepoConvert.Output
     /// Apply diff patch to repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/diffpatch`.
@@ -894,6 +1034,11 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/forks`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/forks/post(createFork)`.
     func createFork(_ input: Operations.CreateFork.Input) async throws -> Operations.CreateFork.Output
+    /// Gets multiple blobs of a repository.
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/git/blobs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/get(GetBlobs)`.
+    func getBlobs(_ input: Operations.GetBlobs.Input) async throws -> Operations.GetBlobs.Output
     /// Gets the blob of a repository.
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/git/blobs/{sha}`.
@@ -1203,8 +1348,8 @@ public protocol APIProtocol: Sendable {
     func issueClearLabels(_ input: Operations.IssueClearLabels.Input) async throws -> Operations.IssueClearLabels.Output
     /// Remove a label from an issue
     ///
-    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{id}`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)`.
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{identifier}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)`.
     func issueRemoveLabel(_ input: Operations.IssueRemoveLabel.Input) async throws -> Operations.IssueRemoveLabel.Output
     /// Pin an Issue
     ///
@@ -1396,7 +1541,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `PUT /repos/{owner}/{repo}/notifications`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/notifications/put(notifyReadRepoList)`.
     func notifyReadRepoList(_ input: Operations.NotifyReadRepoList.Input) async throws -> Operations.NotifyReadRepoList.Output
-    /// List a repo's pull requests
+    /// List a repo's pull requests. If a pull request is selected but fails to be retrieved for any reason, it will be a null value in the list of results.
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/pulls`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/get(repoListPullRequests)`.
@@ -1456,12 +1601,12 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/pulls/{index}/merge`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/merge/delete(repoCancelScheduledAutoMerge)`.
     func repoCancelScheduledAutoMerge(_ input: Operations.RepoCancelScheduledAutoMerge.Input) async throws -> Operations.RepoCancelScheduledAutoMerge.Output
-    /// create review requests for a pull request
+    /// Create review requests for a pull request
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/post(repoCreatePullReviewRequests)`.
     func repoCreatePullReviewRequests(_ input: Operations.RepoCreatePullReviewRequests.Input) async throws -> Operations.RepoCreatePullReviewRequests.Output
-    /// cancel review requests for a pull request
+    /// Cancel review requests for a pull request
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/delete(repoDeletePullReviewRequests)`.
@@ -1531,7 +1676,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/push_mirrors`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/get(repoListPushMirrors)`.
     func repoListPushMirrors(_ input: Operations.RepoListPushMirrors.Input) async throws -> Operations.RepoListPushMirrors.Output
-    /// add a push mirror to the repository
+    /// Set up a new push mirror in a repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/push_mirrors`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/post(repoAddPushMirror)`.
@@ -1546,7 +1691,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/push_mirrors/{name}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/{name}/get(repoGetPushMirrorByRemoteName)`.
     func repoGetPushMirrorByRemoteName(_ input: Operations.RepoGetPushMirrorByRemoteName.Input) async throws -> Operations.RepoGetPushMirrorByRemoteName.Output
-    /// deletes a push mirror from a repository by remoteName
+    /// Remove a push mirror from a repository by remoteName
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/push_mirrors/{name}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/{name}/delete(repoDeletePushMirror)`.
@@ -1666,6 +1811,26 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/subscription`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/subscription/delete(userCurrentDeleteSubscription)`.
     func userCurrentDeleteSubscription(_ input: Operations.UserCurrentDeleteSubscription.Input) async throws -> Operations.UserCurrentDeleteSubscription.Output
+    /// Gets information about syncing the fork default branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)`.
+    func repoSyncForkDefaultInfo(_ input: Operations.RepoSyncForkDefaultInfo.Input) async throws -> Operations.RepoSyncForkDefaultInfo.Output
+    /// Syncs the default branch of a fork with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)`.
+    func repoSyncForkDefault(_ input: Operations.RepoSyncForkDefault.Input) async throws -> Operations.RepoSyncForkDefault.Output
+    /// Gets information about syncing a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)`.
+    func repoSyncForkBranchInfo(_ input: Operations.RepoSyncForkBranchInfo.Input) async throws -> Operations.RepoSyncForkBranchInfo.Output
+    /// Syncs a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)`.
+    func repoSyncForkBranch(_ input: Operations.RepoSyncForkBranch.Input) async throws -> Operations.RepoSyncForkBranch.Output
     /// List tag protections for a repository
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/tag_protections`.
@@ -1842,6 +2007,11 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /signing-key.gpg`.
     /// - Remark: Generated from `#/paths//signing-key.gpg/get(getSigningKey)`.
     func getSigningKey(_ input: Operations.GetSigningKey.Input) async throws -> Operations.GetSigningKey.Output
+    /// Get default signing-key.ssh
+    ///
+    /// - Remark: HTTP `GET /signing-key.ssh`.
+    /// - Remark: Generated from `#/paths//signing-key.ssh/get(getSSHSigningKey)`.
+    func getSSHSigningKey(_ input: Operations.GetSSHSigningKey.Input) async throws -> Operations.GetSSHSigningKey.Output
     /// Get a team
     ///
     /// - Remark: HTTP `GET /teams/{id}`.
@@ -1904,7 +2074,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `DELETE /teams/{id}/repos/{org}/{repo}`.
     /// - Remark: Generated from `#/paths//teams/{id}/repos/{org}/{repo}/delete(orgRemoveTeamRepository)`.
     func orgRemoveTeamRepository(_ input: Operations.OrgRemoveTeamRepository.Input) async throws -> Operations.OrgRemoveTeamRepository.Output
-    /// search topics via keyword
+    /// Search for topics by keyword
     ///
     /// - Remark: HTTP `GET /topics/search`.
     /// - Remark: Generated from `#/paths//topics/search/get(topicSearch)`.
@@ -1914,16 +2084,40 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /user`.
     /// - Remark: Generated from `#/paths//user/get(userGetCurrent)`.
     func userGetCurrent(_ input: Operations.UserGetCurrent.Input) async throws -> Operations.UserGetCurrent.Output
+    /// Get the user's runners
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)`.
+    func getUserRunners(_ input: Operations.GetUserRunners.Input) async throws -> Operations.GetUserRunners.Output
+    /// Register a new user-level runner
+    ///
+    /// - Remark: HTTP `POST /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)`.
+    func registerUserRunner(_ input: Operations.RegisterUserRunner.Input) async throws -> Operations.RegisterUserRunner.Output
     /// Search for user's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /user/actions/runners/jobs`.
     /// - Remark: Generated from `#/paths//user/actions/runners/jobs/get(userSearchRunJobs)`.
     func userSearchRunJobs(_ input: Operations.UserSearchRunJobs.Input) async throws -> Operations.UserSearchRunJobs.Output
-    /// Get an user's actions runner registration token
+    /// Get the user's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/user/actions/runners`](#/user/registerUserRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /user/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//user/actions/runners/registration-token/get(userGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
     func userGetRunnerRegistrationToken(_ input: Operations.UserGetRunnerRegistrationToken.Input) async throws -> Operations.UserGetRunnerRegistrationToken.Output
+    /// Get a particular runner that belongs to the user
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)`.
+    func getUserRunner(_ input: Operations.GetUserRunner.Input) async throws -> Operations.GetUserRunner.Output
+    /// Delete a particular user-level runner
+    ///
+    /// - Remark: HTTP `DELETE /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)`.
+    func deleteUserRunner(_ input: Operations.DeleteUserRunner.Input) async throws -> Operations.DeleteUserRunner.Output
     /// Create or Update a secret value in a user scope
     ///
     /// - Remark: HTTP `PUT /user/actions/secrets/{secretname}`.
@@ -1964,52 +2158,52 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /user/applications/oauth2`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/get(userGetOAuth2Applications)`.
     func userGetOAuth2Applications(_ input: Operations.UserGetOAuth2Applications.Input) async throws -> Operations.UserGetOAuth2Applications.Output
-    /// creates a new OAuth2 application
+    /// Creates a new OAuth2 application
     ///
     /// - Remark: HTTP `POST /user/applications/oauth2`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/post(userCreateOAuth2Application)`.
     func userCreateOAuth2Application(_ input: Operations.UserCreateOAuth2Application.Input) async throws -> Operations.UserCreateOAuth2Application.Output
-    /// get an OAuth2 Application
+    /// Get an OAuth2 application
     ///
     /// - Remark: HTTP `GET /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/get(userGetOAuth2Application)`.
     func userGetOAuth2Application(_ input: Operations.UserGetOAuth2Application.Input) async throws -> Operations.UserGetOAuth2Application.Output
-    /// update an OAuth2 Application, this includes regenerating the client secret
+    /// Update an OAuth2 application, this includes regenerating the client secret
     ///
     /// - Remark: HTTP `PATCH /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/patch(userUpdateOAuth2Application)`.
     func userUpdateOAuth2Application(_ input: Operations.UserUpdateOAuth2Application.Input) async throws -> Operations.UserUpdateOAuth2Application.Output
-    /// delete an OAuth2 Application
+    /// Delete an OAuth2 application
     ///
     /// - Remark: HTTP `DELETE /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/delete(userDeleteOAuth2Application)`.
     func userDeleteOAuth2Application(_ input: Operations.UserDeleteOAuth2Application.Input) async throws -> Operations.UserDeleteOAuth2Application.Output
-    /// Update Avatar
+    /// Update avatar of the current user
     ///
     /// - Remark: HTTP `POST /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/post(userUpdateAvatar)`.
     func userUpdateAvatar(_ input: Operations.UserUpdateAvatar.Input) async throws -> Operations.UserUpdateAvatar.Output
-    /// Delete Avatar
+    /// Delete avatar of the current user. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/delete(userDeleteAvatar)`.
     func userDeleteAvatar(_ input: Operations.UserDeleteAvatar.Input) async throws -> Operations.UserDeleteAvatar.Output
-    /// Blocks a user from the doer.
+    /// Blocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/block/{username}`.
     /// - Remark: Generated from `#/paths//user/block/{username}/put(userBlockUser)`.
     func userBlockUser(_ input: Operations.UserBlockUser.Input) async throws -> Operations.UserBlockUser.Output
-    /// List the authenticated user's email addresses
+    /// List all email addresses of the current user
     ///
     /// - Remark: HTTP `GET /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/get(userListEmails)`.
     func userListEmails(_ input: Operations.UserListEmails.Input) async throws -> Operations.UserListEmails.Output
-    /// Add email addresses
+    /// Add an email addresses to the current user's account
     ///
     /// - Remark: HTTP `POST /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/post(userAddEmail)`.
     func userAddEmail(_ input: Operations.UserAddEmail.Input) async throws -> Operations.UserAddEmail.Output
-    /// Delete email addresses
+    /// Delete email addresses from the current user's account
     ///
     /// - Remark: HTTP `DELETE /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/delete(userDeleteEmail)`.
@@ -2054,7 +2248,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /user/gpg_keys`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/get(userCurrentListGPGKeys)`.
     func userCurrentListGPGKeys(_ input: Operations.UserCurrentListGPGKeys.Input) async throws -> Operations.UserCurrentListGPGKeys.Output
-    /// Create a GPG key
+    /// Add a GPG public key to current user's account
     ///
     /// - Remark: HTTP `POST /user/gpg_keys`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/post(userCurrentPostGPGKey)`.
@@ -2064,7 +2258,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /user/gpg_keys/{id}`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/{id}/get(userCurrentGetGPGKey)`.
     func userCurrentGetGPGKey(_ input: Operations.UserCurrentGetGPGKey.Input) async throws -> Operations.UserCurrentGetGPGKey.Output
-    /// Remove a GPG key
+    /// Remove a GPG public key from current user's account
     ///
     /// - Remark: HTTP `DELETE /user/gpg_keys/{id}`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/{id}/delete(userCurrentDeleteGPGKey)`.
@@ -2159,12 +2353,12 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `POST /user/repos`.
     /// - Remark: Generated from `#/paths//user/repos/post(createCurrentUserRepo)`.
     func createCurrentUserRepo(_ input: Operations.CreateCurrentUserRepo.Input) async throws -> Operations.CreateCurrentUserRepo.Output
-    /// Get user settings
+    /// Get current user's account settings
     ///
     /// - Remark: HTTP `GET /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/get(getUserSettings)`.
     func getUserSettings(_ input: Operations.GetUserSettings.Input) async throws -> Operations.GetUserSettings.Output
-    /// Update user settings
+    /// Update settings in current user's account
     ///
     /// - Remark: HTTP `PATCH /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/patch(updateUserSettings)`.
@@ -2209,7 +2403,7 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /user/times`.
     /// - Remark: Generated from `#/paths//user/times/get(userCurrentTrackedTimes)`.
     func userCurrentTrackedTimes(_ input: Operations.UserCurrentTrackedTimes.Input) async throws -> Operations.UserCurrentTrackedTimes.Output
-    /// Unblocks a user from the doer.
+    /// Unblocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/unblock/{username}`.
     /// - Remark: Generated from `#/paths//user/unblock/{username}/put(userUnblockUser)`.
@@ -2284,17 +2478,17 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /users/{username}/subscriptions`.
     /// - Remark: Generated from `#/paths//users/{username}/subscriptions/get(userListSubscriptions)`.
     func userListSubscriptions(_ input: Operations.UserListSubscriptions.Input) async throws -> Operations.UserListSubscriptions.Output
-    /// List the authenticated user's access tokens
+    /// List the specified user's access tokens
     ///
     /// - Remark: HTTP `GET /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/get(userGetTokens)`.
     func userGetTokens(_ input: Operations.UserGetTokens.Input) async throws -> Operations.UserGetTokens.Output
-    /// Create an access token
+    /// Generate an access token for the specified user
     ///
     /// - Remark: HTTP `POST /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/post(userCreateToken)`.
     func userCreateToken(_ input: Operations.UserCreateToken.Input) async throws -> Operations.UserCreateToken.Output
-    /// delete an access token
+    /// Delete an access token from the specified user's account
     ///
     /// - Remark: HTTP `DELETE /users/{username}/tokens/{token}`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/{token}/delete(userDeleteAccessToken)`.
@@ -2322,6 +2516,13 @@ extension APIProtocol {
     public func activitypubInstanceActorInbox() async throws -> Operations.ActivitypubInstanceActorInbox.Output {
         try await activitypubInstanceActorInbox(Operations.ActivitypubInstanceActorInbox.Input())
     }
+    /// Display the outbox (always empty)
+    ///
+    /// - Remark: HTTP `POST /activitypub/actor/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/actor/outbox/post(activitypubInstanceActorOutbox)`.
+    public func activitypubInstanceActorOutbox(headers: Operations.ActivitypubInstanceActorOutbox.Input.Headers = .init()) async throws -> Operations.ActivitypubInstanceActorOutbox.Output {
+        try await activitypubInstanceActorOutbox(Operations.ActivitypubInstanceActorOutbox.Input(headers: headers))
+    }
     /// Returns the Repository actor for a repo
     ///
     /// - Remark: HTTP `GET /activitypub/repository-id/{repository-id}`.
@@ -2348,6 +2549,19 @@ extension APIProtocol {
             body: body
         ))
     }
+    /// Display the outbox
+    ///
+    /// - Remark: HTTP `POST /activitypub/repository-id/{repository-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/repository-id/{repository-id}/outbox/post(activitypubRepositoryOutbox)`.
+    public func activitypubRepositoryOutbox(
+        path: Operations.ActivitypubRepositoryOutbox.Input.Path,
+        headers: Operations.ActivitypubRepositoryOutbox.Input.Headers = .init()
+    ) async throws -> Operations.ActivitypubRepositoryOutbox.Output {
+        try await activitypubRepositoryOutbox(Operations.ActivitypubRepositoryOutbox.Input(
+            path: path,
+            headers: headers
+        ))
+    }
     /// Returns the Person actor for a user
     ///
     /// - Remark: HTTP `GET /activitypub/user-id/{user-id}`.
@@ -2361,12 +2575,127 @@ extension APIProtocol {
             headers: headers
         ))
     }
+    /// Get a specific activity object of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/get(activitypubPersonActivityNote)`.
+    public func activitypubPersonActivityNote(
+        path: Operations.ActivitypubPersonActivityNote.Input.Path,
+        headers: Operations.ActivitypubPersonActivityNote.Input.Headers = .init()
+    ) async throws -> Operations.ActivitypubPersonActivityNote.Output {
+        try await activitypubPersonActivityNote(Operations.ActivitypubPersonActivityNote.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Get a specific activity of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}/activity`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/activity/get(activitypubPersonActivity)`.
+    public func activitypubPersonActivity(
+        path: Operations.ActivitypubPersonActivity.Input.Path,
+        headers: Operations.ActivitypubPersonActivity.Input.Headers = .init()
+    ) async throws -> Operations.ActivitypubPersonActivity.Output {
+        try await activitypubPersonActivity(Operations.ActivitypubPersonActivity.Input(
+            path: path,
+            headers: headers
+        ))
+    }
     /// Send to the inbox
     ///
     /// - Remark: HTTP `POST /activitypub/user-id/{user-id}/inbox`.
     /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)`.
     public func activitypubPersonInbox(path: Operations.ActivitypubPersonInbox.Input.Path) async throws -> Operations.ActivitypubPersonInbox.Output {
         try await activitypubPersonInbox(Operations.ActivitypubPersonInbox.Input(path: path))
+    }
+    /// List the user's recorded activity
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/outbox/get(activitypubPersonFeed)`.
+    public func activitypubPersonFeed(
+        path: Operations.ActivitypubPersonFeed.Input.Path,
+        headers: Operations.ActivitypubPersonFeed.Input.Headers = .init()
+    ) async throws -> Operations.ActivitypubPersonFeed.Output {
+        try await activitypubPersonFeed(Operations.ActivitypubPersonFeed.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Get all runners, no matter whether they are global runners or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)`.
+    public func getAdminRunners(
+        query: Operations.GetAdminRunners.Input.Query = .init(),
+        headers: Operations.GetAdminRunners.Input.Headers = .init()
+    ) async throws -> Operations.GetAdminRunners.Output {
+        try await getAdminRunners(Operations.GetAdminRunners.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Register a new global runner
+    ///
+    /// - Remark: HTTP `POST /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)`.
+    public func registerAdminRunner(
+        headers: Operations.RegisterAdminRunner.Input.Headers = .init(),
+        body: Operations.RegisterAdminRunner.Input.Body? = nil
+    ) async throws -> Operations.RegisterAdminRunner.Output {
+        try await registerAdminRunner(Operations.RegisterAdminRunner.Input(
+            headers: headers,
+            body: body
+        ))
+    }
+    /// Get action run jobs
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/jobs`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/jobs/get(adminGetActionRunJobs)`.
+    public func adminGetActionRunJobs(
+        query: Operations.AdminGetActionRunJobs.Input.Query = .init(),
+        headers: Operations.AdminGetActionRunJobs.Input.Headers = .init()
+    ) async throws -> Operations.AdminGetActionRunJobs.Output {
+        try await adminGetActionRunJobs(Operations.AdminGetActionRunJobs.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/registration-token`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
+    public func adminGetRunnerRegistrationToken(headers: Operations.AdminGetRunnerRegistrationToken.Input.Headers = .init()) async throws -> Operations.AdminGetRunnerRegistrationToken.Output {
+        try await adminGetRunnerRegistrationToken(Operations.AdminGetRunnerRegistrationToken.Input(headers: headers))
+    }
+    /// Get a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)`.
+    public func getAdminRunner(
+        path: Operations.GetAdminRunner.Input.Path,
+        headers: Operations.GetAdminRunner.Input.Headers = .init()
+    ) async throws -> Operations.GetAdminRunner.Output {
+        try await getAdminRunner(Operations.GetAdminRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Delete a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `DELETE /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)`.
+    public func deleteAdminRunner(
+        path: Operations.DeleteAdminRunner.Input.Path,
+        headers: Operations.DeleteAdminRunner.Input.Headers = .init()
+    ) async throws -> Operations.DeleteAdminRunner.Output {
+        try await deleteAdminRunner(Operations.DeleteAdminRunner.Input(
+            path: path,
+            headers: headers
+        ))
     }
     /// List cron tasks
     ///
@@ -2394,7 +2723,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// List all emails
+    /// List all users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails`.
     /// - Remark: Generated from `#/paths//admin/emails/get(adminGetAllEmails)`.
@@ -2407,7 +2736,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Search all emails
+    /// Search users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails/search`.
     /// - Remark: Generated from `#/paths//admin/emails/search/get(adminSearchEmails)`.
@@ -2420,7 +2749,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// List system's webhooks
+    /// List global (system) webhooks
     ///
     /// - Remark: HTTP `GET /admin/hooks`.
     /// - Remark: Generated from `#/paths//admin/hooks/get(adminListHooks)`.
@@ -2656,20 +2985,24 @@ extension APIProtocol {
     /// Deletes a quota rule
     ///
     /// - Remark: HTTP `DELETE /admin/quota/rules/{quotarule}`.
-    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)`.
-    public func adminDEleteQuotaRule(
-        path: Operations.AdminDEleteQuotaRule.Input.Path,
-        headers: Operations.AdminDEleteQuotaRule.Input.Headers = .init()
-    ) async throws -> Operations.AdminDEleteQuotaRule.Output {
-        try await adminDEleteQuotaRule(Operations.AdminDEleteQuotaRule.Input(
+    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)`.
+    public func adminDeleteQuotaRule(
+        path: Operations.AdminDeleteQuotaRule.Input.Path,
+        headers: Operations.AdminDeleteQuotaRule.Input.Headers = .init()
+    ) async throws -> Operations.AdminDeleteQuotaRule.Output {
+        try await adminDeleteQuotaRule(Operations.AdminDeleteQuotaRule.Input(
             path: path,
             headers: headers
         ))
     }
-    /// Search action jobs according filter conditions
+    /// Search action jobs according to filter conditions
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use [`/admin/actions/runners/jobs`](#/admin/adminGetActionRunJobs) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/jobs`.
     /// - Remark: Generated from `#/paths//admin/runners/jobs/get(adminSearchRunJobs)`.
+    @available(*, deprecated)
     public func adminSearchRunJobs(
         query: Operations.AdminSearchRunJobs.Input.Query = .init(),
         headers: Operations.AdminSearchRunJobs.Input.Headers = .init()
@@ -2679,12 +3012,16 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get an global actions runner registration token
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/registration-token`.
-    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
-    public func adminGetRunnerRegistrationToken() async throws -> Operations.AdminGetRunnerRegistrationToken.Output {
-        try await adminGetRunnerRegistrationToken(Operations.AdminGetRunnerRegistrationToken.Input())
+    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRegistrationToken)`.
+    @available(*, deprecated)
+    public func adminGetRegistrationToken(headers: Operations.AdminGetRegistrationToken.Input.Headers = .init()) async throws -> Operations.AdminGetRegistrationToken.Output {
+        try await adminGetRegistrationToken(Operations.AdminGetRegistrationToken.Input(headers: headers))
     }
     /// List unadopted repositories
     ///
@@ -2738,7 +3075,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Create a user
+    /// Create a user account
     ///
     /// - Remark: HTTP `POST /admin/users`.
     /// - Remark: Generated from `#/paths//admin/users/post(adminCreateUser)`.
@@ -2766,7 +3103,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete a user
+    /// Delete user account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/delete(adminDeleteUser)`.
@@ -2781,7 +3118,35 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Add a public key on behalf of a user
+    /// List all email addresses for a user
+    ///
+    /// - Remark: HTTP `GET /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)`.
+    public func adminListUserEmails(
+        path: Operations.AdminListUserEmails.Input.Path,
+        headers: Operations.AdminListUserEmails.Input.Headers = .init()
+    ) async throws -> Operations.AdminListUserEmails.Output {
+        try await adminListUserEmails(Operations.AdminListUserEmails.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Delete email addresses from a user's account
+    ///
+    /// - Remark: HTTP `DELETE /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)`.
+    public func adminDeleteUserEmails(
+        path: Operations.AdminDeleteUserEmails.Input.Path,
+        headers: Operations.AdminDeleteUserEmails.Input.Headers = .init(),
+        body: Operations.AdminDeleteUserEmails.Input.Body? = nil
+    ) async throws -> Operations.AdminDeleteUserEmails.Output {
+        try await adminDeleteUserEmails(Operations.AdminDeleteUserEmails.Input(
+            path: path,
+            headers: headers,
+            body: body
+        ))
+    }
+    /// Add an SSH public key to user's account
     ///
     /// - Remark: HTTP `POST /admin/users/{username}/keys`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/post(adminCreatePublicKey)`.
@@ -2796,7 +3161,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete a user's public key
+    /// Remove a public key from user's account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}/keys/{id}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/{id}/delete(adminDeleteUserPublicKey)`.
@@ -3065,7 +3430,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Get list of organizations
+    /// List all organizations
     ///
     /// - Remark: HTTP `GET /orgs`.
     /// - Remark: Generated from `#/paths//orgs/get(orgGetAll)`.
@@ -3132,6 +3497,36 @@ extension APIProtocol {
             headers: headers
         ))
     }
+    /// Get the organization's runners
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)`.
+    public func getOrgRunners(
+        path: Operations.GetOrgRunners.Input.Path,
+        query: Operations.GetOrgRunners.Input.Query = .init(),
+        headers: Operations.GetOrgRunners.Input.Headers = .init()
+    ) async throws -> Operations.GetOrgRunners.Output {
+        try await getOrgRunners(Operations.GetOrgRunners.Input(
+            path: path,
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Register a new organization-level runner
+    ///
+    /// - Remark: HTTP `POST /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)`.
+    public func registerOrgRunner(
+        path: Operations.RegisterOrgRunner.Input.Path,
+        headers: Operations.RegisterOrgRunner.Input.Headers = .init(),
+        body: Operations.RegisterOrgRunner.Input.Body? = nil
+    ) async throws -> Operations.RegisterOrgRunner.Output {
+        try await registerOrgRunner(Operations.RegisterOrgRunner.Input(
+            path: path,
+            headers: headers,
+            body: body
+        ))
+    }
     /// Search for organization's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/jobs`.
@@ -3147,14 +3542,50 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get an organization's actions runner registration token
+    /// Get the organization's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/orgs/{org}/actions/runners`](#/organization/registerOrgRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/registration-token/get(orgGetRunnerRegistrationToken)`.
-    public func orgGetRunnerRegistrationToken(path: Operations.OrgGetRunnerRegistrationToken.Input.Path) async throws -> Operations.OrgGetRunnerRegistrationToken.Output {
-        try await orgGetRunnerRegistrationToken(Operations.OrgGetRunnerRegistrationToken.Input(path: path))
+    @available(*, deprecated)
+    public func orgGetRunnerRegistrationToken(
+        path: Operations.OrgGetRunnerRegistrationToken.Input.Path,
+        headers: Operations.OrgGetRunnerRegistrationToken.Input.Headers = .init()
+    ) async throws -> Operations.OrgGetRunnerRegistrationToken.Output {
+        try await orgGetRunnerRegistrationToken(Operations.OrgGetRunnerRegistrationToken.Input(
+            path: path,
+            headers: headers
+        ))
     }
-    /// List an organization's actions secrets
+    /// Get a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)`.
+    public func getOrgRunner(
+        path: Operations.GetOrgRunner.Input.Path,
+        headers: Operations.GetOrgRunner.Input.Headers = .init()
+    ) async throws -> Operations.GetOrgRunner.Output {
+        try await getOrgRunner(Operations.GetOrgRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Delete a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `DELETE /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)`.
+    public func deleteOrgRunner(
+        path: Operations.DeleteOrgRunner.Input.Path,
+        headers: Operations.DeleteOrgRunner.Input.Headers = .init()
+    ) async throws -> Operations.DeleteOrgRunner.Output {
+        try await deleteOrgRunner(Operations.DeleteOrgRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// List actions secrets of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/secrets`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/secrets/get(orgListActionsSecrets)`.
@@ -3197,7 +3628,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get an org-level variables list
+    /// List variables of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/get(getOrgVariablesList)`.
@@ -3212,7 +3643,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get an org-level variable
+    /// Get organization's variable by name
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/get(getOrgVariable)`.
@@ -3225,7 +3656,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Create an org-level variable
+    /// Create a new variable in organization
     ///
     /// - Remark: HTTP `POST /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/post(createOrgVariable)`.
@@ -3240,7 +3671,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Update an org-level variable
+    /// Update variable in organization
     ///
     /// - Remark: HTTP `PUT /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/put(updateOrgVariable)`.
@@ -3255,7 +3686,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete an org-level variable
+    /// Delete organization's variable by name
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)`.
@@ -3283,7 +3714,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Update Avatar
+    /// Update an organization's avatar
     ///
     /// - Remark: HTTP `POST /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/post(orgUpdateAvatar)`.
@@ -3298,7 +3729,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete Avatar
+    /// Delete an organization's avatar. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/delete(orgDeleteAvatar)`.
@@ -3613,10 +4044,12 @@ extension APIProtocol {
     /// - Remark: Generated from `#/paths//orgs/{org}/quota/check/get(orgCheckQuota)`.
     public func orgCheckQuota(
         path: Operations.OrgCheckQuota.Input.Path,
+        query: Operations.OrgCheckQuota.Input.Query,
         headers: Operations.OrgCheckQuota.Input.Headers = .init()
     ) async throws -> Operations.OrgCheckQuota.Output {
         try await orgCheckQuota(Operations.OrgCheckQuota.Input(
             path: path,
+            query: query,
             headers: headers
         ))
     }
@@ -3898,6 +4331,36 @@ extension APIProtocol {
             headers: headers
         ))
     }
+    /// Get runners belonging to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)`.
+    public func getRepoRunners(
+        path: Operations.GetRepoRunners.Input.Path,
+        query: Operations.GetRepoRunners.Input.Query = .init(),
+        headers: Operations.GetRepoRunners.Input.Headers = .init()
+    ) async throws -> Operations.GetRepoRunners.Output {
+        try await getRepoRunners(Operations.GetRepoRunners.Input(
+            path: path,
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Register a new repository-level runner
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)`.
+    public func registerRepoRunner(
+        path: Operations.RegisterRepoRunner.Input.Path,
+        headers: Operations.RegisterRepoRunner.Input.Headers = .init(),
+        body: Operations.RegisterRepoRunner.Input.Body? = nil
+    ) async throws -> Operations.RegisterRepoRunner.Output {
+        try await registerRepoRunner(Operations.RegisterRepoRunner.Input(
+            path: path,
+            headers: headers,
+            body: body
+        ))
+    }
     /// Search for repository's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/jobs`.
@@ -3913,12 +4376,76 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get a repository's actions runner registration token
+    /// Get a repository's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/repos/{owner}/{repo}/actions/runners`](#/repository/registerRepoRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/registration-token/get(repoGetRunnerRegistrationToken)`.
-    public func repoGetRunnerRegistrationToken(path: Operations.RepoGetRunnerRegistrationToken.Input.Path) async throws -> Operations.RepoGetRunnerRegistrationToken.Output {
-        try await repoGetRunnerRegistrationToken(Operations.RepoGetRunnerRegistrationToken.Input(path: path))
+    @available(*, deprecated)
+    public func repoGetRunnerRegistrationToken(
+        path: Operations.RepoGetRunnerRegistrationToken.Input.Path,
+        headers: Operations.RepoGetRunnerRegistrationToken.Input.Headers = .init()
+    ) async throws -> Operations.RepoGetRunnerRegistrationToken.Output {
+        try await repoGetRunnerRegistrationToken(Operations.RepoGetRunnerRegistrationToken.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Get a particular runner that belongs to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)`.
+    public func getRepoRunner(
+        path: Operations.GetRepoRunner.Input.Path,
+        headers: Operations.GetRepoRunner.Input.Headers = .init()
+    ) async throws -> Operations.GetRepoRunner.Output {
+        try await getRepoRunner(Operations.GetRepoRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Delete a particular runner that belongs to a repository
+    ///
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)`.
+    public func deleteRepoRunner(
+        path: Operations.DeleteRepoRunner.Input.Path,
+        headers: Operations.DeleteRepoRunner.Input.Headers = .init()
+    ) async throws -> Operations.DeleteRepoRunner.Output {
+        try await deleteRepoRunner(Operations.DeleteRepoRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// List a repository's action runs
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)`.
+    public func listActionRuns(
+        path: Operations.ListActionRuns.Input.Path,
+        query: Operations.ListActionRuns.Input.Query = .init(),
+        headers: Operations.ListActionRuns.Input.Headers = .init()
+    ) async throws -> Operations.ListActionRuns.Output {
+        try await listActionRuns(Operations.ListActionRuns.Input(
+            path: path,
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Get an action run
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs/{run_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)`.
+    public func actionRun(
+        path: Operations.ActionRun.Input.Path,
+        headers: Operations.ActionRun.Input.Headers = .init()
+    ) async throws -> Operations.ActionRun.Output {
+        try await actionRun(Operations.ActionRun.Input(
+            path: path,
+            headers: headers
+        ))
     }
     /// List an repo's actions secrets
     ///
@@ -4051,8 +4578,8 @@ extension APIProtocol {
     }
     /// Dispatches a workflow
     ///
-    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)`.
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)`.
     public func dispatchWorkflow(
         path: Operations.DispatchWorkflow.Input.Path,
         headers: Operations.DispatchWorkflow.Input.Headers = .init(),
@@ -4105,7 +4632,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Update avatar
+    /// Update a repository's avatar
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/post(repoUpdateAvatar)`.
@@ -4120,7 +4647,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete avatar
+    /// Delete a repository's avatar
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/delete(repoDeleteAvatar)`.
@@ -4505,6 +5032,19 @@ extension APIProtocol {
             body: body
         ))
     }
+    /// Convert a mirror repo to a normal repo.
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/convert`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)`.
+    public func repoConvert(
+        path: Operations.RepoConvert.Input.Path,
+        headers: Operations.RepoConvert.Input.Headers = .init()
+    ) async throws -> Operations.RepoConvert.Output {
+        try await repoConvert(Operations.RepoConvert.Input(
+            path: path,
+            headers: headers
+        ))
+    }
     /// Apply diff patch to repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/diffpatch`.
@@ -4643,6 +5183,21 @@ extension APIProtocol {
             path: path,
             headers: headers,
             body: body
+        ))
+    }
+    /// Gets multiple blobs of a repository.
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/git/blobs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/get(GetBlobs)`.
+    public func getBlobs(
+        path: Operations.GetBlobs.Input.Path,
+        query: Operations.GetBlobs.Input.Query,
+        headers: Operations.GetBlobs.Input.Headers = .init()
+    ) async throws -> Operations.GetBlobs.Output {
+        try await getBlobs(Operations.GetBlobs.Input(
+            path: path,
+            query: query,
+            headers: headers
         ))
     }
     /// Gets the blob of a repository.
@@ -5512,8 +6067,8 @@ extension APIProtocol {
     }
     /// Remove a label from an issue
     ///
-    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{id}`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)`.
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{identifier}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)`.
     public func issueRemoveLabel(
         path: Operations.IssueRemoveLabel.Input.Path,
         headers: Operations.IssueRemoveLabel.Input.Headers = .init(),
@@ -6055,7 +6610,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// List a repo's pull requests
+    /// List a repo's pull requests. If a pull request is selected but fails to be retrieved for any reason, it will be a null value in the list of results.
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/pulls`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/get(repoListPullRequests)`.
@@ -6219,7 +6774,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// create review requests for a pull request
+    /// Create review requests for a pull request
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/post(repoCreatePullReviewRequests)`.
@@ -6234,7 +6789,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// cancel review requests for a pull request
+    /// Cancel review requests for a pull request
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/delete(repoDeletePullReviewRequests)`.
@@ -6432,7 +6987,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// add a push mirror to the repository
+    /// Set up a new push mirror in a repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/push_mirrors`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/post(repoAddPushMirror)`.
@@ -6473,7 +7028,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// deletes a push mirror from a repository by remoteName
+    /// Remove a push mirror from a repository by remoteName
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/push_mirrors/{name}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/{name}/delete(repoDeletePushMirror)`.
@@ -6803,6 +7358,58 @@ extension APIProtocol {
         headers: Operations.UserCurrentDeleteSubscription.Input.Headers = .init()
     ) async throws -> Operations.UserCurrentDeleteSubscription.Output {
         try await userCurrentDeleteSubscription(Operations.UserCurrentDeleteSubscription.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Gets information about syncing the fork default branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)`.
+    public func repoSyncForkDefaultInfo(
+        path: Operations.RepoSyncForkDefaultInfo.Input.Path,
+        headers: Operations.RepoSyncForkDefaultInfo.Input.Headers = .init()
+    ) async throws -> Operations.RepoSyncForkDefaultInfo.Output {
+        try await repoSyncForkDefaultInfo(Operations.RepoSyncForkDefaultInfo.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Syncs the default branch of a fork with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)`.
+    public func repoSyncForkDefault(
+        path: Operations.RepoSyncForkDefault.Input.Path,
+        headers: Operations.RepoSyncForkDefault.Input.Headers = .init()
+    ) async throws -> Operations.RepoSyncForkDefault.Output {
+        try await repoSyncForkDefault(Operations.RepoSyncForkDefault.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Gets information about syncing a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)`.
+    public func repoSyncForkBranchInfo(
+        path: Operations.RepoSyncForkBranchInfo.Input.Path,
+        headers: Operations.RepoSyncForkBranchInfo.Input.Headers = .init()
+    ) async throws -> Operations.RepoSyncForkBranchInfo.Output {
+        try await repoSyncForkBranchInfo(Operations.RepoSyncForkBranchInfo.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Syncs a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)`.
+    public func repoSyncForkBranch(
+        path: Operations.RepoSyncForkBranch.Input.Path,
+        headers: Operations.RepoSyncForkBranch.Input.Headers = .init()
+    ) async throws -> Operations.RepoSyncForkBranch.Output {
+        try await repoSyncForkBranch(Operations.RepoSyncForkBranch.Input(
             path: path,
             headers: headers
         ))
@@ -7259,6 +7866,13 @@ extension APIProtocol {
     public func getSigningKey(headers: Operations.GetSigningKey.Input.Headers = .init()) async throws -> Operations.GetSigningKey.Output {
         try await getSigningKey(Operations.GetSigningKey.Input(headers: headers))
     }
+    /// Get default signing-key.ssh
+    ///
+    /// - Remark: HTTP `GET /signing-key.ssh`.
+    /// - Remark: Generated from `#/paths//signing-key.ssh/get(getSSHSigningKey)`.
+    public func getSSHSigningKey(headers: Operations.GetSSHSigningKey.Input.Headers = .init()) async throws -> Operations.GetSSHSigningKey.Output {
+        try await getSSHSigningKey(Operations.GetSSHSigningKey.Input(headers: headers))
+    }
     /// Get a team
     ///
     /// - Remark: HTTP `GET /teams/{id}`.
@@ -7425,7 +8039,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// search topics via keyword
+    /// Search for topics by keyword
     ///
     /// - Remark: HTTP `GET /topics/search`.
     /// - Remark: Generated from `#/paths//topics/search/get(topicSearch)`.
@@ -7445,6 +8059,32 @@ extension APIProtocol {
     public func userGetCurrent(headers: Operations.UserGetCurrent.Input.Headers = .init()) async throws -> Operations.UserGetCurrent.Output {
         try await userGetCurrent(Operations.UserGetCurrent.Input(headers: headers))
     }
+    /// Get the user's runners
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)`.
+    public func getUserRunners(
+        query: Operations.GetUserRunners.Input.Query = .init(),
+        headers: Operations.GetUserRunners.Input.Headers = .init()
+    ) async throws -> Operations.GetUserRunners.Output {
+        try await getUserRunners(Operations.GetUserRunners.Input(
+            query: query,
+            headers: headers
+        ))
+    }
+    /// Register a new user-level runner
+    ///
+    /// - Remark: HTTP `POST /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)`.
+    public func registerUserRunner(
+        headers: Operations.RegisterUserRunner.Input.Headers = .init(),
+        body: Operations.RegisterUserRunner.Input.Body? = nil
+    ) async throws -> Operations.RegisterUserRunner.Output {
+        try await registerUserRunner(Operations.RegisterUserRunner.Input(
+            headers: headers,
+            body: body
+        ))
+    }
     /// Search for user's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /user/actions/runners/jobs`.
@@ -7458,12 +8098,42 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Get an user's actions runner registration token
+    /// Get the user's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/user/actions/runners`](#/user/registerUserRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /user/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//user/actions/runners/registration-token/get(userGetRunnerRegistrationToken)`.
+    @available(*, deprecated)
     public func userGetRunnerRegistrationToken(headers: Operations.UserGetRunnerRegistrationToken.Input.Headers = .init()) async throws -> Operations.UserGetRunnerRegistrationToken.Output {
         try await userGetRunnerRegistrationToken(Operations.UserGetRunnerRegistrationToken.Input(headers: headers))
+    }
+    /// Get a particular runner that belongs to the user
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)`.
+    public func getUserRunner(
+        path: Operations.GetUserRunner.Input.Path,
+        headers: Operations.GetUserRunner.Input.Headers = .init()
+    ) async throws -> Operations.GetUserRunner.Output {
+        try await getUserRunner(Operations.GetUserRunner.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Delete a particular user-level runner
+    ///
+    /// - Remark: HTTP `DELETE /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)`.
+    public func deleteUserRunner(
+        path: Operations.DeleteUserRunner.Input.Path,
+        headers: Operations.DeleteUserRunner.Input.Headers = .init()
+    ) async throws -> Operations.DeleteUserRunner.Output {
+        try await deleteUserRunner(Operations.DeleteUserRunner.Input(
+            path: path,
+            headers: headers
+        ))
     }
     /// Create or Update a secret value in a user scope
     ///
@@ -7575,7 +8245,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// creates a new OAuth2 application
+    /// Creates a new OAuth2 application
     ///
     /// - Remark: HTTP `POST /user/applications/oauth2`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/post(userCreateOAuth2Application)`.
@@ -7588,7 +8258,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// get an OAuth2 Application
+    /// Get an OAuth2 application
     ///
     /// - Remark: HTTP `GET /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/get(userGetOAuth2Application)`.
@@ -7601,7 +8271,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// update an OAuth2 Application, this includes regenerating the client secret
+    /// Update an OAuth2 application, this includes regenerating the client secret
     ///
     /// - Remark: HTTP `PATCH /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/patch(userUpdateOAuth2Application)`.
@@ -7616,7 +8286,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// delete an OAuth2 Application
+    /// Delete an OAuth2 application
     ///
     /// - Remark: HTTP `DELETE /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/delete(userDeleteOAuth2Application)`.
@@ -7629,7 +8299,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Update Avatar
+    /// Update avatar of the current user
     ///
     /// - Remark: HTTP `POST /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/post(userUpdateAvatar)`.
@@ -7642,14 +8312,14 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete Avatar
+    /// Delete avatar of the current user. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/delete(userDeleteAvatar)`.
     public func userDeleteAvatar(headers: Operations.UserDeleteAvatar.Input.Headers = .init()) async throws -> Operations.UserDeleteAvatar.Output {
         try await userDeleteAvatar(Operations.UserDeleteAvatar.Input(headers: headers))
     }
-    /// Blocks a user from the doer.
+    /// Blocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/block/{username}`.
     /// - Remark: Generated from `#/paths//user/block/{username}/put(userBlockUser)`.
@@ -7662,14 +8332,14 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// List the authenticated user's email addresses
+    /// List all email addresses of the current user
     ///
     /// - Remark: HTTP `GET /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/get(userListEmails)`.
     public func userListEmails(headers: Operations.UserListEmails.Input.Headers = .init()) async throws -> Operations.UserListEmails.Output {
         try await userListEmails(Operations.UserListEmails.Input(headers: headers))
     }
-    /// Add email addresses
+    /// Add an email addresses to the current user's account
     ///
     /// - Remark: HTTP `POST /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/post(userAddEmail)`.
@@ -7682,7 +8352,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Delete email addresses
+    /// Delete email addresses from the current user's account
     ///
     /// - Remark: HTTP `DELETE /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/delete(userDeleteEmail)`.
@@ -7771,8 +8441,14 @@ extension APIProtocol {
     ///
     /// - Remark: HTTP `POST /user/gpg_key_verify`.
     /// - Remark: Generated from `#/paths//user/gpg_key_verify/post(userVerifyGPGKey)`.
-    public func userVerifyGPGKey(headers: Operations.UserVerifyGPGKey.Input.Headers = .init()) async throws -> Operations.UserVerifyGPGKey.Output {
-        try await userVerifyGPGKey(Operations.UserVerifyGPGKey.Input(headers: headers))
+    public func userVerifyGPGKey(
+        headers: Operations.UserVerifyGPGKey.Input.Headers = .init(),
+        body: Operations.UserVerifyGPGKey.Input.Body? = nil
+    ) async throws -> Operations.UserVerifyGPGKey.Output {
+        try await userVerifyGPGKey(Operations.UserVerifyGPGKey.Input(
+            headers: headers,
+            body: body
+        ))
     }
     /// List the authenticated user's GPG keys
     ///
@@ -7787,7 +8463,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Create a GPG key
+    /// Add a GPG public key to current user's account
     ///
     /// - Remark: HTTP `POST /user/gpg_keys`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/post(userCurrentPostGPGKey)`.
@@ -7813,7 +8489,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Remove a GPG key
+    /// Remove a GPG public key from current user's account
     ///
     /// - Remark: HTTP `DELETE /user/gpg_keys/{id}`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/{id}/delete(userCurrentDeleteGPGKey)`.
@@ -8008,8 +8684,14 @@ extension APIProtocol {
     ///
     /// - Remark: HTTP `GET /user/quota/check`.
     /// - Remark: Generated from `#/paths//user/quota/check/get(userCheckQuota)`.
-    public func userCheckQuota(headers: Operations.UserCheckQuota.Input.Headers = .init()) async throws -> Operations.UserCheckQuota.Output {
-        try await userCheckQuota(Operations.UserCheckQuota.Input(headers: headers))
+    public func userCheckQuota(
+        query: Operations.UserCheckQuota.Input.Query,
+        headers: Operations.UserCheckQuota.Input.Headers = .init()
+    ) async throws -> Operations.UserCheckQuota.Output {
+        try await userCheckQuota(Operations.UserCheckQuota.Input(
+            query: query,
+            headers: headers
+        ))
     }
     /// List the packages affecting the authenticated user's quota
     ///
@@ -8050,14 +8732,14 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// Get user settings
+    /// Get current user's account settings
     ///
     /// - Remark: HTTP `GET /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/get(getUserSettings)`.
     public func getUserSettings(headers: Operations.GetUserSettings.Input.Headers = .init()) async throws -> Operations.GetUserSettings.Output {
         try await getUserSettings(Operations.GetUserSettings.Input(headers: headers))
     }
-    /// Update user settings
+    /// Update settings in current user's account
     ///
     /// - Remark: HTTP `PATCH /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/patch(updateUserSettings)`.
@@ -8174,7 +8856,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Unblocks a user from the doer.
+    /// Unblocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/unblock/{username}`.
     /// - Remark: Generated from `#/paths//user/unblock/{username}/put(userUnblockUser)`.
@@ -8387,7 +9069,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// List the authenticated user's access tokens
+    /// List the specified user's access tokens
     ///
     /// - Remark: HTTP `GET /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/get(userGetTokens)`.
@@ -8402,7 +9084,7 @@ extension APIProtocol {
             headers: headers
         ))
     }
-    /// Create an access token
+    /// Generate an access token for the specified user
     ///
     /// - Remark: HTTP `POST /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/post(userCreateToken)`.
@@ -8417,7 +9099,7 @@ extension APIProtocol {
             body: body
         ))
     }
-    /// delete an access token
+    /// Delete an access token from the specified user's account
     ///
     /// - Remark: HTTP `DELETE /users/{username}/tokens/{token}`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/{token}/delete(userDeleteAccessToken)`.
@@ -8660,6 +9342,11 @@ public enum Components {
             public var id: Swift.Int64?
             /// - Remark: Generated from `#/components/schemas/AccessToken/name`.
             public var name: Swift.String?
+            /// Indicates that an access token only has access to the specified repositories.  Will be null if the access token
+            /// is not limited to a set of specified repositories.
+            ///
+            /// - Remark: Generated from `#/components/schemas/AccessToken/repositories`.
+            public var repositories: [Components.Schemas.RepositoryMeta]?
             /// - Remark: Generated from `#/components/schemas/AccessToken/scopes`.
             public var scopes: [Swift.String]?
             /// - Remark: Generated from `#/components/schemas/AccessToken/sha1`.
@@ -8671,18 +9358,21 @@ public enum Components {
             /// - Parameters:
             ///   - id:
             ///   - name:
+            ///   - repositories: Indicates that an access token only has access to the specified repositories.  Will be null if the access token
             ///   - scopes:
             ///   - sha1:
             ///   - tokenLastEight:
             public init(
                 id: Swift.Int64? = nil,
                 name: Swift.String? = nil,
+                repositories: [Components.Schemas.RepositoryMeta]? = nil,
                 scopes: [Swift.String]? = nil,
                 sha1: Swift.String? = nil,
                 tokenLastEight: Swift.String? = nil
             ) {
                 self.id = id
                 self.name = name
+                self.repositories = repositories
                 self.scopes = scopes
                 self.sha1 = sha1
                 self.tokenLastEight = tokenLastEight
@@ -8690,16 +9380,216 @@ public enum Components {
             public enum CodingKeys: String, CodingKey {
                 case id
                 case name
+                case repositories
                 case scopes
                 case sha1
                 case tokenLastEight = "token_last_eight"
+            }
+        }
+        /// ActionRun represents an action run
+        ///
+        /// - Remark: Generated from `#/components/schemas/ActionRun`.
+        public struct ActionRun: Codable, Hashable, Sendable {
+            /// the cron id for the schedule trigger
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/ScheduleID`.
+            public var scheduleID: Swift.Int64?
+            /// who approved this action run
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/approved_by`.
+            public var approvedBy: Swift.Int64?
+            /// the commit sha the action run ran on
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/commit_sha`.
+            public var commitSha: Swift.String?
+            /// when the action run was created
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/created`.
+            public var created: Foundation.Date?
+            /// - Remark: Generated from `#/components/schemas/ActionRun/duration`.
+            public var duration: Components.Schemas.Duration?
+            /// the webhook event that causes the workflow to run
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/event`.
+            public var event: Swift.String?
+            /// the payload of the webhook event that causes the workflow to run
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/event_payload`.
+            public var eventPayload: Swift.String?
+            /// the url of this action run
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/html_url`.
+            public var htmlUrl: Swift.String?
+            /// the action run id
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/id`.
+            public var id: Swift.Int64?
+            /// a unique number for each run of a repository
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/index_in_repo`.
+            public var indexInRepo: Swift.Int64?
+            /// If this is triggered by a PR from a forked repository or an untrusted user, we need to check if it is approved and limit permissions when running the workflow.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/is_fork_pull_request`.
+            public var isForkPullRequest: Swift.Bool?
+            /// has the commit/tag/… the action run ran on been deleted
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/is_ref_deleted`.
+            public var isRefDeleted: Swift.Bool?
+            /// may need approval if it's a fork pull request
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/need_approval`.
+            public var needApproval: Swift.Bool?
+            /// the commit/tag/… the action run ran on
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/prettyref`.
+            public var prettyref: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/ActionRun/repository`.
+            public var repository: Components.Schemas.Repository?
+            /// when the action run was started
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/started`.
+            public var started: Foundation.Date?
+            /// the current status of this run
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/status`.
+            public var status: Swift.String?
+            /// when the action run was stopped
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/stopped`.
+            public var stopped: Foundation.Date?
+            /// the action run's title
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/title`.
+            public var title: Swift.String?
+            /// the trigger event defined in the `on` configuration of the triggered workflow
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/trigger_event`.
+            public var triggerEvent: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/ActionRun/trigger_user`.
+            public var triggerUser: Components.Schemas.User?
+            /// when the action run was last updated
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/updated`.
+            public var updated: Foundation.Date?
+            /// the name of workflow file
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRun/workflow_id`.
+            public var workflowId: Swift.String?
+            /// Creates a new `ActionRun`.
+            ///
+            /// - Parameters:
+            ///   - scheduleID: the cron id for the schedule trigger
+            ///   - approvedBy: who approved this action run
+            ///   - commitSha: the commit sha the action run ran on
+            ///   - created: when the action run was created
+            ///   - duration:
+            ///   - event: the webhook event that causes the workflow to run
+            ///   - eventPayload: the payload of the webhook event that causes the workflow to run
+            ///   - htmlUrl: the url of this action run
+            ///   - id: the action run id
+            ///   - indexInRepo: a unique number for each run of a repository
+            ///   - isForkPullRequest: If this is triggered by a PR from a forked repository or an untrusted user, we need to check if it is approved and limit permissions when running the workflow.
+            ///   - isRefDeleted: has the commit/tag/… the action run ran on been deleted
+            ///   - needApproval: may need approval if it's a fork pull request
+            ///   - prettyref: the commit/tag/… the action run ran on
+            ///   - repository:
+            ///   - started: when the action run was started
+            ///   - status: the current status of this run
+            ///   - stopped: when the action run was stopped
+            ///   - title: the action run's title
+            ///   - triggerEvent: the trigger event defined in the `on` configuration of the triggered workflow
+            ///   - triggerUser:
+            ///   - updated: when the action run was last updated
+            ///   - workflowId: the name of workflow file
+            public init(
+                scheduleID: Swift.Int64? = nil,
+                approvedBy: Swift.Int64? = nil,
+                commitSha: Swift.String? = nil,
+                created: Foundation.Date? = nil,
+                duration: Components.Schemas.Duration? = nil,
+                event: Swift.String? = nil,
+                eventPayload: Swift.String? = nil,
+                htmlUrl: Swift.String? = nil,
+                id: Swift.Int64? = nil,
+                indexInRepo: Swift.Int64? = nil,
+                isForkPullRequest: Swift.Bool? = nil,
+                isRefDeleted: Swift.Bool? = nil,
+                needApproval: Swift.Bool? = nil,
+                prettyref: Swift.String? = nil,
+                repository: Components.Schemas.Repository? = nil,
+                started: Foundation.Date? = nil,
+                status: Swift.String? = nil,
+                stopped: Foundation.Date? = nil,
+                title: Swift.String? = nil,
+                triggerEvent: Swift.String? = nil,
+                triggerUser: Components.Schemas.User? = nil,
+                updated: Foundation.Date? = nil,
+                workflowId: Swift.String? = nil
+            ) {
+                self.scheduleID = scheduleID
+                self.approvedBy = approvedBy
+                self.commitSha = commitSha
+                self.created = created
+                self.duration = duration
+                self.event = event
+                self.eventPayload = eventPayload
+                self.htmlUrl = htmlUrl
+                self.id = id
+                self.indexInRepo = indexInRepo
+                self.isForkPullRequest = isForkPullRequest
+                self.isRefDeleted = isRefDeleted
+                self.needApproval = needApproval
+                self.prettyref = prettyref
+                self.repository = repository
+                self.started = started
+                self.status = status
+                self.stopped = stopped
+                self.title = title
+                self.triggerEvent = triggerEvent
+                self.triggerUser = triggerUser
+                self.updated = updated
+                self.workflowId = workflowId
+            }
+            public enum CodingKeys: String, CodingKey {
+                case scheduleID = "ScheduleID"
+                case approvedBy = "approved_by"
+                case commitSha = "commit_sha"
+                case created
+                case duration
+                case event
+                case eventPayload = "event_payload"
+                case htmlUrl = "html_url"
+                case id
+                case indexInRepo = "index_in_repo"
+                case isForkPullRequest = "is_fork_pull_request"
+                case isRefDeleted = "is_ref_deleted"
+                case needApproval = "need_approval"
+                case prettyref
+                case repository
+                case started
+                case status
+                case stopped
+                case title
+                case triggerEvent = "trigger_event"
+                case triggerUser = "trigger_user"
+                case updated
+                case workflowId = "workflow_id"
             }
         }
         /// ActionRunJob represents a job of a run
         ///
         /// - Remark: Generated from `#/components/schemas/ActionRunJob`.
         public struct ActionRunJob: Codable, Hashable, Sendable {
-            /// the action run job id
+            /// How many times the job has been attempted including the current attempt.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunJob/attempt`.
+            public var attempt: Swift.Int64?
+            /// Opaque identifier that uniquely identifies a single attempt of a job.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunJob/handle`.
+            public var handle: Swift.String?
+            /// Identifier of this job.
             ///
             /// - Remark: Generated from `#/components/schemas/ActionRunJob/id`.
             public var id: Swift.Int64?
@@ -8734,7 +9624,9 @@ public enum Components {
             /// Creates a new `ActionRunJob`.
             ///
             /// - Parameters:
-            ///   - id: the action run job id
+            ///   - attempt: How many times the job has been attempted including the current attempt.
+            ///   - handle: Opaque identifier that uniquely identifies a single attempt of a job.
+            ///   - id: Identifier of this job.
             ///   - name: the action run job name
             ///   - needs: the action run job needed ids
             ///   - ownerId: the owner id
@@ -8743,6 +9635,8 @@ public enum Components {
             ///   - status: the action run job status
             ///   - taskId: the action run job latest task id
             public init(
+                attempt: Swift.Int64? = nil,
+                handle: Swift.String? = nil,
                 id: Swift.Int64? = nil,
                 name: Swift.String? = nil,
                 needs: [Swift.String]? = nil,
@@ -8752,6 +9646,8 @@ public enum Components {
                 status: Swift.String? = nil,
                 taskId: Swift.Int64? = nil
             ) {
+                self.attempt = attempt
+                self.handle = handle
                 self.id = id
                 self.name = name
                 self.needs = needs
@@ -8762,6 +9658,8 @@ public enum Components {
                 self.taskId = taskId
             }
             public enum CodingKeys: String, CodingKey {
+                case attempt
+                case handle
                 case id
                 case name
                 case needs
@@ -8770,6 +9668,109 @@ public enum Components {
                 case runsOn = "runs_on"
                 case status
                 case taskId = "task_id"
+            }
+        }
+        /// ActionRunner represents a runner
+        ///
+        /// - Remark: Generated from `#/components/schemas/ActionRunner`.
+        public struct ActionRunner: Codable, Hashable, Sendable {
+            /// Description provides optional details about this runner.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/description`.
+            public var description: Swift.String?
+            /// Indicates if runner is ephemeral runner
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/ephemeral`.
+            public var ephemeral: Swift.Bool?
+            /// ID uniquely identifies this runner.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/id`.
+            public var id: Swift.Int64?
+            /// Labels is a list of labels attached to this runner.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/labels`.
+            public var labels: [Swift.String]?
+            /// Name of the runner; not unique.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/name`.
+            public var name: Swift.String?
+            /// OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a
+            /// repository.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/owner_id`.
+            public var ownerId: Swift.Int64?
+            /// RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or
+            /// organization.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/repo_id`.
+            public var repoId: Swift.Int64?
+            /// Status indicates whether this runner is offline, or active, for example.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/status`.
+            @frozen public enum StatusPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                case offline = "offline"
+                case idle = "idle"
+                case active = "active"
+            }
+            /// Status indicates whether this runner is offline, or active, for example.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/status`.
+            public var status: Components.Schemas.ActionRunner.StatusPayload?
+            /// UUID uniquely identifies this runner.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/uuid`.
+            public var uuid: Swift.String?
+            /// Version is the self-reported version string of Forgejo Runner.
+            ///
+            /// - Remark: Generated from `#/components/schemas/ActionRunner/version`.
+            public var version: Swift.String?
+            /// Creates a new `ActionRunner`.
+            ///
+            /// - Parameters:
+            ///   - description: Description provides optional details about this runner.
+            ///   - ephemeral: Indicates if runner is ephemeral runner
+            ///   - id: ID uniquely identifies this runner.
+            ///   - labels: Labels is a list of labels attached to this runner.
+            ///   - name: Name of the runner; not unique.
+            ///   - ownerId: OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a
+            ///   - repoId: RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or
+            ///   - status: Status indicates whether this runner is offline, or active, for example.
+            ///   - uuid: UUID uniquely identifies this runner.
+            ///   - version: Version is the self-reported version string of Forgejo Runner.
+            public init(
+                description: Swift.String? = nil,
+                ephemeral: Swift.Bool? = nil,
+                id: Swift.Int64? = nil,
+                labels: [Swift.String]? = nil,
+                name: Swift.String? = nil,
+                ownerId: Swift.Int64? = nil,
+                repoId: Swift.Int64? = nil,
+                status: Components.Schemas.ActionRunner.StatusPayload? = nil,
+                uuid: Swift.String? = nil,
+                version: Swift.String? = nil
+            ) {
+                self.description = description
+                self.ephemeral = ephemeral
+                self.id = id
+                self.labels = labels
+                self.name = name
+                self.ownerId = ownerId
+                self.repoId = repoId
+                self.status = status
+                self.uuid = uuid
+                self.version = version
+            }
+            public enum CodingKeys: String, CodingKey {
+                case description
+                case ephemeral
+                case id
+                case labels
+                case name
+                case ownerId = "owner_id"
+                case repoId = "repo_id"
+                case status
+                case uuid
+                case version
             }
         }
         /// ActionTask represents a ActionTask
@@ -9815,24 +10816,44 @@ public enum Components {
         ///
         /// - Remark: Generated from `#/components/schemas/Comment`.
         public struct Comment: Codable, Hashable, Sendable {
+            /// The attachments to the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/assets`.
             public var assets: [Components.Schemas.Attachment]?
+            /// The body of the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/body`.
             public var body: Swift.String?
+            /// The time of the comment's creation
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/created_at`.
             public var createdAt: Foundation.Date?
+            /// The HTML URL of the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/html_url`.
             public var htmlUrl: Swift.String?
+            /// The identifier of the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/id`.
             public var id: Swift.Int64?
+            /// The HTML URL of the issue if the comment is posted on an issue, else empty string
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/issue_url`.
             public var issueUrl: Swift.String?
+            /// The original author that posted the comment if it was not posted locally, else empty string
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/original_author`.
             public var originalAuthor: Swift.String?
+            /// The ID of the original author that posted the comment if it was not posted locally, else 0
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/original_author_id`.
             public var originalAuthorId: Swift.Int64?
+            /// The HTML URL of the pull request if the comment is posted on a pull request, else empty string
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/pull_request_url`.
             public var pullRequestUrl: Swift.String?
+            /// The time of the comment's update
+            ///
             /// - Remark: Generated from `#/components/schemas/Comment/updated_at`.
             public var updatedAt: Foundation.Date?
             /// - Remark: Generated from `#/components/schemas/Comment/user`.
@@ -9840,16 +10861,16 @@ public enum Components {
             /// Creates a new `Comment`.
             ///
             /// - Parameters:
-            ///   - assets:
-            ///   - body:
-            ///   - createdAt:
-            ///   - htmlUrl:
-            ///   - id:
-            ///   - issueUrl:
-            ///   - originalAuthor:
-            ///   - originalAuthorId:
-            ///   - pullRequestUrl:
-            ///   - updatedAt:
+            ///   - assets: The attachments to the comment
+            ///   - body: The body of the comment
+            ///   - createdAt: The time of the comment's creation
+            ///   - htmlUrl: The HTML URL of the comment
+            ///   - id: The identifier of the comment
+            ///   - issueUrl: The HTML URL of the issue if the comment is posted on an issue, else empty string
+            ///   - originalAuthor: The original author that posted the comment if it was not posted locally, else empty string
+            ///   - originalAuthorId: The ID of the original author that posted the comment if it was not posted locally, else 0
+            ///   - pullRequestUrl: The HTML URL of the pull request if the comment is posted on a pull request, else empty string
+            ///   - updatedAt: The time of the comment's update
             ///   - user:
             public init(
                 assets: [Components.Schemas.Attachment]? = nil,
@@ -10139,7 +11160,7 @@ public enum Components {
             }
         }
         /// CommitStatusState holds the state of a CommitStatus
-        /// It can be "pending", "success", "error" and "failure"
+        /// It can be "pending", "success", "error", "failure" and "warning"
         ///
         /// - Remark: Generated from `#/components/schemas/CommitStatusState`.
         public typealias CommitStatusState = Swift.String
@@ -10223,6 +11244,8 @@ public enum Components {
             public var htmlUrl: Swift.String?
             /// - Remark: Generated from `#/components/schemas/ContentsResponse/last_commit_sha`.
             public var lastCommitSha: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/ContentsResponse/last_commit_when`.
+            public var lastCommitWhen: Foundation.Date?
             /// - Remark: Generated from `#/components/schemas/ContentsResponse/name`.
             public var name: Swift.String?
             /// - Remark: Generated from `#/components/schemas/ContentsResponse/path`.
@@ -10255,6 +11278,7 @@ public enum Components {
             ///   - gitUrl:
             ///   - htmlUrl:
             ///   - lastCommitSha:
+            ///   - lastCommitWhen:
             ///   - name:
             ///   - path:
             ///   - sha:
@@ -10271,6 +11295,7 @@ public enum Components {
                 gitUrl: Swift.String? = nil,
                 htmlUrl: Swift.String? = nil,
                 lastCommitSha: Swift.String? = nil,
+                lastCommitWhen: Foundation.Date? = nil,
                 name: Swift.String? = nil,
                 path: Swift.String? = nil,
                 sha: Swift.String? = nil,
@@ -10287,6 +11312,7 @@ public enum Components {
                 self.gitUrl = gitUrl
                 self.htmlUrl = htmlUrl
                 self.lastCommitSha = lastCommitSha
+                self.lastCommitWhen = lastCommitWhen
                 self.name = name
                 self.path = path
                 self.sha = sha
@@ -10304,6 +11330,7 @@ public enum Components {
                 case gitUrl = "git_url"
                 case htmlUrl = "html_url"
                 case lastCommitSha = "last_commit_sha"
+                case lastCommitWhen = "last_commit_when"
                 case name
                 case path
                 case sha
@@ -10320,22 +11347,30 @@ public enum Components {
         public struct CreateAccessTokenOption: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/CreateAccessTokenOption/name`.
             public var name: Swift.String
+            /// If provided and not-empty, creates an access token with access only to specified repositories.
+            ///
+            /// - Remark: Generated from `#/components/schemas/CreateAccessTokenOption/repositories`.
+            public var repositories: [Components.Schemas.RepoTargetOption]?
             /// - Remark: Generated from `#/components/schemas/CreateAccessTokenOption/scopes`.
             public var scopes: [Swift.String]?
             /// Creates a new `CreateAccessTokenOption`.
             ///
             /// - Parameters:
             ///   - name:
+            ///   - repositories: If provided and not-empty, creates an access token with access only to specified repositories.
             ///   - scopes:
             public init(
                 name: Swift.String,
+                repositories: [Components.Schemas.RepoTargetOption]? = nil,
                 scopes: [Swift.String]? = nil
             ) {
                 self.name = name
+                self.repositories = repositories
                 self.scopes = scopes
             }
             public enum CodingKeys: String, CodingKey {
                 case name
+                case repositories
                 case scopes
             }
         }
@@ -10777,15 +11812,19 @@ public enum Components {
         ///
         /// - Remark: Generated from `#/components/schemas/CreateIssueCommentOption`.
         public struct CreateIssueCommentOption: Codable, Hashable, Sendable {
+            /// The body of the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/CreateIssueCommentOption/body`.
             public var body: Swift.String
+            /// The time of the comment's update, needs admin or repository owner permission
+            ///
             /// - Remark: Generated from `#/components/schemas/CreateIssueCommentOption/updated_at`.
             public var updatedAt: Foundation.Date?
             /// Creates a new `CreateIssueCommentOption`.
             ///
             /// - Parameters:
-            ///   - body:
-            ///   - updatedAt:
+            ///   - body: The body of the comment
+            ///   - updatedAt: The time of the comment's update, needs admin or repository owner permission
             public init(
                 body: Swift.String,
                 updatedAt: Foundation.Date? = nil
@@ -11024,18 +12063,17 @@ public enum Components {
                 case redirectUris = "redirect_uris"
             }
         }
-        /// CreateOrUpdateSecretOption options when creating or updating secret
-        ///
         /// - Remark: Generated from `#/components/schemas/CreateOrUpdateSecretOption`.
         public struct CreateOrUpdateSecretOption: Codable, Hashable, Sendable {
-            /// Data of the secret to update
+            /// Data of the secret. Special characters will be retained. Line endings will be normalized to LF to match the
+            /// behaviour of browsers. Encode the data with Base64 if line endings should be retained.
             ///
             /// - Remark: Generated from `#/components/schemas/CreateOrUpdateSecretOption/data`.
             public var data: Swift.String
             /// Creates a new `CreateOrUpdateSecretOption`.
             ///
             /// - Parameters:
-            ///   - data: Data of the secret to update
+            ///   - data: Data of the secret. Special characters will be retained. Line endings will be normalized to LF to match the
             public init(data: Swift.String) {
                 self.data = data
             }
@@ -11265,6 +12303,8 @@ public enum Components {
         }
         /// - Remark: Generated from `#/components/schemas/CreatePushMirrorOption`.
         public struct CreatePushMirrorOption: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/CreatePushMirrorOption/branch_filter`.
+            public var branchFilter: Swift.String?
             /// - Remark: Generated from `#/components/schemas/CreatePushMirrorOption/interval`.
             public var interval: Swift.String?
             /// - Remark: Generated from `#/components/schemas/CreatePushMirrorOption/remote_address`.
@@ -11280,6 +12320,7 @@ public enum Components {
             /// Creates a new `CreatePushMirrorOption`.
             ///
             /// - Parameters:
+            ///   - branchFilter:
             ///   - interval:
             ///   - remoteAddress:
             ///   - remotePassword:
@@ -11287,6 +12328,7 @@ public enum Components {
             ///   - syncOnCommit:
             ///   - useSsh:
             public init(
+                branchFilter: Swift.String? = nil,
                 interval: Swift.String? = nil,
                 remoteAddress: Swift.String? = nil,
                 remotePassword: Swift.String? = nil,
@@ -11294,6 +12336,7 @@ public enum Components {
                 syncOnCommit: Swift.Bool? = nil,
                 useSsh: Swift.Bool? = nil
             ) {
+                self.branchFilter = branchFilter
                 self.interval = interval
                 self.remoteAddress = remoteAddress
                 self.remotePassword = remotePassword
@@ -11302,6 +12345,7 @@ public enum Components {
                 self.useSsh = useSsh
             }
             public enum CodingKeys: String, CodingKey {
+                case branchFilter = "branch_filter"
                 case interval
                 case remoteAddress = "remote_address"
                 case remotePassword = "remote_password"
@@ -11818,18 +12862,17 @@ public enum Components {
                 case visibility
             }
         }
-        /// CreateVariableOption the option when creating variable
-        ///
         /// - Remark: Generated from `#/components/schemas/CreateVariableOption`.
         public struct CreateVariableOption: Codable, Hashable, Sendable {
-            /// Value of the variable to create
+            /// Value of the variable to create. Special characters will be retained. Line endings will be normalized to LF to
+            /// match the behaviour of browsers. Encode the data with Base64 if line endings should be retained.
             ///
             /// - Remark: Generated from `#/components/schemas/CreateVariableOption/value`.
             public var value: Swift.String
             /// Creates a new `CreateVariableOption`.
             ///
             /// - Parameters:
-            ///   - value: Value of the variable to create
+            ///   - value: Value of the variable to create. Special characters will be retained. Line endings will be normalized to LF to
             public init(value: Swift.String) {
                 self.value = value
             }
@@ -12211,6 +13254,12 @@ public enum Components {
                 case runNumber = "run_number"
             }
         }
+        /// A Duration represents the elapsed time between two instants
+        /// as an int64 nanosecond count. The representation limits the
+        /// largest representable duration to approximately 290 years.
+        ///
+        /// - Remark: Generated from `#/components/schemas/Duration`.
+        public typealias Duration = Swift.Int64
         /// EditAttachmentOptions options for editing attachments
         ///
         /// - Remark: Generated from `#/components/schemas/EditAttachmentOptions`.
@@ -12488,15 +13537,19 @@ public enum Components {
         ///
         /// - Remark: Generated from `#/components/schemas/EditIssueCommentOption`.
         public struct EditIssueCommentOption: Codable, Hashable, Sendable {
+            /// The body of the comment
+            ///
             /// - Remark: Generated from `#/components/schemas/EditIssueCommentOption/body`.
             public var body: Swift.String
+            /// The time of the comment's update, needs admin or repository owner permission
+            ///
             /// - Remark: Generated from `#/components/schemas/EditIssueCommentOption/updated_at`.
             public var updatedAt: Foundation.Date?
             /// Creates a new `EditIssueCommentOption`.
             ///
             /// - Parameters:
-            ///   - body:
-            ///   - updatedAt:
+            ///   - body: The body of the comment
+            ///   - updatedAt: The time of the comment's update, needs admin or repository owner permission
             public init(
                 body: Swift.String,
                 updatedAt: Foundation.Date? = nil
@@ -13320,6 +14373,8 @@ public enum Components {
             public var email: Swift.String?
             /// - Remark: Generated from `#/components/schemas/EditUserOption/full_name`.
             public var fullName: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/EditUserOption/hide_email`.
+            public var hideEmail: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/EditUserOption/location`.
             public var location: Swift.String?
             /// - Remark: Generated from `#/components/schemas/EditUserOption/login_name`.
@@ -13353,6 +14408,7 @@ public enum Components {
             ///   - description:
             ///   - email:
             ///   - fullName:
+            ///   - hideEmail:
             ///   - location:
             ///   - loginName:
             ///   - maxRepoCreation:
@@ -13373,6 +14429,7 @@ public enum Components {
                 description: Swift.String? = nil,
                 email: Swift.String? = nil,
                 fullName: Swift.String? = nil,
+                hideEmail: Swift.Bool? = nil,
                 location: Swift.String? = nil,
                 loginName: Swift.String? = nil,
                 maxRepoCreation: Swift.Int64? = nil,
@@ -13393,6 +14450,7 @@ public enum Components {
                 self.description = description
                 self.email = email
                 self.fullName = fullName
+                self.hideEmail = hideEmail
                 self.location = location
                 self.loginName = loginName
                 self.maxRepoCreation = maxRepoCreation
@@ -13414,6 +14472,7 @@ public enum Components {
                 case description
                 case email
                 case fullName = "full_name"
+                case hideEmail = "hide_email"
                 case location
                 case loginName = "login_name"
                 case maxRepoCreation = "max_repo_creation"
@@ -13727,6 +14786,10 @@ public enum Components {
         ///
         /// - Remark: Generated from `#/components/schemas/ForgeLike`.
         public typealias ForgeLike = OpenAPIRuntime.OpenAPIObjectContainer
+        /// ActivityStream OrderedCollection of activities
+        ///
+        /// - Remark: Generated from `#/components/schemas/ForgeOutbox`.
+        public typealias ForgeOutbox = OpenAPIRuntime.OpenAPIObjectContainer
         /// GPGKey a user GPG key to sign commit and tag in repository
         ///
         /// - Remark: Generated from `#/components/schemas/GPGKey`.
@@ -14271,21 +15334,21 @@ public enum Components {
                 case webhooks
             }
         }
-        /// GitBlobResponse represents a git blob
+        /// GitBlob represents a git blob
         ///
-        /// - Remark: Generated from `#/components/schemas/GitBlobResponse`.
-        public struct GitBlobResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/GitBlobResponse/content`.
+        /// - Remark: Generated from `#/components/schemas/GitBlob`.
+        public struct GitBlob: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/GitBlob/content`.
             public var content: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/GitBlobResponse/encoding`.
+            /// - Remark: Generated from `#/components/schemas/GitBlob/encoding`.
             public var encoding: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/GitBlobResponse/sha`.
+            /// - Remark: Generated from `#/components/schemas/GitBlob/sha`.
             public var sha: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/GitBlobResponse/size`.
+            /// - Remark: Generated from `#/components/schemas/GitBlob/size`.
             public var size: Swift.Int64?
-            /// - Remark: Generated from `#/components/schemas/GitBlobResponse/url`.
+            /// - Remark: Generated from `#/components/schemas/GitBlob/url`.
             public var url: Swift.String?
-            /// Creates a new `GitBlobResponse`.
+            /// Creates a new `GitBlob`.
             ///
             /// - Parameters:
             ///   - content:
@@ -15292,6 +16355,31 @@ public enum Components {
                 case key
                 case name
                 case url
+            }
+        }
+        /// ListActionRunResponse return a list of ActionRun
+        ///
+        /// - Remark: Generated from `#/components/schemas/ListActionRunResponse`.
+        public struct ListActionRunResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/ListActionRunResponse/total_count`.
+            public var totalCount: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/ListActionRunResponse/workflow_runs`.
+            public var workflowRuns: [Components.Schemas.ActionRun]?
+            /// Creates a new `ListActionRunResponse`.
+            ///
+            /// - Parameters:
+            ///   - totalCount:
+            ///   - workflowRuns:
+            public init(
+                totalCount: Swift.Int64? = nil,
+                workflowRuns: [Components.Schemas.ActionRun]? = nil
+            ) {
+                self.totalCount = totalCount
+                self.workflowRuns = workflowRuns
+            }
+            public enum CodingKeys: String, CodingKey {
+                case totalCount = "total_count"
+                case workflowRuns = "workflow_runs"
             }
         }
         /// MarkdownOption markdown options
@@ -17187,6 +18275,8 @@ public enum Components {
         ///
         /// - Remark: Generated from `#/components/schemas/PushMirror`.
         public struct PushMirror: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/PushMirror/branch_filter`.
+            public var branchFilter: Swift.String?
             /// - Remark: Generated from `#/components/schemas/PushMirror/created`.
             public var created: Foundation.Date?
             /// - Remark: Generated from `#/components/schemas/PushMirror/interval`.
@@ -17208,6 +18298,7 @@ public enum Components {
             /// Creates a new `PushMirror`.
             ///
             /// - Parameters:
+            ///   - branchFilter:
             ///   - created:
             ///   - interval:
             ///   - lastError:
@@ -17218,6 +18309,7 @@ public enum Components {
             ///   - repoName:
             ///   - syncOnCommit:
             public init(
+                branchFilter: Swift.String? = nil,
                 created: Foundation.Date? = nil,
                 interval: Swift.String? = nil,
                 lastError: Swift.String? = nil,
@@ -17228,6 +18320,7 @@ public enum Components {
                 repoName: Swift.String? = nil,
                 syncOnCommit: Swift.Bool? = nil
             ) {
+                self.branchFilter = branchFilter
                 self.created = created
                 self.interval = interval
                 self.lastError = lastError
@@ -17239,6 +18332,7 @@ public enum Components {
                 self.syncOnCommit = syncOnCommit
             }
             public enum CodingKeys: String, CodingKey {
+                case branchFilter = "branch_filter"
                 case created
                 case interval
                 case lastError = "last_error"
@@ -17758,6 +18852,87 @@ public enum Components {
                 case url
             }
         }
+        /// - Remark: Generated from `#/components/schemas/RegisterRunnerOptions`.
+        public struct RegisterRunnerOptions: Codable, Hashable, Sendable {
+            /// Description of the runner to register.
+            ///
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerOptions/description`.
+            public var description: Swift.String?
+            /// Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner
+            ///
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerOptions/ephemeral`.
+            public var ephemeral: Swift.Bool?
+            /// Name of the runner to register. The name of the runner does not have to be unique.
+            ///
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerOptions/name`.
+            public var name: Swift.String
+            /// Creates a new `RegisterRunnerOptions`.
+            ///
+            /// - Parameters:
+            ///   - description: Description of the runner to register.
+            ///   - ephemeral: Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner
+            ///   - name: Name of the runner to register. The name of the runner does not have to be unique.
+            public init(
+                description: Swift.String? = nil,
+                ephemeral: Swift.Bool? = nil,
+                name: Swift.String
+            ) {
+                self.description = description
+                self.ephemeral = ephemeral
+                self.name = name
+            }
+            public enum CodingKeys: String, CodingKey {
+                case description
+                case ephemeral
+                case name
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/RegisterRunnerResponse`.
+        public struct RegisterRunnerResponse: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerResponse/id`.
+            public var id: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerResponse/token`.
+            public var token: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/RegisterRunnerResponse/uuid`.
+            public var uuid: Swift.String?
+            /// Creates a new `RegisterRunnerResponse`.
+            ///
+            /// - Parameters:
+            ///   - id:
+            ///   - token:
+            ///   - uuid:
+            public init(
+                id: Swift.Int64? = nil,
+                token: Swift.String? = nil,
+                uuid: Swift.String? = nil
+            ) {
+                self.id = id
+                self.token = token
+                self.uuid = uuid
+            }
+            public enum CodingKeys: String, CodingKey {
+                case id
+                case token
+                case uuid
+            }
+        }
+        /// RegistrationToken is a string used to register a runner with a server
+        ///
+        /// - Remark: Generated from `#/components/schemas/RegistrationToken`.
+        public struct RegistrationToken: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/RegistrationToken/token`.
+            public var token: Swift.String?
+            /// Creates a new `RegistrationToken`.
+            ///
+            /// - Parameters:
+            ///   - token:
+            public init(token: Swift.String? = nil) {
+                self.token = token
+            }
+            public enum CodingKeys: String, CodingKey {
+                case token
+            }
+        }
         /// Release represents a repository release
         ///
         /// - Remark: Generated from `#/components/schemas/Release`.
@@ -18010,6 +19185,33 @@ public enum Components {
                 case tree
                 case url
                 case verification
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/RepoTargetOption`.
+        public struct RepoTargetOption: Codable, Hashable, Sendable {
+            /// Name of repository
+            ///
+            /// - Remark: Generated from `#/components/schemas/RepoTargetOption/name`.
+            public var name: Swift.String
+            /// Name of user or organisation that owns the repository
+            ///
+            /// - Remark: Generated from `#/components/schemas/RepoTargetOption/owner`.
+            public var owner: Swift.String
+            /// Creates a new `RepoTargetOption`.
+            ///
+            /// - Parameters:
+            ///   - name: Name of repository
+            ///   - owner: Name of user or organisation that owns the repository
+            public init(
+                name: Swift.String,
+                owner: Swift.String
+            ) {
+                self.name = name
+                self.owner = owner
+            }
+            public enum CodingKeys: String, CodingKey {
+                case name
+                case owner
             }
         }
         /// RepoTopicOptions a collection of repo topic names
@@ -18336,6 +19538,8 @@ public enum Components {
                     yield &self.storage.value.hasReleases
                 }
             }
+            /// is the wiki enabled
+            ///
             /// - Remark: Generated from `#/components/schemas/Repository/has_wiki`.
             public var hasWiki: Swift.Bool? {
                 get  {
@@ -18343,6 +19547,17 @@ public enum Components {
                 }
                 _modify {
                     yield &self.storage.value.hasWiki
+                }
+            }
+            /// have wiki pages ever been created
+            ///
+            /// - Remark: Generated from `#/components/schemas/Repository/has_wiki_contents`.
+            public var hasWikiContents: Swift.Bool? {
+                get  {
+                    self.storage.value.hasWikiContents
+                }
+                _modify {
+                    yield &self.storage.value.hasWikiContents
                 }
             }
             /// - Remark: Generated from `#/components/schemas/Repository/html_url`.
@@ -18642,6 +19857,24 @@ public enum Components {
                     yield &self.storage.value.wikiBranch
                 }
             }
+            /// - Remark: Generated from `#/components/schemas/Repository/wiki_clone_url`.
+            public var wikiCloneUrl: Swift.String? {
+                get  {
+                    self.storage.value.wikiCloneUrl
+                }
+                _modify {
+                    yield &self.storage.value.wikiCloneUrl
+                }
+            }
+            /// - Remark: Generated from `#/components/schemas/Repository/wiki_ssh_url`.
+            public var wikiSshUrl: Swift.String? {
+                get  {
+                    self.storage.value.wikiSshUrl
+                }
+                _modify {
+                    yield &self.storage.value.wikiSshUrl
+                }
+            }
             /// Creates a new `Repository`.
             ///
             /// - Parameters:
@@ -18675,7 +19908,8 @@ public enum Components {
             ///   - hasProjects:
             ///   - hasPullRequests:
             ///   - hasReleases:
-            ///   - hasWiki:
+            ///   - hasWiki: is the wiki enabled
+            ///   - hasWikiContents: have wiki pages ever been created
             ///   - htmlUrl:
             ///   - id:
             ///   - ignoreWhitespaceConflicts:
@@ -18708,6 +19942,8 @@ public enum Components {
             ///   - watchersCount:
             ///   - website:
             ///   - wikiBranch:
+            ///   - wikiCloneUrl:
+            ///   - wikiSshUrl:
             public init(
                 allowFastForwardOnlyMerge: Swift.Bool? = nil,
                 allowMergeCommits: Swift.Bool? = nil,
@@ -18740,6 +19976,7 @@ public enum Components {
                 hasPullRequests: Swift.Bool? = nil,
                 hasReleases: Swift.Bool? = nil,
                 hasWiki: Swift.Bool? = nil,
+                hasWikiContents: Swift.Bool? = nil,
                 htmlUrl: Swift.String? = nil,
                 id: Swift.Int64? = nil,
                 ignoreWhitespaceConflicts: Swift.Bool? = nil,
@@ -18771,7 +20008,9 @@ public enum Components {
                 url: Swift.String? = nil,
                 watchersCount: Swift.Int64? = nil,
                 website: Swift.String? = nil,
-                wikiBranch: Swift.String? = nil
+                wikiBranch: Swift.String? = nil,
+                wikiCloneUrl: Swift.String? = nil,
+                wikiSshUrl: Swift.String? = nil
             ) {
                 self.storage = .init(value: .init(
                     allowFastForwardOnlyMerge: allowFastForwardOnlyMerge,
@@ -18805,6 +20044,7 @@ public enum Components {
                     hasPullRequests: hasPullRequests,
                     hasReleases: hasReleases,
                     hasWiki: hasWiki,
+                    hasWikiContents: hasWikiContents,
                     htmlUrl: htmlUrl,
                     id: id,
                     ignoreWhitespaceConflicts: ignoreWhitespaceConflicts,
@@ -18836,7 +20076,9 @@ public enum Components {
                     url: url,
                     watchersCount: watchersCount,
                     website: website,
-                    wikiBranch: wikiBranch
+                    wikiBranch: wikiBranch,
+                    wikiCloneUrl: wikiCloneUrl,
+                    wikiSshUrl: wikiSshUrl
                 ))
             }
             public enum CodingKeys: String, CodingKey {
@@ -18871,6 +20113,7 @@ public enum Components {
                 case hasPullRequests = "has_pull_requests"
                 case hasReleases = "has_releases"
                 case hasWiki = "has_wiki"
+                case hasWikiContents = "has_wiki_contents"
                 case htmlUrl = "html_url"
                 case id
                 case ignoreWhitespaceConflicts = "ignore_whitespace_conflicts"
@@ -18903,6 +20146,8 @@ public enum Components {
                 case watchersCount = "watchers_count"
                 case website
                 case wikiBranch = "wiki_branch"
+                case wikiCloneUrl = "wiki_clone_url"
+                case wikiSshUrl = "wiki_ssh_url"
             }
             public init(from decoder: any Decoder) throws {
                 self.storage = try .init(from: decoder)
@@ -18973,8 +20218,14 @@ public enum Components {
                 var hasPullRequests: Swift.Bool?
                 /// - Remark: Generated from `#/components/schemas/Repository/has_releases`.
                 var hasReleases: Swift.Bool?
+                /// is the wiki enabled
+                ///
                 /// - Remark: Generated from `#/components/schemas/Repository/has_wiki`.
                 var hasWiki: Swift.Bool?
+                /// have wiki pages ever been created
+                ///
+                /// - Remark: Generated from `#/components/schemas/Repository/has_wiki_contents`.
+                var hasWikiContents: Swift.Bool?
                 /// - Remark: Generated from `#/components/schemas/Repository/html_url`.
                 var htmlUrl: Swift.String?
                 /// - Remark: Generated from `#/components/schemas/Repository/id`.
@@ -19048,6 +20299,10 @@ public enum Components {
                 var website: Swift.String?
                 /// - Remark: Generated from `#/components/schemas/Repository/wiki_branch`.
                 var wikiBranch: Swift.String?
+                /// - Remark: Generated from `#/components/schemas/Repository/wiki_clone_url`.
+                var wikiCloneUrl: Swift.String?
+                /// - Remark: Generated from `#/components/schemas/Repository/wiki_ssh_url`.
+                var wikiSshUrl: Swift.String?
                 init(
                     allowFastForwardOnlyMerge: Swift.Bool? = nil,
                     allowMergeCommits: Swift.Bool? = nil,
@@ -19080,6 +20335,7 @@ public enum Components {
                     hasPullRequests: Swift.Bool? = nil,
                     hasReleases: Swift.Bool? = nil,
                     hasWiki: Swift.Bool? = nil,
+                    hasWikiContents: Swift.Bool? = nil,
                     htmlUrl: Swift.String? = nil,
                     id: Swift.Int64? = nil,
                     ignoreWhitespaceConflicts: Swift.Bool? = nil,
@@ -19111,7 +20367,9 @@ public enum Components {
                     url: Swift.String? = nil,
                     watchersCount: Swift.Int64? = nil,
                     website: Swift.String? = nil,
-                    wikiBranch: Swift.String? = nil
+                    wikiBranch: Swift.String? = nil,
+                    wikiCloneUrl: Swift.String? = nil,
+                    wikiSshUrl: Swift.String? = nil
                 ) {
                     self.allowFastForwardOnlyMerge = allowFastForwardOnlyMerge
                     self.allowMergeCommits = allowMergeCommits
@@ -19144,6 +20402,7 @@ public enum Components {
                     self.hasPullRequests = hasPullRequests
                     self.hasReleases = hasReleases
                     self.hasWiki = hasWiki
+                    self.hasWikiContents = hasWikiContents
                     self.htmlUrl = htmlUrl
                     self.id = id
                     self.ignoreWhitespaceConflicts = ignoreWhitespaceConflicts
@@ -19176,6 +20435,8 @@ public enum Components {
                     self.watchersCount = watchersCount
                     self.website = website
                     self.wikiBranch = wikiBranch
+                    self.wikiCloneUrl = wikiCloneUrl
+                    self.wikiSshUrl = wikiSshUrl
                 }
                 typealias CodingKeys = Components.Schemas.Repository.CodingKeys
             }
@@ -19391,6 +20652,43 @@ public enum Components {
             public enum CodingKeys: String, CodingKey {
                 case body
                 case event
+            }
+        }
+        /// SyncForkInfo information about syncing a fork
+        ///
+        /// - Remark: Generated from `#/components/schemas/SyncForkInfo`.
+        public struct SyncForkInfo: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/SyncForkInfo/allowed`.
+            public var allowed: Swift.Bool?
+            /// - Remark: Generated from `#/components/schemas/SyncForkInfo/base_commit`.
+            public var baseCommit: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/SyncForkInfo/commits_behind`.
+            public var commitsBehind: Swift.Int64?
+            /// - Remark: Generated from `#/components/schemas/SyncForkInfo/fork_commit`.
+            public var forkCommit: Swift.String?
+            /// Creates a new `SyncForkInfo`.
+            ///
+            /// - Parameters:
+            ///   - allowed:
+            ///   - baseCommit:
+            ///   - commitsBehind:
+            ///   - forkCommit:
+            public init(
+                allowed: Swift.Bool? = nil,
+                baseCommit: Swift.String? = nil,
+                commitsBehind: Swift.Int64? = nil,
+                forkCommit: Swift.String? = nil
+            ) {
+                self.allowed = allowed
+                self.baseCommit = baseCommit
+                self.commitsBehind = commitsBehind
+                self.forkCommit = forkCommit
+            }
+            public enum CodingKeys: String, CodingKey {
+                case allowed
+                case baseCommit = "base_commit"
+                case commitsBehind = "commits_behind"
+                case forkCommit = "fork_commit"
             }
         }
         /// Tag represents a repository tag
@@ -20103,23 +21401,23 @@ public enum Components {
                 case image
             }
         }
-        /// UpdateVariableOption the option when updating variable
-        ///
         /// - Remark: Generated from `#/components/schemas/UpdateVariableOption`.
         public struct UpdateVariableOption: Codable, Hashable, Sendable {
-            /// New name for the variable. If the field is empty, the variable name won't be updated.
+            /// New name for the variable. If the field is empty, the variable name won't be updated. Forgejo will convert it to
+            /// uppercase.
             ///
             /// - Remark: Generated from `#/components/schemas/UpdateVariableOption/name`.
             public var name: Swift.String?
-            /// Value of the variable to update
+            /// Value of the variable to update. Special characters will be retained. Line endings will be normalized to LF to
+            /// match the behaviour of browsers. Encode the data with Base64 if line endings should be retained.
             ///
             /// - Remark: Generated from `#/components/schemas/UpdateVariableOption/value`.
             public var value: Swift.String
             /// Creates a new `UpdateVariableOption`.
             ///
             /// - Parameters:
-            ///   - name: New name for the variable. If the field is empty, the variable name won't be updated.
-            ///   - value: Value of the variable to update
+            ///   - name: New name for the variable. If the field is empty, the variable name won't be updated. Forgejo will convert it to
+            ///   - value: Value of the variable to update. Special characters will be retained. Line endings will be normalized to LF to
             public init(
                 name: Swift.String? = nil,
                 value: Swift.String
@@ -20518,6 +21816,33 @@ public enum Components {
                 case website
             }
         }
+        /// VerifyGPGKeyOption options verifies user GPG key
+        ///
+        /// - Remark: Generated from `#/components/schemas/VerifyGPGKeyOption`.
+        public struct VerifyGPGKeyOption: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/VerifyGPGKeyOption/armored_signature`.
+            public var armoredSignature: Swift.String?
+            /// An Signature for a GPG key token
+            ///
+            /// - Remark: Generated from `#/components/schemas/VerifyGPGKeyOption/key_id`.
+            public var keyId: Swift.String
+            /// Creates a new `VerifyGPGKeyOption`.
+            ///
+            /// - Parameters:
+            ///   - armoredSignature:
+            ///   - keyId: An Signature for a GPG key token
+            public init(
+                armoredSignature: Swift.String? = nil,
+                keyId: Swift.String
+            ) {
+                self.armoredSignature = armoredSignature
+                self.keyId = keyId
+            }
+            public enum CodingKeys: String, CodingKey {
+                case armoredSignature = "armored_signature"
+                case keyId = "key_id"
+            }
+        }
         /// WatchInfo represents an API watch status of one repository
         ///
         /// - Remark: Generated from `#/components/schemas/WatchInfo`.
@@ -20789,6 +22114,22 @@ public enum Components {
             }
         }
         public struct AccessTokenList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/AccessTokenList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of access tokens
+                ///
+                /// - Remark: Generated from `#/components/responses/AccessTokenList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of access tokens
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.AccessTokenList.Headers
             /// - Remark: Generated from `#/components/responses/AccessTokenList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/AccessTokenList/content/application\/json`.
@@ -20835,8 +22176,251 @@ public enum Components {
             /// Creates a new `AccessTokenList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.AccessTokenList.Body) {
+            public init(
+                headers: Components.Responses.AccessTokenList.Headers = .init(),
+                body: Components.Responses.AccessTokenList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct ActionRun: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ActionRun/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ActionRun/content/application\/json`.
+                case json(Components.Schemas.ActionRun)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.ActionRun {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ActionRun/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ActionRun.Body
+            /// Creates a new `ActionRun`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.ActionRun.Body) {
+                self.body = body
+            }
+        }
+        public struct ActionRunList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ActionRunList/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ActionRunList/content/application\/json`.
+                case json(Components.Schemas.ListActionRunResponse)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.ListActionRunResponse {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ActionRunList/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ActionRunList.Body
+            /// Creates a new `ActionRunList`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.ActionRunList.Body) {
+                self.body = body
+            }
+        }
+        public struct ActionRunner: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ActionRunner/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ActionRunner/content/application\/json`.
+                case json(Components.Schemas.ActionRunner)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.ActionRunner {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ActionRunner/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ActionRunner.Body
+            /// Creates a new `ActionRunner`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.ActionRunner.Body) {
+                self.body = body
+            }
+        }
+        public struct ActionRunnerList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ActionRunnerList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// Total number of runners matching the search criteria (excluding page and limit)
+                ///
+                /// - Remark: Generated from `#/components/responses/ActionRunnerList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Links to other pages, if any
+                ///
+                /// - Remark: Generated from `#/components/responses/ActionRunnerList/headers/Link`.
+                public var link: Swift.String?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: Total number of runners matching the search criteria (excluding page and limit)
+                ///   - link: Links to other pages, if any
+                public init(
+                    xTotalCount: Swift.Int64? = nil,
+                    link: Swift.String? = nil
+                ) {
+                    self.xTotalCount = xTotalCount
+                    self.link = link
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.ActionRunnerList.Headers
+            /// - Remark: Generated from `#/components/responses/ActionRunnerList/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ActionRunnerList/content/application\/json`.
+                case json([Components.Schemas.ActionRunner])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.ActionRunner] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ActionRunnerList/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ActionRunnerList.Body
+            /// Creates a new `ActionRunnerList`.
+            ///
+            /// - Parameters:
+            ///   - headers: Received HTTP response headers
+            ///   - body: Received HTTP response body
+            public init(
+                headers: Components.Responses.ActionRunnerList.Headers = .init(),
+                body: Components.Responses.ActionRunnerList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -20893,6 +22477,22 @@ public enum Components {
             }
         }
         public struct ActivityFeedsList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ActivityFeedsList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of activity feeds
+                ///
+                /// - Remark: Generated from `#/components/responses/ActivityFeedsList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of activity feeds
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.ActivityFeedsList.Headers
             /// - Remark: Generated from `#/components/responses/ActivityFeedsList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/ActivityFeedsList/content/application\/json`.
@@ -20939,8 +22539,13 @@ public enum Components {
             /// Creates a new `ActivityFeedsList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.ActivityFeedsList.Body) {
+            public init(
+                headers: Components.Responses.ActivityFeedsList.Headers = .init(),
+                body: Components.Responses.ActivityFeedsList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -21257,6 +22862,22 @@ public enum Components {
             }
         }
         public struct BranchList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/BranchList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of branches
+                ///
+                /// - Remark: Generated from `#/components/responses/BranchList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of branches
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.BranchList.Headers
             /// - Remark: Generated from `#/components/responses/BranchList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/BranchList/content/application\/json`.
@@ -21303,8 +22924,13 @@ public enum Components {
             /// Creates a new `BranchList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.BranchList.Body) {
+            public init(
+                headers: Components.Responses.BranchList.Headers = .init(),
+                body: Components.Responses.BranchList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -21415,46 +23041,16 @@ public enum Components {
         public struct ChangedFileList: Sendable, Hashable {
             /// - Remark: Generated from `#/components/responses/ChangedFileList/headers`.
             public struct Headers: Sendable, Hashable {
-                /// True if there is another page
-                ///
-                /// - Remark: Generated from `#/components/responses/ChangedFileList/headers/X-HasMore`.
-                public var xHasMore: Swift.Bool?
-                /// Total number of pages
-                ///
-                /// - Remark: Generated from `#/components/responses/ChangedFileList/headers/X-PageCount`.
-                public var xPageCount: Swift.Int64?
-                /// Commits per page
-                ///
-                /// - Remark: Generated from `#/components/responses/ChangedFileList/headers/X-PerPage`.
-                public var xPerPage: Swift.Int64?
-                /// Total commit count
+                /// The total number of changed files
                 ///
                 /// - Remark: Generated from `#/components/responses/ChangedFileList/headers/X-Total-Count`.
                 public var xTotalCount: Swift.Int64?
-                /// The current page
-                ///
-                /// - Remark: Generated from `#/components/responses/ChangedFileList/headers/X-Page`.
-                public var xPage: Swift.Int64?
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
-                ///   - xHasMore: True if there is another page
-                ///   - xPageCount: Total number of pages
-                ///   - xPerPage: Commits per page
-                ///   - xTotalCount: Total commit count
-                ///   - xPage: The current page
-                public init(
-                    xHasMore: Swift.Bool? = nil,
-                    xPageCount: Swift.Int64? = nil,
-                    xPerPage: Swift.Int64? = nil,
-                    xTotalCount: Swift.Int64? = nil,
-                    xPage: Swift.Int64? = nil
-                ) {
-                    self.xHasMore = xHasMore
-                    self.xPageCount = xPageCount
-                    self.xPerPage = xPerPage
+                ///   - xTotalCount: The total number of changed files
+                public init(xTotalCount: Swift.Int64? = nil) {
                     self.xTotalCount = xTotalCount
-                    self.xPage = xPage
                 }
             }
             /// Received HTTP response headers
@@ -21510,6 +23106,102 @@ public enum Components {
             public init(
                 headers: Components.Responses.ChangedFileList.Headers = .init(),
                 body: Components.Responses.ChangedFileList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct ChangedFileListWithPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// True if there is another page
+                ///
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/headers/X-HasMore`.
+                public var xHasMore: Swift.Bool?
+                /// Total number of pages
+                ///
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/headers/X-PageCount`.
+                public var xPageCount: Swift.Int64?
+                /// Commits per page
+                ///
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/headers/X-PerPage`.
+                public var xPerPage: Swift.Int64?
+                /// The current page
+                ///
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/headers/X-Page`.
+                public var xPage: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xHasMore: True if there is another page
+                ///   - xPageCount: Total number of pages
+                ///   - xPerPage: Commits per page
+                ///   - xPage: The current page
+                public init(
+                    xHasMore: Swift.Bool? = nil,
+                    xPageCount: Swift.Int64? = nil,
+                    xPerPage: Swift.Int64? = nil,
+                    xPage: Swift.Int64? = nil
+                ) {
+                    self.xHasMore = xHasMore
+                    self.xPageCount = xPageCount
+                    self.xPerPage = xPerPage
+                    self.xPage = xPage
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.ChangedFileListWithPagination.Headers
+            /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/content/application\/json`.
+                case json([Components.Schemas.ChangedFile])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.ChangedFile] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ChangedFileListWithPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ChangedFileListWithPagination.Body
+            /// Creates a new `ChangedFileListWithPagination`.
+            ///
+            /// - Parameters:
+            ///   - headers: Received HTTP response headers
+            ///   - body: Received HTTP response body
+            public init(
+                headers: Components.Responses.ChangedFileListWithPagination.Headers = .init(),
+                body: Components.Responses.ChangedFileListWithPagination.Body
             ) {
                 self.headers = headers
                 self.body = body
@@ -21620,6 +23312,22 @@ public enum Components {
             }
         }
         public struct CommentList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/CommentList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of comments
+                ///
+                /// - Remark: Generated from `#/components/responses/CommentList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of comments
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.CommentList.Headers
             /// - Remark: Generated from `#/components/responses/CommentList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/CommentList/content/application\/json`.
@@ -21666,8 +23374,65 @@ public enum Components {
             /// Creates a new `CommentList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.CommentList.Body) {
+            public init(
+                headers: Components.Responses.CommentList.Headers = .init(),
+                body: Components.Responses.CommentList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct CommentListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/CommentListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/CommentListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Comment])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Comment] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/CommentListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.CommentListWithoutPagination.Body
+            /// Creates a new `CommentListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.CommentListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -21724,52 +23489,6 @@ public enum Components {
             }
         }
         public struct CommitList: Sendable, Hashable {
-            /// - Remark: Generated from `#/components/responses/CommitList/headers`.
-            public struct Headers: Sendable, Hashable {
-                /// True if there is another page
-                ///
-                /// - Remark: Generated from `#/components/responses/CommitList/headers/X-HasMore`.
-                public var xHasMore: Swift.Bool?
-                /// Total number of pages
-                ///
-                /// - Remark: Generated from `#/components/responses/CommitList/headers/X-PageCount`.
-                public var xPageCount: Swift.Int64?
-                /// Commits per page
-                ///
-                /// - Remark: Generated from `#/components/responses/CommitList/headers/X-PerPage`.
-                public var xPerPage: Swift.Int64?
-                /// Total commit count
-                ///
-                /// - Remark: Generated from `#/components/responses/CommitList/headers/X-Total`.
-                public var xTotal: Swift.Int64?
-                /// The current page
-                ///
-                /// - Remark: Generated from `#/components/responses/CommitList/headers/X-Page`.
-                public var xPage: Swift.Int64?
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - xHasMore: True if there is another page
-                ///   - xPageCount: Total number of pages
-                ///   - xPerPage: Commits per page
-                ///   - xTotal: Total commit count
-                ///   - xPage: The current page
-                public init(
-                    xHasMore: Swift.Bool? = nil,
-                    xPageCount: Swift.Int64? = nil,
-                    xPerPage: Swift.Int64? = nil,
-                    xTotal: Swift.Int64? = nil,
-                    xPage: Swift.Int64? = nil
-                ) {
-                    self.xHasMore = xHasMore
-                    self.xPageCount = xPageCount
-                    self.xPerPage = xPerPage
-                    self.xTotal = xTotal
-                    self.xPage = xPage
-                }
-            }
-            /// Received HTTP response headers
-            public var headers: Components.Responses.CommitList.Headers
             /// - Remark: Generated from `#/components/responses/CommitList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/CommitList/content/application\/json`.
@@ -21816,13 +23535,8 @@ public enum Components {
             /// Creates a new `CommitList`.
             ///
             /// - Parameters:
-            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(
-                headers: Components.Responses.CommitList.Headers = .init(),
-                body: Components.Responses.CommitList.Body
-            ) {
-                self.headers = headers
+            public init(body: Components.Responses.CommitList.Body) {
                 self.body = body
             }
         }
@@ -21879,6 +23593,22 @@ public enum Components {
             }
         }
         public struct CommitStatusList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/CommitStatusList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of commit statuses
+                ///
+                /// - Remark: Generated from `#/components/responses/CommitStatusList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of commit statuses
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.CommitStatusList.Headers
             /// - Remark: Generated from `#/components/responses/CommitStatusList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/CommitStatusList/content/application\/json`.
@@ -21925,8 +23655,65 @@ public enum Components {
             /// Creates a new `CommitStatusList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.CommitStatusList.Body) {
+            public init(
+                headers: Components.Responses.CommitStatusList.Headers = .init(),
+                body: Components.Responses.CommitStatusList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct CommitStatusListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/CommitStatusListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/CommitStatusListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.CommitStatus])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.CommitStatus] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/CommitStatusListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.CommitStatusListWithoutPagination.Body
+            /// Creates a new `CommitStatusListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.CommitStatusListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -22087,6 +23874,22 @@ public enum Components {
             }
         }
         public struct CronList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/CronList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of cron jobs
+                ///
+                /// - Remark: Generated from `#/components/responses/CronList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of cron jobs
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.CronList.Headers
             /// - Remark: Generated from `#/components/responses/CronList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/CronList/content/application\/json`.
@@ -22133,8 +23936,13 @@ public enum Components {
             /// Creates a new `CronList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.CronList.Body) {
+            public init(
+                headers: Components.Responses.CronList.Headers = .init(),
+                body: Components.Responses.CronList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -22191,6 +23999,22 @@ public enum Components {
             }
         }
         public struct DeployKeyList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/DeployKeyList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of deploy keys
+                ///
+                /// - Remark: Generated from `#/components/responses/DeployKeyList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of deploy keys
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.DeployKeyList.Headers
             /// - Remark: Generated from `#/components/responses/DeployKeyList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/DeployKeyList/content/application\/json`.
@@ -22237,8 +24061,13 @@ public enum Components {
             /// Creates a new `DeployKeyList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.DeployKeyList.Body) {
+            public init(
+                headers: Components.Responses.DeployKeyList.Headers = .init(),
+                body: Components.Responses.DeployKeyList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -22866,16 +24695,16 @@ public enum Components {
                 self.body = body
             }
         }
-        public struct GitBlobResponse: Sendable, Hashable {
-            /// - Remark: Generated from `#/components/responses/GitBlobResponse/content`.
+        public struct GitBlob: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/GitBlob/content`.
             @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/components/responses/GitBlobResponse/content/application\/json`.
-                case json(Components.Schemas.GitBlobResponse)
+                /// - Remark: Generated from `#/components/responses/GitBlob/content/application\/json`.
+                case json(Components.Schemas.GitBlob)
                 /// The associated value of the enum case if `self` is `.json`.
                 ///
                 /// - Throws: An error if `self` is not `.json`.
                 /// - SeeAlso: `.json`.
-                public var json: Components.Schemas.GitBlobResponse {
+                public var json: Components.Schemas.GitBlob {
                     get throws {
                         switch self {
                         case let .json(body):
@@ -22888,7 +24717,7 @@ public enum Components {
                         }
                     }
                 }
-                /// - Remark: Generated from `#/components/responses/GitBlobResponse/content/text\/html`.
+                /// - Remark: Generated from `#/components/responses/GitBlob/content/text\/html`.
                 case html(OpenAPIRuntime.HTTPBody)
                 /// The associated value of the enum case if `self` is `.html`.
                 ///
@@ -22909,12 +24738,64 @@ public enum Components {
                 }
             }
             /// Received HTTP response body
-            public var body: Components.Responses.GitBlobResponse.Body
-            /// Creates a new `GitBlobResponse`.
+            public var body: Components.Responses.GitBlob.Body
+            /// Creates a new `GitBlob`.
             ///
             /// - Parameters:
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.GitBlobResponse.Body) {
+            public init(body: Components.Responses.GitBlob.Body) {
+                self.body = body
+            }
+        }
+        public struct GitBlobList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/GitBlobList/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/GitBlobList/content/application\/json`.
+                case json([Components.Schemas.GitBlob])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.GitBlob] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/GitBlobList/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.GitBlobList.Body
+            /// Creates a new `GitBlobList`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.GitBlobList.Body) {
                 self.body = body
             }
         }
@@ -23231,6 +25112,22 @@ public enum Components {
             }
         }
         public struct HookList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/HookList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of hooks
+                ///
+                /// - Remark: Generated from `#/components/responses/HookList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of hooks
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.HookList.Headers
             /// - Remark: Generated from `#/components/responses/HookList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/HookList/content/application\/json`.
@@ -23277,8 +25174,65 @@ public enum Components {
             /// Creates a new `HookList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.HookList.Body) {
+            public init(
+                headers: Components.Responses.HookList.Headers = .init(),
+                body: Components.Responses.HookList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct HookListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/HookListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/HookListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Hook])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Hook] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/HookListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.HookListWithoutPagination.Body
+            /// Creates a new `HookListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.HookListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -23438,6 +25392,58 @@ public enum Components {
                 self.body = body
             }
         }
+        public struct IssueListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/IssueListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/IssueListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Issue])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Issue] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/IssueListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.IssueListWithoutPagination.Body
+            /// Creates a new `IssueListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.IssueListWithoutPagination.Body) {
+                self.body = body
+            }
+        }
         public struct IssueTemplates: Sendable, Hashable {
             /// - Remark: Generated from `#/components/responses/IssueTemplates/content`.
             @frozen public enum Body: Sendable, Hashable {
@@ -23543,6 +25549,22 @@ public enum Components {
             }
         }
         public struct LabelList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/LabelList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of labels
+                ///
+                /// - Remark: Generated from `#/components/responses/LabelList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of labels
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.LabelList.Headers
             /// - Remark: Generated from `#/components/responses/LabelList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/LabelList/content/application\/json`.
@@ -23589,8 +25611,65 @@ public enum Components {
             /// Creates a new `LabelList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.LabelList.Body) {
+            public init(
+                headers: Components.Responses.LabelList.Headers = .init(),
+                body: Components.Responses.LabelList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct LabelListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/LabelListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/LabelListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Label])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Label] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/LabelListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.LabelListWithoutPagination.Body
+            /// Creates a new `LabelListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.LabelListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -24029,6 +26108,22 @@ public enum Components {
             }
         }
         public struct MilestoneList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/MilestoneList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of milestones
+                ///
+                /// - Remark: Generated from `#/components/responses/MilestoneList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of milestones
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.MilestoneList.Headers
             /// - Remark: Generated from `#/components/responses/MilestoneList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/MilestoneList/content/application\/json`.
@@ -24075,8 +26170,13 @@ public enum Components {
             /// Creates a new `MilestoneList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.MilestoneList.Body) {
+            public init(
+                headers: Components.Responses.MilestoneList.Headers = .init(),
+                body: Components.Responses.MilestoneList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -24289,6 +26389,22 @@ public enum Components {
             }
         }
         public struct NotificationThreadList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/NotificationThreadList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of notification threads
+                ///
+                /// - Remark: Generated from `#/components/responses/NotificationThreadList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of notification threads
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.NotificationThreadList.Headers
             /// - Remark: Generated from `#/components/responses/NotificationThreadList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/NotificationThreadList/content/application\/json`.
@@ -24335,8 +26451,65 @@ public enum Components {
             /// Creates a new `NotificationThreadList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.NotificationThreadList.Body) {
+            public init(
+                headers: Components.Responses.NotificationThreadList.Headers = .init(),
+                body: Components.Responses.NotificationThreadList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct NotificationThreadListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/NotificationThreadListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/NotificationThreadListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.NotificationThread])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.NotificationThread] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/NotificationThreadListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.NotificationThreadListWithoutPagination.Body
+            /// Creates a new `NotificationThreadListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.NotificationThreadListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -24393,6 +26566,22 @@ public enum Components {
             }
         }
         public struct OAuth2ApplicationList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/OAuth2ApplicationList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of OAuth2 applications
+                ///
+                /// - Remark: Generated from `#/components/responses/OAuth2ApplicationList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of OAuth2 applications
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.OAuth2ApplicationList.Headers
             /// - Remark: Generated from `#/components/responses/OAuth2ApplicationList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/OAuth2ApplicationList/content/application\/json`.
@@ -24439,8 +26628,13 @@ public enum Components {
             /// Creates a new `OAuth2ApplicationList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.OAuth2ApplicationList.Body) {
+            public init(
+                headers: Components.Responses.OAuth2ApplicationList.Headers = .init(),
+                body: Components.Responses.OAuth2ApplicationList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -24497,6 +26691,22 @@ public enum Components {
             }
         }
         public struct OrganizationList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/OrganizationList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of organizations
+                ///
+                /// - Remark: Generated from `#/components/responses/OrganizationList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of organizations
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.OrganizationList.Headers
             /// - Remark: Generated from `#/components/responses/OrganizationList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/OrganizationList/content/application\/json`.
@@ -24543,8 +26753,65 @@ public enum Components {
             /// Creates a new `OrganizationList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.OrganizationList.Body) {
+            public init(
+                headers: Components.Responses.OrganizationList.Headers = .init(),
+                body: Components.Responses.OrganizationList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct OrganizationListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/OrganizationListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/OrganizationListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Organization])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Organization] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/OrganizationListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.OrganizationListWithoutPagination.Body
+            /// Creates a new `OrganizationListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.OrganizationListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -24597,6 +26864,58 @@ public enum Components {
             /// - Parameters:
             ///   - body: Received HTTP response body
             public init(body: Components.Responses.OrganizationPermissions.Body) {
+                self.body = body
+            }
+        }
+        public struct Outbox: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/Outbox/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/Outbox/content/application\/json`.
+                case json(Components.Schemas.ForgeOutbox)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.ForgeOutbox {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/Outbox/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.Outbox.Body
+            /// Creates a new `Outbox`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.Outbox.Body) {
                 self.body = body
             }
         }
@@ -24705,6 +27024,22 @@ public enum Components {
             }
         }
         public struct PackageList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/PackageList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of packages
+                ///
+                /// - Remark: Generated from `#/components/responses/PackageList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of packages
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.PackageList.Headers
             /// - Remark: Generated from `#/components/responses/PackageList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/PackageList/content/application\/json`.
@@ -24751,8 +27086,13 @@ public enum Components {
             /// Creates a new `PackageList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.PackageList.Body) {
+            public init(
+                headers: Components.Responses.PackageList.Headers = .init(),
+                body: Components.Responses.PackageList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -25121,6 +27461,22 @@ public enum Components {
             }
         }
         public struct PullReviewList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/PullReviewList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of pull reviews
+                ///
+                /// - Remark: Generated from `#/components/responses/PullReviewList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of pull reviews
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.PullReviewList.Headers
             /// - Remark: Generated from `#/components/responses/PullReviewList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/PullReviewList/content/application\/json`.
@@ -25167,8 +27523,65 @@ public enum Components {
             /// Creates a new `PullReviewList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.PullReviewList.Body) {
+            public init(
+                headers: Components.Responses.PullReviewList.Headers = .init(),
+                body: Components.Responses.PullReviewList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct PullReviewListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/PullReviewListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/PullReviewListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.PullReview])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.PullReview] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/PullReviewListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.PullReviewListWithoutPagination.Body
+            /// Creates a new `PullReviewListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.PullReviewListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -25225,6 +27638,22 @@ public enum Components {
             }
         }
         public struct PushMirrorList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/PushMirrorList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of push mirrors
+                ///
+                /// - Remark: Generated from `#/components/responses/PushMirrorList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of push mirrors
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.PushMirrorList.Headers
             /// - Remark: Generated from `#/components/responses/PushMirrorList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/PushMirrorList/content/application\/json`.
@@ -25271,8 +27700,13 @@ public enum Components {
             /// Creates a new `PushMirrorList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.PushMirrorList.Body) {
+            public init(
+                headers: Components.Responses.PushMirrorList.Headers = .init(),
+                body: Components.Responses.PushMirrorList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -25745,6 +28179,22 @@ public enum Components {
             }
         }
         public struct ReactionList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ReactionList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of reactions
+                ///
+                /// - Remark: Generated from `#/components/responses/ReactionList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of reactions
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.ReactionList.Headers
             /// - Remark: Generated from `#/components/responses/ReactionList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/ReactionList/content/application\/json`.
@@ -25791,8 +28241,65 @@ public enum Components {
             /// Creates a new `ReactionList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.ReactionList.Body) {
+            public init(
+                headers: Components.Responses.ReactionList.Headers = .init(),
+                body: Components.Responses.ReactionList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct ReactionListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ReactionListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/ReactionListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Reaction])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Reaction] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/ReactionListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.ReactionListWithoutPagination.Body
+            /// Creates a new `ReactionListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.ReactionListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -25900,27 +28407,108 @@ public enum Components {
                 self.body = body
             }
         }
-        public struct RegistrationToken: Sendable, Hashable {
-            /// - Remark: Generated from `#/components/responses/RegistrationToken/headers`.
-            public struct Headers: Sendable, Hashable {
-                /// - Remark: Generated from `#/components/responses/RegistrationToken/headers/token`.
-                public var token: Swift.String?
-                /// Creates a new `Headers`.
+        public struct RegisterRunnerResponse: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/RegisterRunnerResponse/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/RegisterRunnerResponse/content/application\/json`.
+                case json(Components.Schemas.RegisterRunnerResponse)
+                /// The associated value of the enum case if `self` is `.json`.
                 ///
-                /// - Parameters:
-                ///   - token:
-                public init(token: Swift.String? = nil) {
-                    self.token = token
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.RegisterRunnerResponse {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/RegisterRunnerResponse/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
                 }
             }
-            /// Received HTTP response headers
-            public var headers: Components.Responses.RegistrationToken.Headers
+            /// Received HTTP response body
+            public var body: Components.Responses.RegisterRunnerResponse.Body
+            /// Creates a new `RegisterRunnerResponse`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.RegisterRunnerResponse.Body) {
+                self.body = body
+            }
+        }
+        public struct RegistrationToken: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/RegistrationToken/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/RegistrationToken/content/application\/json`.
+                case json(Components.Schemas.RegistrationToken)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.RegistrationToken {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/RegistrationToken/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.RegistrationToken.Body
             /// Creates a new `RegistrationToken`.
             ///
             /// - Parameters:
-            ///   - headers: Received HTTP response headers
-            public init(headers: Components.Responses.RegistrationToken.Headers = .init()) {
-                self.headers = headers
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.RegistrationToken.Body) {
+                self.body = body
             }
         }
         public struct Release: Sendable, Hashable {
@@ -25976,6 +28564,22 @@ public enum Components {
             }
         }
         public struct ReleaseList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/ReleaseList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of releases
+                ///
+                /// - Remark: Generated from `#/components/responses/ReleaseList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of releases
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.ReleaseList.Headers
             /// - Remark: Generated from `#/components/responses/ReleaseList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/ReleaseList/content/application\/json`.
@@ -26022,8 +28626,13 @@ public enum Components {
             /// Creates a new `ReleaseList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.ReleaseList.Body) {
+            public init(
+                headers: Components.Responses.ReleaseList.Headers = .init(),
+                body: Components.Responses.ReleaseList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -26288,6 +28897,22 @@ public enum Components {
             }
         }
         public struct RepositoryList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/RepositoryList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of repositories
+                ///
+                /// - Remark: Generated from `#/components/responses/RepositoryList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of repositories
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.RepositoryList.Headers
             /// - Remark: Generated from `#/components/responses/RepositoryList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/RepositoryList/content/application\/json`.
@@ -26334,8 +28959,65 @@ public enum Components {
             /// Creates a new `RepositoryList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.RepositoryList.Body) {
+            public init(
+                headers: Components.Responses.RepositoryList.Headers = .init(),
+                body: Components.Responses.RepositoryList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct RepositoryListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/RepositoryListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/RepositoryListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Repository])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Repository] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/RepositoryListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.RepositoryListWithoutPagination.Body
+            /// Creates a new `RepositoryListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.RepositoryListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -26496,6 +29178,22 @@ public enum Components {
             }
         }
         public struct SecretList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/SecretList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of secrets
+                ///
+                /// - Remark: Generated from `#/components/responses/SecretList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of secrets
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.SecretList.Headers
             /// - Remark: Generated from `#/components/responses/SecretList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/SecretList/content/application\/json`.
@@ -26542,8 +29240,13 @@ public enum Components {
             /// Creates a new `SecretList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.SecretList.Body) {
+            public init(
+                headers: Components.Responses.SecretList.Headers = .init(),
+                body: Components.Responses.SecretList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -26652,6 +29355,22 @@ public enum Components {
             }
         }
         public struct StopWatchList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/StopWatchList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of stop watches
+                ///
+                /// - Remark: Generated from `#/components/responses/StopWatchList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of stop watches
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.StopWatchList.Headers
             /// - Remark: Generated from `#/components/responses/StopWatchList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/StopWatchList/content/application\/json`.
@@ -26698,8 +29417,13 @@ public enum Components {
             /// Creates a new `StopWatchList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.StopWatchList.Body) {
+            public init(
+                headers: Components.Responses.StopWatchList.Headers = .init(),
+                body: Components.Responses.StopWatchList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -26752,6 +29476,58 @@ public enum Components {
             /// - Parameters:
             ///   - body: Received HTTP response body
             public init(body: Components.Responses.StringSlice.Body) {
+                self.body = body
+            }
+        }
+        public struct SyncForkInfo: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/SyncForkInfo/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/SyncForkInfo/content/application\/json`.
+                case json(Components.Schemas.SyncForkInfo)
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: Components.Schemas.SyncForkInfo {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/SyncForkInfo/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.SyncForkInfo.Body
+            /// Creates a new `SyncForkInfo`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.SyncForkInfo.Body) {
                 self.body = body
             }
         }
@@ -26808,6 +29584,22 @@ public enum Components {
             }
         }
         public struct TagList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TagList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of tags
+                ///
+                /// - Remark: Generated from `#/components/responses/TagList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of tags
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.TagList.Headers
             /// - Remark: Generated from `#/components/responses/TagList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/TagList/content/application\/json`.
@@ -26854,8 +29646,13 @@ public enum Components {
             /// Creates a new `TagList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.TagList.Body) {
+            public init(
+                headers: Components.Responses.TagList.Headers = .init(),
+                body: Components.Responses.TagList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -27068,6 +29865,22 @@ public enum Components {
             }
         }
         public struct TeamList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TeamList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of teams
+                ///
+                /// - Remark: Generated from `#/components/responses/TeamList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of teams
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.TeamList.Headers
             /// - Remark: Generated from `#/components/responses/TeamList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/TeamList/content/application\/json`.
@@ -27114,12 +29927,85 @@ public enum Components {
             /// Creates a new `TeamList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.TeamList.Body) {
+            public init(
+                headers: Components.Responses.TeamList.Headers = .init(),
+                body: Components.Responses.TeamList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct TeamListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TeamListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/TeamListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.Team])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.Team] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/TeamListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.TeamListWithoutPagination.Body
+            /// Creates a new `TeamListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.TeamListWithoutPagination.Body) {
                 self.body = body
             }
         }
         public struct TimelineList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TimelineList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of timeline comments
+                ///
+                /// - Remark: Generated from `#/components/responses/TimelineList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of timeline comments
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.TimelineList.Headers
             /// - Remark: Generated from `#/components/responses/TimelineList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/TimelineList/content/application\/json`.
@@ -27166,8 +30052,13 @@ public enum Components {
             /// Creates a new `TimelineList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.TimelineList.Body) {
+            public init(
+                headers: Components.Responses.TimelineList.Headers = .init(),
+                body: Components.Responses.TimelineList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -27328,6 +30219,22 @@ public enum Components {
             }
         }
         public struct TrackedTimeList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TrackedTimeList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of tracked times
+                ///
+                /// - Remark: Generated from `#/components/responses/TrackedTimeList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of tracked times
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.TrackedTimeList.Headers
             /// - Remark: Generated from `#/components/responses/TrackedTimeList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/TrackedTimeList/content/application\/json`.
@@ -27374,8 +30281,65 @@ public enum Components {
             /// Creates a new `TrackedTimeList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.TrackedTimeList.Body) {
+            public init(
+                headers: Components.Responses.TrackedTimeList.Headers = .init(),
+                body: Components.Responses.TrackedTimeList.Body
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        public struct TrackedTimeListWithoutPagination: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/TrackedTimeListWithoutPagination/content`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/components/responses/TrackedTimeListWithoutPagination/content/application\/json`.
+                case json([Components.Schemas.TrackedTime])
+                /// The associated value of the enum case if `self` is `.json`.
+                ///
+                /// - Throws: An error if `self` is not `.json`.
+                /// - SeeAlso: `.json`.
+                public var json: [Components.Schemas.TrackedTime] {
+                    get throws {
+                        switch self {
+                        case let .json(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "application/json",
+                                body: self
+                            )
+                        }
+                    }
+                }
+                /// - Remark: Generated from `#/components/responses/TrackedTimeListWithoutPagination/content/text\/html`.
+                case html(OpenAPIRuntime.HTTPBody)
+                /// The associated value of the enum case if `self` is `.html`.
+                ///
+                /// - Throws: An error if `self` is not `.html`.
+                /// - SeeAlso: `.html`.
+                public var html: OpenAPIRuntime.HTTPBody {
+                    get throws {
+                        switch self {
+                        case let .html(body):
+                            return body
+                        default:
+                            try throwUnexpectedResponseBody(
+                                expectedContent: "text/html",
+                                body: self
+                            )
+                        }
+                    }
+                }
+            }
+            /// Received HTTP response body
+            public var body: Components.Responses.TrackedTimeListWithoutPagination.Body
+            /// Creates a new `TrackedTimeListWithoutPagination`.
+            ///
+            /// - Parameters:
+            ///   - body: Received HTTP response body
+            public init(body: Components.Responses.TrackedTimeListWithoutPagination.Body) {
                 self.body = body
             }
         }
@@ -27588,6 +30552,22 @@ public enum Components {
             }
         }
         public struct VariableList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/VariableList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of variables
+                ///
+                /// - Remark: Generated from `#/components/responses/VariableList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of variables
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.VariableList.Headers
             /// - Remark: Generated from `#/components/responses/VariableList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/VariableList/content/application\/json`.
@@ -27634,8 +30614,13 @@ public enum Components {
             /// Creates a new `VariableList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.VariableList.Body) {
+            public init(
+                headers: Components.Responses.VariableList.Headers = .init(),
+                body: Components.Responses.VariableList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -27692,6 +30677,22 @@ public enum Components {
             }
         }
         public struct WikiCommitList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/WikiCommitList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of wiki commits
+                ///
+                /// - Remark: Generated from `#/components/responses/WikiCommitList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of wiki commits
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.WikiCommitList.Headers
             /// - Remark: Generated from `#/components/responses/WikiCommitList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/WikiCommitList/content/application\/json`.
@@ -27738,8 +30739,13 @@ public enum Components {
             /// Creates a new `WikiCommitList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.WikiCommitList.Body) {
+            public init(
+                headers: Components.Responses.WikiCommitList.Headers = .init(),
+                body: Components.Responses.WikiCommitList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -27796,6 +30802,22 @@ public enum Components {
             }
         }
         public struct WikiPageList: Sendable, Hashable {
+            /// - Remark: Generated from `#/components/responses/WikiPageList/headers`.
+            public struct Headers: Sendable, Hashable {
+                /// The total number of wiki pages
+                ///
+                /// - Remark: Generated from `#/components/responses/WikiPageList/headers/X-Total-Count`.
+                public var xTotalCount: Swift.Int64?
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - xTotalCount: The total number of wiki pages
+                public init(xTotalCount: Swift.Int64? = nil) {
+                    self.xTotalCount = xTotalCount
+                }
+            }
+            /// Received HTTP response headers
+            public var headers: Components.Responses.WikiPageList.Headers
             /// - Remark: Generated from `#/components/responses/WikiPageList/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/WikiPageList/content/application\/json`.
@@ -27842,8 +30864,13 @@ public enum Components {
             /// Creates a new `WikiPageList`.
             ///
             /// - Parameters:
+            ///   - headers: Received HTTP response headers
             ///   - body: Received HTTP response body
-            public init(body: Components.Responses.WikiPageList.Body) {
+            public init(
+                headers: Components.Responses.WikiPageList.Headers = .init(),
+                body: Components.Responses.WikiPageList.Body
+            ) {
+                self.headers = headers
                 self.body = body
             }
         }
@@ -28123,12 +31150,12 @@ public enum Components {
             /// - Remark: Generated from `#/components/responses/parameterBodies/content`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/components/responses/parameterBodies/content/application\/json`.
-                case json(Components.Schemas.NoteOptions)
+                case json(Components.Schemas.RegisterRunnerOptions)
                 /// The associated value of the enum case if `self` is `.json`.
                 ///
                 /// - Throws: An error if `self` is not `.json`.
                 /// - SeeAlso: `.json`.
-                public var json: Components.Schemas.NoteOptions {
+                public var json: Components.Schemas.RegisterRunnerOptions {
                     get throws {
                         switch self {
                         case let .json(body):
@@ -28561,6 +31588,94 @@ public enum Operations {
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
         }
     }
+    /// Display the outbox (always empty)
+    ///
+    /// - Remark: HTTP `POST /activitypub/actor/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/actor/outbox/post(activitypubInstanceActorOutbox)`.
+    public enum ActivitypubInstanceActorOutbox {
+        public static let id: Swift.String = "activitypubInstanceActorOutbox"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/activitypub/actor/outbox/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubInstanceActorOutbox.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubInstanceActorOutbox.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActivitypubInstanceActorOutbox.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            public init(headers: Operations.ActivitypubInstanceActorOutbox.Input.Headers = .init()) {
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// Outbox
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/actor/outbox/post(activitypubInstanceActorOutbox)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.Outbox)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.Outbox {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Returns the Repository actor for a repo
     ///
     /// - Remark: HTTP `GET /activitypub/repository-id/{repository-id}`.
@@ -28573,12 +31688,12 @@ public enum Operations {
                 /// repository ID of the repo
                 ///
                 /// - Remark: Generated from `#/paths/activitypub/repository-id/{repository-id}/GET/path/repository-id`.
-                public var repositoryId: Swift.Int
+                public var repositoryId: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - repositoryId: repository ID of the repo
-                public init(repositoryId: Swift.Int) {
+                public init(repositoryId: Swift.Int64) {
                     self.repositoryId = repositoryId
                 }
             }
@@ -28681,12 +31796,12 @@ public enum Operations {
                 /// repository ID of the repo
                 ///
                 /// - Remark: Generated from `#/paths/activitypub/repository-id/{repository-id}/inbox/POST/path/repository-id`.
-                public var repositoryId: Swift.Int
+                public var repositoryId: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - repositoryId: repository ID of the repo
-                public init(repositoryId: Swift.Int) {
+                public init(repositoryId: Swift.Int64) {
                     self.repositoryId = repositoryId
                 }
             }
@@ -28750,6 +31865,114 @@ public enum Operations {
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
         }
     }
+    /// Display the outbox
+    ///
+    /// - Remark: HTTP `POST /activitypub/repository-id/{repository-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/repository-id/{repository-id}/outbox/post(activitypubRepositoryOutbox)`.
+    public enum ActivitypubRepositoryOutbox {
+        public static let id: Swift.String = "activitypubRepositoryOutbox"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/activitypub/repository-id/{repository-id}/outbox/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// repository ID of the repo
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/repository-id/{repository-id}/outbox/POST/path/repository-id`.
+                public var repositoryId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - repositoryId: repository ID of the repo
+                public init(repositoryId: Swift.Int64) {
+                    self.repositoryId = repositoryId
+                }
+            }
+            public var path: Operations.ActivitypubRepositoryOutbox.Input.Path
+            /// - Remark: Generated from `#/paths/activitypub/repository-id/{repository-id}/outbox/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubRepositoryOutbox.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubRepositoryOutbox.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActivitypubRepositoryOutbox.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.ActivitypubRepositoryOutbox.Input.Path,
+                headers: Operations.ActivitypubRepositoryOutbox.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// Outbox
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/repository-id/{repository-id}/outbox/post(activitypubRepositoryOutbox)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.Outbox)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.Outbox {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Returns the Person actor for a user
     ///
     /// - Remark: HTTP `GET /activitypub/user-id/{user-id}`.
@@ -28762,12 +31985,12 @@ public enum Operations {
                 /// user ID of the user
                 ///
                 /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/GET/path/user-id`.
-                public var userId: Swift.Int
+                public var userId: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - userId: user ID of the user
-                public init(userId: Swift.Int) {
+                public init(userId: Swift.Int64) {
                     self.userId = userId
                 }
             }
@@ -28858,6 +32081,240 @@ public enum Operations {
             }
         }
     }
+    /// Get a specific activity object of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/get(activitypubPersonActivityNote)`.
+    public enum ActivitypubPersonActivityNote {
+        public static let id: Swift.String = "activitypubPersonActivityNote"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// user ID of the user
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/GET/path/user-id`.
+                public var userId: Swift.Int
+                /// activity ID of the sought activity
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/GET/path/activity-id`.
+                public var activityId: Swift.Int
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - userId: user ID of the user
+                ///   - activityId: activity ID of the sought activity
+                public init(
+                    userId: Swift.Int,
+                    activityId: Swift.Int
+                ) {
+                    self.userId = userId
+                    self.activityId = activityId
+                }
+            }
+            public var path: Operations.ActivitypubPersonActivityNote.Input.Path
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonActivityNote.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonActivityNote.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActivitypubPersonActivityNote.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.ActivitypubPersonActivityNote.Input.Path,
+                headers: Operations.ActivitypubPersonActivityNote.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActivityPub
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/get(activitypubPersonActivityNote)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActivityPub)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActivityPub {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get a specific activity of the user
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/activities/{activity-id}/activity`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/activity/get(activitypubPersonActivity)`.
+    public enum ActivitypubPersonActivity {
+        public static let id: Swift.String = "activitypubPersonActivity"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/activity/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// user ID of the user
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/activity/GET/path/user-id`.
+                public var userId: Swift.Int
+                /// activity ID of the sought activity
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/activity/GET/path/activity-id`.
+                public var activityId: Swift.Int
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - userId: user ID of the user
+                ///   - activityId: activity ID of the sought activity
+                public init(
+                    userId: Swift.Int,
+                    activityId: Swift.Int
+                ) {
+                    self.userId = userId
+                    self.activityId = activityId
+                }
+            }
+            public var path: Operations.ActivitypubPersonActivity.Input.Path
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/activities/{activity-id}/activity/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonActivity.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonActivity.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActivitypubPersonActivity.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.ActivitypubPersonActivity.Input.Path,
+                headers: Operations.ActivitypubPersonActivity.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActivityPub
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/activities/{activity-id}/activity/get(activitypubPersonActivity)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActivityPub)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActivityPub {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Send to the inbox
     ///
     /// - Remark: HTTP `POST /activitypub/user-id/{user-id}/inbox`.
@@ -28870,12 +32327,12 @@ public enum Operations {
                 /// user ID of the user
                 ///
                 /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/inbox/POST/path/user-id`.
-                public var userId: Swift.Int
+                public var userId: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - userId: user ID of the user
-                public init(userId: Swift.Int) {
+                public init(userId: Swift.Int64) {
                     self.userId = userId
                 }
             }
@@ -28891,13 +32348,947 @@ public enum Operations {
         @frozen public enum Output: Sendable, Hashable {
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)/responses/204`.
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)/responses/202`.
             ///
-            /// HTTP response code: `204 noContent`.
-            case noContent(Components.Responses.Empty)
+            /// HTTP response code: `202 accepted`.
+            case accepted(Components.Responses.Empty)
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)/responses/204`.
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/inbox/post(activitypubPersonInbox)/responses/202`.
+            ///
+            /// HTTP response code: `202 accepted`.
+            public static var accepted: Self {
+                .accepted(.init())
+            }
+            /// The associated value of the enum case if `self` is `.accepted`.
+            ///
+            /// - Throws: An error if `self` is not `.accepted`.
+            /// - SeeAlso: `.accepted`.
+            public var accepted: Components.Responses.Empty {
+                get throws {
+                    switch self {
+                    case let .accepted(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "accepted",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+    }
+    /// List the user's recorded activity
+    ///
+    /// - Remark: HTTP `GET /activitypub/user-id/{user-id}/outbox`.
+    /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/outbox/get(activitypubPersonFeed)`.
+    public enum ActivitypubPersonFeed {
+        public static let id: Swift.String = "activitypubPersonFeed"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/outbox/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// user ID of the user
+                ///
+                /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/outbox/GET/path/user-id`.
+                public var userId: Swift.Int
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - userId: user ID of the user
+                public init(userId: Swift.Int) {
+                    self.userId = userId
+                }
+            }
+            public var path: Operations.ActivitypubPersonFeed.Input.Path
+            /// - Remark: Generated from `#/paths/activitypub/user-id/{user-id}/outbox/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonFeed.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActivitypubPersonFeed.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActivitypubPersonFeed.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.ActivitypubPersonFeed.Input.Path,
+                headers: Operations.ActivitypubPersonFeed.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// Outbox
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/outbox/get(activitypubPersonFeed)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.Outbox)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.Outbox {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//activitypub/user-id/{user-id}/outbox/get(activitypubPersonFeed)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get all runners, no matter whether they are global runners or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)`.
+    public enum GetAdminRunners {
+        public static let id: Swift.String = "getAdminRunners"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// whether to include all visible runners (true) or only those that are directly owned by the instance (false)
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/GET/query/visible`.
+                public var visible: Swift.Bool?
+                /// page number of results to return (1-based)
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/GET/query/page`.
+                public var page: Swift.Int?
+                /// page size of results
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/GET/query/limit`.
+                public var limit: Swift.Int?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - visible: whether to include all visible runners (true) or only those that are directly owned by the instance (false)
+                ///   - page: page number of results to return (1-based)
+                ///   - limit: page size of results
+                public init(
+                    visible: Swift.Bool? = nil,
+                    page: Swift.Int? = nil,
+                    limit: Swift.Int? = nil
+                ) {
+                    self.visible = visible
+                    self.page = page
+                    self.limit = limit
+                }
+            }
+            public var query: Operations.GetAdminRunners.Input.Query
+            /// - Remark: Generated from `#/paths/admin/actions/runners/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetAdminRunners.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetAdminRunners.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetAdminRunners.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            public init(
+                query: Operations.GetAdminRunners.Input.Query = .init(),
+                headers: Operations.GetAdminRunners.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunnerList is a list of Forgejo Action runners
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunnerList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunnerList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/get(getAdminRunners)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Register a new global runner
+    ///
+    /// - Remark: HTTP `POST /admin/actions/runners`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)`.
+    public enum RegisterAdminRunner {
+        public static let id: Swift.String = "registerAdminRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterAdminRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterAdminRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RegisterAdminRunner.Input.Headers
+            /// - Remark: Generated from `#/paths/admin/actions/runners/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/admin/actions/runners/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.RegisterRunnerOptions)
+            }
+            public var body: Operations.RegisterAdminRunner.Input.Body?
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            ///   - body:
+            public init(
+                headers: Operations.RegisterAdminRunner.Input.Headers = .init(),
+                body: Operations.RegisterAdminRunner.Input.Body? = nil
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RegisterRunnerResponse contains the details of the just registered runner.
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)/responses/201`.
+            ///
+            /// HTTP response code: `201 created`.
+            case created(Components.Responses.RegisterRunnerResponse)
+            /// The associated value of the enum case if `self` is `.created`.
+            ///
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Components.Responses.RegisterRunnerResponse {
+                get throws {
+                    switch self {
+                    case let .created(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/post(registerAdminRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get action run jobs
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/jobs`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/jobs/get(adminGetActionRunJobs)`.
+    public enum AdminGetActionRunJobs {
+        public static let id: Swift.String = "adminGetActionRunJobs"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/jobs/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// a comma separated list of labels to search for
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/jobs/GET/query/labels`.
+                public var labels: Swift.String?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - labels: a comma separated list of labels to search for
+                public init(labels: Swift.String? = nil) {
+                    self.labels = labels
+                }
+            }
+            public var query: Operations.AdminGetActionRunJobs.Input.Query
+            /// - Remark: Generated from `#/paths/admin/actions/runners/jobs/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetActionRunJobs.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetActionRunJobs.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.AdminGetActionRunJobs.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            public init(
+                query: Operations.AdminGetActionRunJobs.Input.Query = .init(),
+                headers: Operations.AdminGetActionRunJobs.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RunJobList is a list of action run jobs
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/jobs/get(adminGetActionRunJobs)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.RunJobList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.RunJobList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/jobs/get(adminGetActionRunJobs)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/registration-token`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
+    public enum AdminGetRunnerRegistrationToken {
+        public static let id: Swift.String = "adminGetRunnerRegistrationToken"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/registration-token/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetRunnerRegistrationToken.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetRunnerRegistrationToken.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.AdminGetRunnerRegistrationToken.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            public init(headers: Operations.AdminGetRunnerRegistrationToken.Input.Headers = .init()) {
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RegistrationToken is a string used to register a runner with a server
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/registration-token/get(adminGetRunnerRegistrationToken)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.RegistrationToken)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.RegistrationToken {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `GET /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)`.
+    public enum GetAdminRunner {
+        public static let id: Swift.String = "getAdminRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/GET/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - runnerId: ID of the runner
+                public init(runnerId: Swift.String) {
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.GetAdminRunner.Input.Path
+            /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetAdminRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetAdminRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetAdminRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.GetAdminRunner.Input.Path,
+                headers: Operations.GetAdminRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunner represents a runner
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunner)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunner {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/get(getAdminRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Delete a particular runner, no matter whether it is a global runner or scoped to an organization, user, or repository
+    ///
+    /// - Remark: HTTP `DELETE /admin/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)`.
+    public enum DeleteAdminRunner {
+        public static let id: Swift.String = "deleteAdminRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/DELETE/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - runnerId: ID of the runner
+                public init(runnerId: Swift.String) {
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.DeleteAdminRunner.Input.Path
+            /// - Remark: Generated from `#/paths/admin/actions/runners/{runner_id}/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteAdminRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteAdminRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.DeleteAdminRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.DeleteAdminRunner.Input.Path,
+                headers: Operations.DeleteAdminRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// Creates a new `NoContent`.
+                public init() {}
+            }
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.DeleteAdminRunner.Output.NoContent)
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             public static var noContent: Self {
@@ -28907,7 +33298,7 @@ public enum Operations {
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Components.Responses.Empty {
+            public var noContent: Operations.DeleteAdminRunner.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -28920,10 +33311,87 @@ public enum Operations {
                     }
                 }
             }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/actions/runners/{runner_id}/delete(deleteAdminRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// Undocumented response.
             ///
             /// A response with a code that is not documented in the OpenAPI document.
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
         }
     }
     /// List cron tasks
@@ -29205,7 +33673,7 @@ public enum Operations {
             }
         }
     }
-    /// List all emails
+    /// List all users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails`.
     /// - Remark: Generated from `#/paths//admin/emails/get(adminGetAllEmails)`.
@@ -29345,7 +33813,7 @@ public enum Operations {
             }
         }
     }
-    /// Search all emails
+    /// Search users' email addresses
     ///
     /// - Remark: HTTP `GET /admin/emails/search`.
     /// - Remark: Generated from `#/paths//admin/emails/search/get(adminSearchEmails)`.
@@ -29492,7 +33960,7 @@ public enum Operations {
             }
         }
     }
-    /// List system's webhooks
+    /// List global (system) webhooks
     ///
     /// - Remark: HTTP `GET /admin/hooks`.
     /// - Remark: Generated from `#/paths//admin/hooks/get(adminListHooks)`.
@@ -29549,17 +34017,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// HookList
+            /// HookListWithoutPagination - Hooks without pagination headers
             ///
             /// - Remark: Generated from `#/paths//admin/hooks/get(adminListHooks)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.HookList)
+            case ok(Components.Responses.HookListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.HookList {
+            public var ok: Components.Responses.HookListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -32547,9 +37015,9 @@ public enum Operations {
     /// Deletes a quota rule
     ///
     /// - Remark: HTTP `DELETE /admin/quota/rules/{quotarule}`.
-    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)`.
-    public enum AdminDEleteQuotaRule {
-        public static let id: Swift.String = "adminDEleteQuotaRule"
+    /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)`.
+    public enum AdminDeleteQuotaRule {
+        public static let id: Swift.String = "adminDeleteQuotaRule"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/admin/quota/rules/{quotarule}/DELETE/path`.
             public struct Path: Sendable, Hashable {
@@ -32565,27 +37033,27 @@ public enum Operations {
                     self.quotarule = quotarule
                 }
             }
-            public var path: Operations.AdminDEleteQuotaRule.Input.Path
+            public var path: Operations.AdminDeleteQuotaRule.Input.Path
             /// - Remark: Generated from `#/paths/admin/quota/rules/{quotarule}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDEleteQuotaRule.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDeleteQuotaRule.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDEleteQuotaRule.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDeleteQuotaRule.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.AdminDEleteQuotaRule.Input.Headers
+            public var headers: Operations.AdminDeleteQuotaRule.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.AdminDEleteQuotaRule.Input.Path,
-                headers: Operations.AdminDEleteQuotaRule.Input.Headers = .init()
+                path: Operations.AdminDeleteQuotaRule.Input.Path,
+                headers: Operations.AdminDeleteQuotaRule.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -32594,13 +37062,13 @@ public enum Operations {
         @frozen public enum Output: Sendable, Hashable {
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)/responses/204`.
+            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             case noContent(Components.Responses.Empty)
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)/responses/204`.
+            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             public static var noContent: Self {
@@ -32625,7 +37093,7 @@ public enum Operations {
             }
             /// APIError is error format response
             ///
-            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)/responses/400`.
+            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)/responses/400`.
             ///
             /// HTTP response code: `400 badRequest`.
             case badRequest(Components.Responses._Error)
@@ -32648,7 +37116,7 @@ public enum Operations {
             }
             /// APIForbiddenError is a forbidden error response
             ///
-            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)/responses/403`.
+            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
             case forbidden(Components.Responses.Forbidden)
@@ -32671,7 +37139,7 @@ public enum Operations {
             }
             /// APINotFound is a not found error response
             ///
-            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDEleteQuotaRule)/responses/404`.
+            /// - Remark: Generated from `#/paths//admin/quota/rules/{quotarule}/delete(adminDeleteQuotaRule)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
             case notFound(Components.Responses.NotFound)
@@ -32729,7 +37197,10 @@ public enum Operations {
             }
         }
     }
-    /// Search action jobs according filter conditions
+    /// Search action jobs according to filter conditions
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use [`/admin/actions/runners/jobs`](#/admin/adminGetActionRunJobs) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/jobs`.
     /// - Remark: Generated from `#/paths//admin/runners/jobs/get(adminSearchRunJobs)`.
@@ -32860,20 +37331,40 @@ public enum Operations {
             }
         }
     }
-    /// Get an global actions runner registration token
+    /// Get a runner registration token for registering global runners
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/admin/actions/runners`](#/admin/registerAdminRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /admin/runners/registration-token`.
-    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRunnerRegistrationToken)`.
-    public enum AdminGetRunnerRegistrationToken {
-        public static let id: Swift.String = "adminGetRunnerRegistrationToken"
+    /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRegistrationToken)`.
+    public enum AdminGetRegistrationToken {
+        public static let id: Swift.String = "adminGetRegistrationToken"
         public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/runners/registration-token/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetRegistrationToken.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminGetRegistrationToken.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.AdminGetRegistrationToken.Input.Headers
             /// Creates a new `Input`.
-            public init() {}
+            ///
+            /// - Parameters:
+            ///   - headers:
+            public init(headers: Operations.AdminGetRegistrationToken.Input.Headers = .init()) {
+                self.headers = headers
+            }
         }
         @frozen public enum Output: Sendable, Hashable {
             /// RegistrationToken is a string used to register a runner with a server
             ///
-            /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRunnerRegistrationToken)/responses/200`.
+            /// - Remark: Generated from `#/paths//admin/runners/registration-token/get(adminGetRegistrationToken)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
             case ok(Components.Responses.RegistrationToken)
@@ -32898,6 +37389,37 @@ public enum Operations {
             ///
             /// A response with a code that is not documented in the OpenAPI document.
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
         }
     }
     /// List unadopted repositories
@@ -33536,7 +38058,7 @@ public enum Operations {
             }
         }
     }
-    /// Create a user
+    /// Create a user account
     ///
     /// - Remark: HTTP `POST /admin/users`.
     /// - Remark: Generated from `#/paths//admin/users/post(adminCreateUser)`.
@@ -33890,7 +38412,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete a user
+    /// Delete user account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/delete(adminDeleteUser)`.
@@ -34093,7 +38615,334 @@ public enum Operations {
             }
         }
     }
-    /// Add a public key on behalf of a user
+    /// List all email addresses for a user
+    ///
+    /// - Remark: HTTP `GET /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)`.
+    public enum AdminListUserEmails {
+        public static let id: Swift.String = "adminListUserEmails"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/users/{username}/emails/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// username of user to get email addresses of
+                ///
+                /// - Remark: Generated from `#/paths/admin/users/{username}/emails/GET/path/username`.
+                public var username: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - username: username of user to get email addresses of
+                public init(username: Swift.String) {
+                    self.username = username
+                }
+            }
+            public var path: Operations.AdminListUserEmails.Input.Path
+            /// - Remark: Generated from `#/paths/admin/users/{username}/emails/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminListUserEmails.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminListUserEmails.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.AdminListUserEmails.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.AdminListUserEmails.Input.Path,
+                headers: Operations.AdminListUserEmails.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// EmailList
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.EmailList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.EmailList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/get(adminListUserEmails)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Delete email addresses from a user's account
+    ///
+    /// - Remark: HTTP `DELETE /admin/users/{username}/emails`.
+    /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)`.
+    public enum AdminDeleteUserEmails {
+        public static let id: Swift.String = "adminDeleteUserEmails"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// username of user to delete email addresses from
+                ///
+                /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/path/username`.
+                public var username: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - username: username of user to delete email addresses from
+                public init(username: Swift.String) {
+                    self.username = username
+                }
+            }
+            public var path: Operations.AdminDeleteUserEmails.Input.Path
+            /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDeleteUserEmails.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.AdminDeleteUserEmails.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.AdminDeleteUserEmails.Input.Headers
+            /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/requestBody/content/application\/json`.
+                case json(Components.Schemas.DeleteEmailOption)
+                /// - Remark: Generated from `#/paths/admin/users/{username}/emails/DELETE/requestBody/content/text\/plain`.
+                case plainText(OpenAPIRuntime.HTTPBody)
+            }
+            public var body: Operations.AdminDeleteUserEmails.Input.Body?
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.AdminDeleteUserEmails.Input.Path,
+                headers: Operations.AdminDeleteUserEmails.Input.Headers = .init(),
+                body: Operations.AdminDeleteUserEmails.Input.Body? = nil
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Components.Responses.Empty)
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Components.Responses.Empty {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIValidationError is error format response related to input validation
+            ///
+            /// - Remark: Generated from `#/paths//admin/users/{username}/emails/delete(adminDeleteUserEmails)/responses/422`.
+            ///
+            /// HTTP response code: `422 unprocessableContent`.
+            case unprocessableContent(Components.Responses.ValidationError)
+            /// The associated value of the enum case if `self` is `.unprocessableContent`.
+            ///
+            /// - Throws: An error if `self` is not `.unprocessableContent`.
+            /// - SeeAlso: `.unprocessableContent`.
+            public var unprocessableContent: Components.Responses.ValidationError {
+                get throws {
+                    switch self {
+                    case let .unprocessableContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unprocessableContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Add an SSH public key to user's account
     ///
     /// - Remark: HTTP `POST /admin/users/{username}/keys`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/post(adminCreatePublicKey)`.
@@ -34256,7 +39105,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete a user's public key
+    /// Remove a public key from user's account
     ///
     /// - Remark: HTTP `DELETE /admin/users/{username}/keys/{id}`.
     /// - Remark: Generated from `#/paths//admin/users/{username}/keys/{id}/delete(adminDeleteUserPublicKey)`.
@@ -36546,7 +41395,6 @@ public enum Operations {
                 @frozen public enum SubjectTypePayloadPayload: String, Codable, Hashable, Sendable, CaseIterable {
                     case issue = "issue"
                     case pull = "pull"
-                    case commit = "commit"
                     case repository = "repository"
                 }
                 /// - Remark: Generated from `#/paths/notifications/GET/query/subject-type`.
@@ -36702,7 +41550,7 @@ public enum Operations {
                 /// If true, mark all notifications on this repo. Default value is false
                 ///
                 /// - Remark: Generated from `#/paths/notifications/PUT/query/all`.
-                public var all: Swift.String?
+                public var all: Swift.Bool?
                 /// Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread.
                 ///
                 /// - Remark: Generated from `#/paths/notifications/PUT/query/status-types`.
@@ -36720,7 +41568,7 @@ public enum Operations {
                 ///   - toStatus: Status to mark notifications as, Defaults to read.
                 public init(
                     lastReadAt: Foundation.Date? = nil,
-                    all: Swift.String? = nil,
+                    all: Swift.Bool? = nil,
                     statusTypes: [Swift.String]? = nil,
                     toStatus: Swift.String? = nil
                 ) {
@@ -36757,17 +41605,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// NotificationThreadList
+            /// NotificationThreadListWithoutPagination - Notification threads without pagination headers
             ///
             /// - Remark: Generated from `#/paths//notifications/put(notifyReadList)/responses/205`.
             ///
             /// HTTP response code: `205 resetContent`.
-            case resetContent(Components.Responses.NotificationThreadList)
+            case resetContent(Components.Responses.NotificationThreadListWithoutPagination)
             /// The associated value of the enum case if `self` is `.resetContent`.
             ///
             /// - Throws: An error if `self` is not `.resetContent`.
             /// - SeeAlso: `.resetContent`.
-            public var resetContent: Components.Responses.NotificationThreadList {
+            public var resetContent: Components.Responses.NotificationThreadListWithoutPagination {
                 get throws {
                     switch self {
                     case let .resetContent(response):
@@ -36917,12 +41765,12 @@ public enum Operations {
                 /// id of notification thread
                 ///
                 /// - Remark: Generated from `#/paths/notifications/threads/{id}/GET/path/id`.
-                public var id: Swift.String
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - id: id of notification thread
-                public init(id: Swift.String) {
+                public init(id: Swift.Int64) {
                     self.id = id
                 }
             }
@@ -37071,12 +41919,12 @@ public enum Operations {
                 /// id of notification thread
                 ///
                 /// - Remark: Generated from `#/paths/notifications/threads/{id}/PATCH/path/id`.
-                public var id: Swift.String
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - id: id of notification thread
-                public init(id: Swift.String) {
+                public init(id: Swift.Int64) {
                     self.id = id
                 }
             }
@@ -37417,7 +42265,7 @@ public enum Operations {
             }
         }
     }
-    /// Get list of organizations
+    /// List all organizations
     ///
     /// - Remark: HTTP `GET /orgs`.
     /// - Remark: Generated from `#/paths//orgs/get(orgGetAll)`.
@@ -38112,6 +42960,380 @@ public enum Operations {
             }
         }
     }
+    /// Get the organization's runners
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)`.
+    public enum GetOrgRunners {
+        public static let id: Swift.String = "getOrgRunners"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// name of the organization
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/path/org`.
+                public var org: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - org: name of the organization
+                public init(org: Swift.String) {
+                    self.org = org
+                }
+            }
+            public var path: Operations.GetOrgRunners.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// whether to include all visible runners (true) or only those that are directly owned by the organization (false)
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/query/visible`.
+                public var visible: Swift.Bool?
+                /// page number of results to return (1-based)
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/query/page`.
+                public var page: Swift.Int?
+                /// page size of results
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/query/limit`.
+                public var limit: Swift.Int?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - visible: whether to include all visible runners (true) or only those that are directly owned by the organization (false)
+                ///   - page: page number of results to return (1-based)
+                ///   - limit: page size of results
+                public init(
+                    visible: Swift.Bool? = nil,
+                    page: Swift.Int? = nil,
+                    limit: Swift.Int? = nil
+                ) {
+                    self.visible = visible
+                    self.page = page
+                    self.limit = limit
+                }
+            }
+            public var query: Operations.GetOrgRunners.Input.Query
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetOrgRunners.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetOrgRunners.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetOrgRunners.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - query:
+            ///   - headers:
+            public init(
+                path: Operations.GetOrgRunners.Input.Path,
+                query: Operations.GetOrgRunners.Input.Query = .init(),
+                headers: Operations.GetOrgRunners.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunnerList is a list of Forgejo Action runners
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunnerList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunnerList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/get(getOrgRunners)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Register a new organization-level runner
+    ///
+    /// - Remark: HTTP `POST /orgs/{org}/actions/runners`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)`.
+    public enum RegisterOrgRunner {
+        public static let id: Swift.String = "registerOrgRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// name of the organization
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/POST/path/org`.
+                public var org: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - org: name of the organization
+                public init(org: Swift.String) {
+                    self.org = org
+                }
+            }
+            public var path: Operations.RegisterOrgRunner.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterOrgRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterOrgRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RegisterOrgRunner.Input.Headers
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.RegisterRunnerOptions)
+            }
+            public var body: Operations.RegisterOrgRunner.Input.Body?
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.RegisterOrgRunner.Input.Path,
+                headers: Operations.RegisterOrgRunner.Input.Headers = .init(),
+                body: Operations.RegisterOrgRunner.Input.Body? = nil
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RegisterRunnerResponse contains the details of the just registered runner.
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)/responses/201`.
+            ///
+            /// HTTP response code: `201 created`.
+            case created(Components.Responses.RegisterRunnerResponse)
+            /// The associated value of the enum case if `self` is `.created`.
+            ///
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Components.Responses.RegisterRunnerResponse {
+                get throws {
+                    switch self {
+                    case let .created(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/post(registerOrgRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Search for organization's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/jobs`.
@@ -38261,7 +43483,10 @@ public enum Operations {
             }
         }
     }
-    /// Get an organization's actions runner registration token
+    /// Get the organization's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/orgs/{org}/actions/runners`](#/organization/registerOrgRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/registration-token/get(orgGetRunnerRegistrationToken)`.
@@ -38283,12 +43508,29 @@ public enum Operations {
                 }
             }
             public var path: Operations.OrgGetRunnerRegistrationToken.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/registration-token/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.OrgGetRunnerRegistrationToken.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.OrgGetRunnerRegistrationToken.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.OrgGetRunnerRegistrationToken.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
-            public init(path: Operations.OrgGetRunnerRegistrationToken.Input.Path) {
+            ///   - headers:
+            public init(
+                path: Operations.OrgGetRunnerRegistrationToken.Input.Path,
+                headers: Operations.OrgGetRunnerRegistrationToken.Input.Headers = .init()
+            ) {
                 self.path = path
+                self.headers = headers
             }
         }
         @frozen public enum Output: Sendable, Hashable {
@@ -38320,8 +43562,377 @@ public enum Operations {
             /// A response with a code that is not documented in the OpenAPI document.
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
         }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
     }
-    /// List an organization's actions secrets
+    /// Get a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `GET /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)`.
+    public enum GetOrgRunner {
+        public static let id: Swift.String = "getOrgRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// name of the organization
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/GET/path/org`.
+                public var org: Swift.String
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/GET/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - org: name of the organization
+                ///   - runnerId: ID of the runner
+                public init(
+                    org: Swift.String,
+                    runnerId: Swift.String
+                ) {
+                    self.org = org
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.GetOrgRunner.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetOrgRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetOrgRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetOrgRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.GetOrgRunner.Input.Path,
+                headers: Operations.GetOrgRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunner represents a runner
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunner)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunner {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/get(getOrgRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Delete a particular runner that belongs to the organization
+    ///
+    /// - Remark: HTTP `DELETE /orgs/{org}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)`.
+    public enum DeleteOrgRunner {
+        public static let id: Swift.String = "deleteOrgRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// name of the organization
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/DELETE/path/org`.
+                public var org: Swift.String
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/DELETE/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - org: name of the organization
+                ///   - runnerId: ID of the runner
+                public init(
+                    org: Swift.String,
+                    runnerId: Swift.String
+                ) {
+                    self.org = org
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.DeleteOrgRunner.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/actions/runners/{runner_id}/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteOrgRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteOrgRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.DeleteOrgRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.DeleteOrgRunner.Input.Path,
+                headers: Operations.DeleteOrgRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// Creates a new `NoContent`.
+                public init() {}
+            }
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.DeleteOrgRunner.Output.NoContent)
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Operations.DeleteOrgRunner.Output.NoContent {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/actions/runners/{runner_id}/delete(deleteOrgRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// List actions secrets of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/secrets`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/secrets/get(orgListActionsSecrets)`.
@@ -38873,7 +44484,7 @@ public enum Operations {
             }
         }
     }
-    /// Get an org-level variables list
+    /// List variables of an organization
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/get(getOrgVariablesList)`.
@@ -39054,7 +44665,7 @@ public enum Operations {
             }
         }
     }
-    /// Get an org-level variable
+    /// Get organization's variable by name
     ///
     /// - Remark: HTTP `GET /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/get(getOrgVariable)`.
@@ -39217,7 +44828,7 @@ public enum Operations {
             }
         }
     }
-    /// Create an org-level variable
+    /// Create a new variable in organization
     ///
     /// - Remark: HTTP `POST /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/post(createOrgVariable)`.
@@ -39436,7 +45047,7 @@ public enum Operations {
             }
         }
     }
-    /// Update an org-level variable
+    /// Update variable in organization
     ///
     /// - Remark: HTTP `PUT /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/put(updateOrgVariable)`.
@@ -39655,7 +45266,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete an org-level variable
+    /// Delete organization's variable by name
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/actions/variables/{variablename}`.
     /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)`.
@@ -39712,64 +45323,6 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// ActionVariable
-            ///
-            /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.ActionVariable)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.ActionVariable {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct Created: Sendable, Hashable {
-                /// Creates a new `Created`.
-                public init() {}
-            }
-            /// response when deleting a variable
-            ///
-            /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            case created(Operations.DeleteOrgVariable.Output.Created)
-            /// response when deleting a variable
-            ///
-            /// - Remark: Generated from `#/paths//orgs/{org}/actions/variables/{variablename}/delete(deleteOrgVariable)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            public static var created: Self {
-                .created(.init())
-            }
-            /// The associated value of the enum case if `self` is `.created`.
-            ///
-            /// - Throws: An error if `self` is not `.created`.
-            /// - SeeAlso: `.created`.
-            public var created: Operations.DeleteOrgVariable.Output.Created {
-                get throws {
-                    switch self {
-                    case let .created(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "created",
-                            response: self
-                        )
-                    }
-                }
-            }
             public struct NoContent: Sendable, Hashable {
                 /// Creates a new `NoContent`.
                 public init() {}
@@ -40053,7 +45606,7 @@ public enum Operations {
             }
         }
     }
-    /// Update Avatar
+    /// Update an organization's avatar
     ///
     /// - Remark: HTTP `POST /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/post(orgUpdateAvatar)`.
@@ -40203,7 +45756,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete Avatar
+    /// Delete an organization's avatar. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /orgs/{org}/avatar`.
     /// - Remark: Generated from `#/paths//orgs/{org}/avatar/delete(orgDeleteAvatar)`.
@@ -40588,17 +46141,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// HookList
+            /// HookListWithoutPagination - Hooks without pagination headers
             ///
             /// - Remark: Generated from `#/paths//orgs/{org}/hooks/get(orgListHooks)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.HookList)
+            case ok(Components.Responses.HookListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.HookList {
+            public var ok: Components.Responses.HookListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -41272,6 +46825,16 @@ public enum Operations {
             public var path: Operations.OrgListLabels.Input.Path
             /// - Remark: Generated from `#/paths/orgs/{org}/labels/GET/query`.
             public struct Query: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/orgs/{org}/labels/GET/query/sort`.
+                @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case mostissues = "mostissues"
+                    case leastissues = "leastissues"
+                    case reversealphabetically = "reversealphabetically"
+                }
+                /// Specifies the sorting method: mostissues, leastissues, or reversealphabetically.
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/labels/GET/query/sort`.
+                public var sort: Operations.OrgListLabels.Input.Query.SortPayload?
                 /// page number of results to return (1-based)
                 ///
                 /// - Remark: Generated from `#/paths/orgs/{org}/labels/GET/query/page`.
@@ -41283,12 +46846,15 @@ public enum Operations {
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
+                ///   - sort: Specifies the sorting method: mostissues, leastissues, or reversealphabetically.
                 ///   - page: page number of results to return (1-based)
                 ///   - limit: page size of results
                 public init(
+                    sort: Operations.OrgListLabels.Input.Query.SortPayload? = nil,
                     page: Swift.Int? = nil,
                     limit: Swift.Int? = nil
                 ) {
+                    self.sort = sort
                     self.page = page
                     self.limit = limit
                 }
@@ -43783,6 +49349,21 @@ public enum Operations {
                 }
             }
             public var path: Operations.OrgCheckQuota.Input.Path
+            /// - Remark: Generated from `#/paths/orgs/{org}/quota/check/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// subject of the quota
+                ///
+                /// - Remark: Generated from `#/paths/orgs/{org}/quota/check/GET/query/subject`.
+                public var subject: Swift.String
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - subject: subject of the quota
+                public init(subject: Swift.String) {
+                    self.subject = subject
+                }
+            }
+            public var query: Operations.OrgCheckQuota.Input.Query
             /// - Remark: Generated from `#/paths/orgs/{org}/quota/check/GET/header`.
             public struct Headers: Sendable, Hashable {
                 public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.OrgCheckQuota.AcceptableContentType>]
@@ -43799,35 +49380,58 @@ public enum Operations {
             ///
             /// - Parameters:
             ///   - path:
+            ///   - query:
             ///   - headers:
             public init(
                 path: Operations.OrgCheckQuota.Input.Path,
+                query: Operations.OrgCheckQuota.Input.Query,
                 headers: Operations.OrgCheckQuota.Input.Headers = .init()
             ) {
                 self.path = path
+                self.query = query
                 self.headers = headers
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// Boolean
-            ///
-            /// - Remark: Generated from `#/paths//orgs/{org}/quota/check/get(orgCheckQuota)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.Boolean)
-            /// Boolean
-            ///
-            /// - Remark: Generated from `#/paths//orgs/{org}/quota/check/get(orgCheckQuota)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            public static var ok: Self {
-                .ok(.init())
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/orgs/{org}/quota/check/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/orgs/{org}/quota/check/GET/responses/200/content/application\/json`.
+                    case json(Swift.Bool)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Swift.Bool {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.OrgCheckQuota.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.OrgCheckQuota.Output.Ok.Body) {
+                    self.body = body
+                }
             }
+            /// Returns true if the action is accepted.
+            ///
+            /// - Remark: Generated from `#/paths//orgs/{org}/quota/check/get(orgCheckQuota)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.OrgCheckQuota.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.Boolean {
+            public var ok: Operations.OrgCheckQuota.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -46430,6 +52034,22 @@ public enum Operations {
                 ///
                 /// - Remark: Generated from `#/paths/repos/issues/search/GET/query/limit`.
                 public var limit: Swift.Int?
+                /// - Remark: Generated from `#/paths/repos/issues/search/GET/query/sort`.
+                @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case relevance = "relevance"
+                    case latest = "latest"
+                    case oldest = "oldest"
+                    case recentupdate = "recentupdate"
+                    case leastupdate = "leastupdate"
+                    case mostcomment = "mostcomment"
+                    case leastcomment = "leastcomment"
+                    case nearduedate = "nearduedate"
+                    case farduedate = "farduedate"
+                }
+                /// Type of sort
+                ///
+                /// - Remark: Generated from `#/paths/repos/issues/search/GET/query/sort`.
+                public var sort: Operations.IssueSearchIssues.Input.Query.SortPayload?
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
@@ -46450,6 +52070,7 @@ public enum Operations {
                 ///   - team: Filter by team (requires organization owner parameter)
                 ///   - page: Page number of results to return (1-based)
                 ///   - limit: Number of items per page
+                ///   - sort: Type of sort
                 public init(
                     state: Operations.IssueSearchIssues.Input.Query.StatePayload? = nil,
                     labels: Swift.String? = nil,
@@ -46467,7 +52088,8 @@ public enum Operations {
                     owner: Swift.String? = nil,
                     team: Swift.String? = nil,
                     page: Swift.Int? = nil,
-                    limit: Swift.Int? = nil
+                    limit: Swift.Int? = nil,
+                    sort: Operations.IssueSearchIssues.Input.Query.SortPayload? = nil
                 ) {
                     self.state = state
                     self.labels = labels
@@ -46486,6 +52108,7 @@ public enum Operations {
                     self.team = team
                     self.page = page
                     self.limit = limit
+                    self.sort = sort
                 }
             }
             public var query: Operations.IssueSearchIssues.Input.Query
@@ -46885,14 +52508,31 @@ public enum Operations {
                 ///
                 /// - Remark: Generated from `#/paths/repos/search/GET/query/exclusive`.
                 public var exclusive: Swift.Bool?
+                /// - Remark: Generated from `#/paths/repos/search/GET/query/sort`.
+                @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case alpha = "alpha"
+                    case created = "created"
+                    case updated = "updated"
+                    case size = "size"
+                    case gitSize = "git_size"
+                    case lfsSize = "lfs_size"
+                    case id = "id"
+                    case stars = "stars"
+                    case forks = "forks"
+                }
                 /// sort repos by attribute. Supported values are "alpha", "created", "updated", "size", "git_size", "lfs_size", "stars", "forks" and "id". Default is "alpha"
                 ///
                 /// - Remark: Generated from `#/paths/repos/search/GET/query/sort`.
-                public var sort: Swift.String?
+                public var sort: Operations.RepoSearch.Input.Query.SortPayload?
+                /// - Remark: Generated from `#/paths/repos/search/GET/query/order`.
+                @frozen public enum OrderPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case asc = "asc"
+                    case desc = "desc"
+                }
                 /// sort order, either "asc" (ascending) or "desc" (descending). Default is "asc", ignored if "sort" is not specified.
                 ///
                 /// - Remark: Generated from `#/paths/repos/search/GET/query/order`.
-                public var order: Swift.String?
+                public var order: Operations.RepoSearch.Input.Query.OrderPayload?
                 /// page number of results to return (1-based)
                 ///
                 /// - Remark: Generated from `#/paths/repos/search/GET/query/page`.
@@ -46935,8 +52575,8 @@ public enum Operations {
                     archived: Swift.Bool? = nil,
                     mode: Swift.String? = nil,
                     exclusive: Swift.Bool? = nil,
-                    sort: Swift.String? = nil,
-                    order: Swift.String? = nil,
+                    sort: Operations.RepoSearch.Input.Query.SortPayload? = nil,
+                    order: Operations.RepoSearch.Input.Query.OrderPayload? = nil,
                     page: Swift.Int? = nil,
                     limit: Swift.Int? = nil
                 ) {
@@ -47577,6 +53217,398 @@ public enum Operations {
             }
         }
     }
+    /// Get runners belonging to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)`.
+    public enum GetRepoRunners {
+        public static let id: Swift.String = "getRepoRunners"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.GetRepoRunners.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// whether to include all visible runners (true) or only those that are directly owned by the repository (false)
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/query/visible`.
+                public var visible: Swift.Bool?
+                /// page number of results to return (1-based)
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/query/page`.
+                public var page: Swift.Int?
+                /// page size of results
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/query/limit`.
+                public var limit: Swift.Int?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - visible: whether to include all visible runners (true) or only those that are directly owned by the repository (false)
+                ///   - page: page number of results to return (1-based)
+                ///   - limit: page size of results
+                public init(
+                    visible: Swift.Bool? = nil,
+                    page: Swift.Int? = nil,
+                    limit: Swift.Int? = nil
+                ) {
+                    self.visible = visible
+                    self.page = page
+                    self.limit = limit
+                }
+            }
+            public var query: Operations.GetRepoRunners.Input.Query
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetRepoRunners.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetRepoRunners.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetRepoRunners.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - query:
+            ///   - headers:
+            public init(
+                path: Operations.GetRepoRunners.Input.Path,
+                query: Operations.GetRepoRunners.Input.Query = .init(),
+                headers: Operations.GetRepoRunners.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunnerList is a list of Forgejo Action runners
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunnerList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunnerList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/get(getRepoRunners)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Register a new repository-level runner
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/runners`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)`.
+    public enum RegisterRepoRunner {
+        public static let id: Swift.String = "registerRepoRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.RegisterRepoRunner.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterRepoRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterRepoRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RegisterRepoRunner.Input.Headers
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.RegisterRunnerOptions)
+            }
+            public var body: Operations.RegisterRepoRunner.Input.Body?
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.RegisterRepoRunner.Input.Path,
+                headers: Operations.RegisterRepoRunner.Input.Headers = .init(),
+                body: Operations.RegisterRepoRunner.Input.Body? = nil
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RegisterRunnerResponse contains the details of the just registered runner.
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)/responses/201`.
+            ///
+            /// HTTP response code: `201 created`.
+            case created(Components.Responses.RegisterRunnerResponse)
+            /// The associated value of the enum case if `self` is `.created`.
+            ///
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Components.Responses.RegisterRunnerResponse {
+                get throws {
+                    switch self {
+                    case let .created(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/post(registerRepoRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Search for repository's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/jobs`.
@@ -47735,7 +53767,10 @@ public enum Operations {
             }
         }
     }
-    /// Get a repository's actions runner registration token
+    /// Get a repository's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/repos/{owner}/{repo}/actions/runners`](#/repository/registerRepoRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/registration-token/get(repoGetRunnerRegistrationToken)`.
@@ -47766,12 +53801,29 @@ public enum Operations {
                 }
             }
             public var path: Operations.RepoGetRunnerRegistrationToken.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/registration-token/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoGetRunnerRegistrationToken.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoGetRunnerRegistrationToken.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoGetRunnerRegistrationToken.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
-            public init(path: Operations.RepoGetRunnerRegistrationToken.Input.Path) {
+            ///   - headers:
+            public init(
+                path: Operations.RepoGetRunnerRegistrationToken.Input.Path,
+                headers: Operations.RepoGetRunnerRegistrationToken.Input.Headers = .init()
+            ) {
                 self.path = path
+                self.headers = headers
             }
         }
         @frozen public enum Output: Sendable, Hashable {
@@ -47802,6 +53854,829 @@ public enum Operations {
             ///
             /// A response with a code that is not documented in the OpenAPI document.
             case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get a particular runner that belongs to the repository
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)`.
+    public enum GetRepoRunner {
+        public static let id: Swift.String = "getRepoRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/GET/path/repo`.
+                public var repo: Swift.String
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/GET/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                ///   - runnerId: ID of the runner
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String,
+                    runnerId: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.GetRepoRunner.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetRepoRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetRepoRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetRepoRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.GetRepoRunner.Input.Path,
+                headers: Operations.GetRepoRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunner represents a runner
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunner)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunner {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/get(getRepoRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Delete a particular runner that belongs to a repository
+    ///
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)`.
+    public enum DeleteRepoRunner {
+        public static let id: Swift.String = "deleteRepoRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/DELETE/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/DELETE/path/repo`.
+                public var repo: Swift.String
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/DELETE/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                ///   - runnerId: ID of the runner
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String,
+                    runnerId: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.DeleteRepoRunner.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runners/{runner_id}/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteRepoRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteRepoRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.DeleteRepoRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.DeleteRepoRunner.Input.Path,
+                headers: Operations.DeleteRepoRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// Creates a new `NoContent`.
+                public init() {}
+            }
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.DeleteRepoRunner.Output.NoContent)
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Operations.DeleteRepoRunner.Output.NoContent {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runners/{runner_id}/delete(deleteRepoRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// List a repository's action runs
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)`.
+    public enum ListActionRuns {
+        public static let id: Swift.String = "ListActionRuns"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.ListActionRuns.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// page number of results to return (1-based)
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/page`.
+                public var page: Swift.Int?
+                /// page size of results, default maximum page size is 50
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/limit`.
+                public var limit: Swift.Int?
+                /// Returns workflow run triggered by the specified events. For example, `push`, `pull_request` or `workflow_dispatch`.
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/event`.
+                public var event: [Swift.String]?
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/StatusPayload`.
+                @frozen public enum StatusPayloadPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case unknown = "unknown"
+                    case waiting = "waiting"
+                    case running = "running"
+                    case success = "success"
+                    case failure = "failure"
+                    case cancelled = "cancelled"
+                    case skipped = "skipped"
+                    case blocked = "blocked"
+                }
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/status`.
+                public typealias StatusPayload = [Operations.ListActionRuns.Input.Query.StatusPayloadPayload]
+                /// Returns workflow runs with the check run status or conclusion that is specified. For example, a conclusion can be success or a status can be in_progress. Only Forgejo Actions can set a status of waiting, pending, or requested.
+                ///
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/status`.
+                public var status: Operations.ListActionRuns.Input.Query.StatusPayload?
+                /// Returns the workflow run associated with the run number.
+                ///
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/run_number`.
+                public var runNumber: Swift.Int64?
+                /// Only returns workflow runs that are associated with the specified head_sha.
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/head_sha`.
+                public var headSha: Swift.String?
+                /// Only return workflow runs that involve the given Git reference, for example, `refs/heads/main`.
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/ref`.
+                public var ref: Swift.String?
+                /// Only return workflow runs that involve the given workflow ID.
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/query/workflow_id`.
+                public var workflowId: Swift.String?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - page: page number of results to return (1-based)
+                ///   - limit: page size of results, default maximum page size is 50
+                ///   - event: Returns workflow run triggered by the specified events. For example, `push`, `pull_request` or `workflow_dispatch`.
+                ///   - status: Returns workflow runs with the check run status or conclusion that is specified. For example, a conclusion can be success or a status can be in_progress. Only Forgejo Actions can set a status of waiting, pending, or requested.
+                ///   - runNumber: Returns the workflow run associated with the run number.
+                ///   - headSha: Only returns workflow runs that are associated with the specified head_sha.
+                ///   - ref: Only return workflow runs that involve the given Git reference, for example, `refs/heads/main`.
+                ///   - workflowId: Only return workflow runs that involve the given workflow ID.
+                public init(
+                    page: Swift.Int? = nil,
+                    limit: Swift.Int? = nil,
+                    event: [Swift.String]? = nil,
+                    status: Operations.ListActionRuns.Input.Query.StatusPayload? = nil,
+                    runNumber: Swift.Int64? = nil,
+                    headSha: Swift.String? = nil,
+                    ref: Swift.String? = nil,
+                    workflowId: Swift.String? = nil
+                ) {
+                    self.page = page
+                    self.limit = limit
+                    self.event = event
+                    self.status = status
+                    self.runNumber = runNumber
+                    self.headSha = headSha
+                    self.ref = ref
+                    self.workflowId = workflowId
+                }
+            }
+            public var query: Operations.ListActionRuns.Input.Query
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ListActionRuns.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ListActionRuns.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ListActionRuns.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - query:
+            ///   - headers:
+            public init(
+                path: Operations.ListActionRuns.Input.Path,
+                query: Operations.ListActionRuns.Input.Query = .init(),
+                headers: Operations.ListActionRuns.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunList
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/get(ListActionRuns)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get an action run
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/actions/runs/{run_id}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)`.
+    public enum ActionRun {
+        public static let id: Swift.String = "ActionRun"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/{run_id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/{run_id}/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/{run_id}/GET/path/repo`.
+                public var repo: Swift.String
+                /// id of the action run
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/{run_id}/GET/path/run_id`.
+                public var runId: Swift.Int64
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                ///   - runId: id of the action run
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String,
+                    runId: Swift.Int64
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                    self.runId = runId
+                }
+            }
+            public var path: Operations.ActionRun.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/runs/{run_id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActionRun.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.ActionRun.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.ActionRun.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.ActionRun.Input.Path,
+                headers: Operations.ActionRun.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRun
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRun)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRun {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/runs/{run_id}/get(ActionRun)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
         }
     }
     /// List an repo's actions secrets
@@ -48420,17 +55295,39 @@ public enum Operations {
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/tasks/GET/query/limit`.
                 public var limit: Swift.Int?
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/tasks/GET/query/StatusPayload`.
+                @frozen public enum StatusPayloadPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case unknown = "unknown"
+                    case waiting = "waiting"
+                    case running = "running"
+                    case success = "success"
+                    case failure = "failure"
+                    case cancelled = "cancelled"
+                    case skipped = "skipped"
+                    case blocked = "blocked"
+                }
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/tasks/GET/query/status`.
+                public typealias StatusPayload = [Operations.ListActionTasks.Input.Query.StatusPayloadPayload]
+                /// Returns workflow tasks with the check run status or conclusion that is specified.
+                ///  For example, a conclusion can be success or a status can be in_progress.
+                ///
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/tasks/GET/query/status`.
+                public var status: Operations.ListActionTasks.Input.Query.StatusPayload?
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
                 ///   - page: page number of results to return (1-based)
                 ///   - limit: page size of results, default maximum page size is 50
+                ///   - status: Returns workflow tasks with the check run status or conclusion that is specified.
                 public init(
                     page: Swift.Int? = nil,
-                    limit: Swift.Int? = nil
+                    limit: Swift.Int? = nil,
+                    status: Operations.ListActionTasks.Input.Query.StatusPayload? = nil
                 ) {
                     self.page = page
                     self.limit = limit
+                    self.status = status
                 }
             }
             public var query: Operations.ListActionTasks.Input.Query
@@ -49526,64 +56423,6 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// ActionVariable
-            ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/variables/{variablename}/delete(deleteRepoVariable)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.ActionVariable)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.ActionVariable {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct Created: Sendable, Hashable {
-                /// Creates a new `Created`.
-                public init() {}
-            }
-            /// response when deleting a variable
-            ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/variables/{variablename}/delete(deleteRepoVariable)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            case created(Operations.DeleteRepoVariable.Output.Created)
-            /// response when deleting a variable
-            ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/variables/{variablename}/delete(deleteRepoVariable)/responses/201`.
-            ///
-            /// HTTP response code: `201 created`.
-            public static var created: Self {
-                .created(.init())
-            }
-            /// The associated value of the enum case if `self` is `.created`.
-            ///
-            /// - Throws: An error if `self` is not `.created`.
-            /// - SeeAlso: `.created`.
-            public var created: Operations.DeleteRepoVariable.Output.Created {
-                get throws {
-                    switch self {
-                    case let .created(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "created",
-                            response: self
-                        )
-                    }
-                }
-            }
             public struct NoContent: Sendable, Hashable {
                 /// Creates a new `NoContent`.
                 public init() {}
@@ -49704,43 +56543,43 @@ public enum Operations {
     }
     /// Dispatches a workflow
     ///
-    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)`.
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)`.
     public enum DispatchWorkflow {
         public static let id: Swift.String = "DispatchWorkflow"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/path`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/path`.
             public struct Path: Sendable, Hashable {
                 /// owner of the repo
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/path/owner`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/path/owner`.
                 public var owner: Swift.String
                 /// name of the repo
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/path/repo`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/path/repo`.
                 public var repo: Swift.String
                 /// name of the workflow
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/path/workflowname`.
-                public var workflowname: Swift.String
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/path/workflowfilename`.
+                public var workflowfilename: Swift.String
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - owner: owner of the repo
                 ///   - repo: name of the repo
-                ///   - workflowname: name of the workflow
+                ///   - workflowfilename: name of the workflow
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    workflowname: Swift.String
+                    workflowfilename: Swift.String
                 ) {
                     self.owner = owner
                     self.repo = repo
-                    self.workflowname = workflowname
+                    self.workflowfilename = workflowfilename
                 }
             }
             public var path: Operations.DispatchWorkflow.Input.Path
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/header`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/header`.
             public struct Headers: Sendable, Hashable {
                 public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DispatchWorkflow.AcceptableContentType>]
                 /// Creates a new `Headers`.
@@ -49752,9 +56591,9 @@ public enum Operations {
                 }
             }
             public var headers: Operations.DispatchWorkflow.Input.Headers
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/requestBody`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/POST/requestBody/content/application\/json`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/POST/requestBody/content/application\/json`.
                 case json(Components.Schemas.DispatchWorkflowOption)
             }
             public var body: Operations.DispatchWorkflow.Input.Body?
@@ -49777,7 +56616,7 @@ public enum Operations {
         @frozen public enum Output: Sendable, Hashable {
             /// DispatchWorkflowRun is a Workflow Run after dispatching
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)/responses/201`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
             case created(Components.Responses.DispatchWorkflowRun)
@@ -49800,13 +56639,13 @@ public enum Operations {
             }
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)/responses/204`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             case noContent(Components.Responses.Empty)
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)/responses/204`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             public static var noContent: Self {
@@ -49831,7 +56670,7 @@ public enum Operations {
             }
             /// APINotFound is a not found error response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowname}/dispatches/post(DispatchWorkflow)/responses/404`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/actions/workflows/{workflowfilename}/dispatches/post(DispatchWorkflow)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
             case notFound(Components.Responses.NotFound)
@@ -50362,7 +57201,7 @@ public enum Operations {
             }
         }
     }
-    /// Update avatar
+    /// Update a repository's avatar
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/post(repoUpdateAvatar)`.
@@ -50521,7 +57360,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete avatar
+    /// Delete a repository's avatar
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/avatar`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/avatar/delete(repoDeleteAvatar)`.
@@ -54637,6 +61476,37 @@ public enum Operations {
                     }
                 }
             }
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/post(repoChangeFiles)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            case conflict(Components.Responses.Conflict)
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/post(repoChangeFiles)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            public static var conflict: Self {
+                .conflict(.init())
+            }
+            /// The associated value of the enum case if `self` is `.conflict`.
+            ///
+            /// - Throws: An error if `self` is not `.conflict`.
+            /// - SeeAlso: `.conflict`.
+            public var conflict: Components.Responses.Conflict {
+                get throws {
+                    switch self {
+                    case let .conflict(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "conflict",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// QuotaExceeded
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/post(repoChangeFiles)/responses/413`.
@@ -55050,6 +61920,37 @@ public enum Operations {
                     }
                 }
             }
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/post(repoCreateFile)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            case conflict(Components.Responses.Conflict)
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/post(repoCreateFile)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            public static var conflict: Self {
+                .conflict(.init())
+            }
+            /// The associated value of the enum case if `self` is `.conflict`.
+            ///
+            /// - Throws: An error if `self` is not `.conflict`.
+            /// - SeeAlso: `.conflict`.
+            public var conflict: Components.Responses.Conflict {
+                get throws {
+                    switch self {
+                    case let .conflict(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "conflict",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// QuotaExceeded
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/post(repoCreateFile)/responses/413`.
@@ -55293,6 +62194,37 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/put(repoUpdateFile)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            case conflict(Components.Responses.Conflict)
+            /// APIConflict is a conflict empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/contents/{filepath}/put(repoUpdateFile)/responses/409`.
+            ///
+            /// HTTP response code: `409 conflict`.
+            public static var conflict: Self {
+                .conflict(.init())
+            }
+            /// The associated value of the enum case if `self` is `.conflict`.
+            ///
+            /// - Throws: An error if `self` is not `.conflict`.
+            /// - SeeAlso: `.conflict`.
+            public var conflict: Components.Responses.Conflict {
+                get throws {
+                    switch self {
+                    case let .conflict(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "conflict",
                             response: self
                         )
                     }
@@ -55652,6 +62584,192 @@ public enum Operations {
             }
         }
     }
+    /// Convert a mirror repo to a normal repo.
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/convert`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)`.
+    public enum RepoConvert {
+        public static let id: Swift.String = "repoConvert"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/convert/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo to convert
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/convert/POST/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo to convert
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/convert/POST/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo to convert
+                ///   - repo: name of the repo to convert
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.RepoConvert.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/convert/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoConvert.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoConvert.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoConvert.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.RepoConvert.Input.Path,
+                headers: Operations.RepoConvert.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// Repository
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.Repository)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.Repository {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIValidationError is error format response related to input validation
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/convert/post(repoConvert)/responses/422`.
+            ///
+            /// HTTP response code: `422 unprocessableContent`.
+            case unprocessableContent(Components.Responses.ValidationError)
+            /// The associated value of the enum case if `self` is `.unprocessableContent`.
+            ///
+            /// - Throws: An error if `self` is not `.unprocessableContent`.
+            /// - SeeAlso: `.unprocessableContent`.
+            public var unprocessableContent: Components.Responses.ValidationError {
+                get throws {
+                    switch self {
+                    case let .unprocessableContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unprocessableContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Apply diff patch to repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/diffpatch`.
@@ -55930,23 +63048,57 @@ public enum Operations {
         }
         @frozen public enum Output: Sendable, Hashable {
             public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/editorconfig/{filepath}/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/editorconfig/{filepath}/GET/responses/200/content/json`.
+                    public struct JsonPayload: Codable, Hashable, Sendable {
+                        /// A container of undocumented properties.
+                        public var additionalProperties: [String: Swift.String]
+                        /// Creates a new `JsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - additionalProperties: A container of undocumented properties.
+                        public init(additionalProperties: [String: Swift.String] = .init()) {
+                            self.additionalProperties = additionalProperties
+                        }
+                        public init(from decoder: any Decoder) throws {
+                            additionalProperties = try decoder.decodeAdditionalProperties(knownKeys: [])
+                        }
+                        public func encode(to encoder: any Encoder) throws {
+                            try encoder.encodeAdditionalProperties(additionalProperties)
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/editorconfig/{filepath}/GET/responses/200/content/application\/json`.
+                    case json(Operations.RepoGetEditorConfig.Output.Ok.Body.JsonPayload)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Operations.RepoGetEditorConfig.Output.Ok.Body.JsonPayload {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.RepoGetEditorConfig.Output.Ok.Body
                 /// Creates a new `Ok`.
-                public init() {}
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.RepoGetEditorConfig.Output.Ok.Body) {
+                    self.body = body
+                }
             }
-            /// success
+            /// definitions
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/editorconfig/{filepath}/get(repoGetEditorConfig)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
             case ok(Operations.RepoGetEditorConfig.Output.Ok)
-            /// success
-            ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/editorconfig/{filepath}/get(repoGetEditorConfig)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            public static var ok: Self {
-                .ok(.init())
-            }
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
@@ -57496,6 +64648,164 @@ public enum Operations {
             }
         }
     }
+    /// Gets multiple blobs of a repository.
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/git/blobs`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/get(GetBlobs)`.
+    public enum GetBlobs {
+        public static let id: Swift.String = "GetBlobs"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.GetBlobs.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// a comma separated list of blob-sha (mind the overall URL-length limit of ~2,083 chars)
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/query/shas`.
+                public var shas: Swift.String
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - shas: a comma separated list of blob-sha (mind the overall URL-length limit of ~2,083 chars)
+                public init(shas: Swift.String) {
+                    self.shas = shas
+                }
+            }
+            public var query: Operations.GetBlobs.Input.Query
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetBlobs.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetBlobs.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetBlobs.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - query:
+            ///   - headers:
+            public init(
+                path: Operations.GetBlobs.Input.Path,
+                query: Operations.GetBlobs.Input.Query,
+                headers: Operations.GetBlobs.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// GitBlobList
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/get(GetBlobs)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.GitBlobList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.GitBlobList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/get(GetBlobs)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Gets the blob of a repository.
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/git/blobs/{sha}`.
@@ -57513,7 +64823,7 @@ public enum Operations {
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/{sha}/GET/path/repo`.
                 public var repo: Swift.String
-                /// sha of the commit
+                /// sha of the blob to retrieve
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/git/blobs/{sha}/GET/path/sha`.
                 public var sha: Swift.String
@@ -57522,7 +64832,7 @@ public enum Operations {
                 /// - Parameters:
                 ///   - owner: owner of the repo
                 ///   - repo: name of the repo
-                ///   - sha: sha of the commit
+                ///   - sha: sha of the blob to retrieve
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
@@ -57560,17 +64870,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// GitBlobResponse
+            /// GitBlob
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/git/blobs/{sha}/get(GetBlob)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.GitBlobResponse)
+            case ok(Components.Responses.GitBlob)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.GitBlobResponse {
+            public var ok: Components.Responses.GitBlob {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -61445,6 +68755,29 @@ public enum Operations {
                     }
                 }
             }
+            /// APIValidationError is error format response related to input validation
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/get(issueListIssues)/responses/422`.
+            ///
+            /// HTTP response code: `422 unprocessableContent`.
+            case unprocessableContent(Components.Responses.ValidationError)
+            /// The associated value of the enum case if `self` is `.unprocessableContent`.
+            ///
+            /// - Throws: An error if `self` is not `.unprocessableContent`.
+            /// - SeeAlso: `.unprocessableContent`.
+            public var unprocessableContent: Components.Responses.ValidationError {
+                get throws {
+                    switch self {
+                    case let .unprocessableContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unprocessableContent",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// Undocumented response.
             ///
             /// A response with a code that is not documented in the OpenAPI document.
@@ -63658,17 +70991,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// ReactionList
+            /// ReactionListWithoutPagination - Reactions for a specific comment (no pagination headers)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/comments/{id}/reactions/get(issueGetCommentReactions)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.ReactionList)
+            case ok(Components.Responses.ReactionListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.ReactionList {
+            public var ok: Components.Responses.ReactionListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -64210,17 +71543,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// IssueList
+            /// IssueListWithoutPagination - Issues without pagination headers (used for pinned issues, dependencies, etc.)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/pinned/get(repoListPinnedIssues)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.IssueList)
+            case ok(Components.Responses.IssueListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.IssueList {
+            public var ok: Components.Responses.IssueListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -65826,7 +73159,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/blocks/GET/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -65836,7 +73169,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -65897,17 +73230,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// IssueList
+            /// IssueListWithoutPagination - Issues without pagination headers (used for pinned issues, dependencies, etc.)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/blocks/get(issueListBlocks)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.IssueList)
+            case ok(Components.Responses.IssueListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.IssueList {
+            public var ok: Components.Responses.IssueListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -66000,7 +73333,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/blocks/POST/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -66010,7 +73343,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -66170,7 +73503,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/blocks/DELETE/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -66180,7 +73513,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -67377,7 +74710,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/dependencies/GET/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -67387,7 +74720,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -67448,17 +74781,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// IssueList
+            /// IssueListWithoutPagination - Issues without pagination headers (used for pinned issues, dependencies, etc.)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/dependencies/get(issueListIssueDependencies)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.IssueList)
+            case ok(Components.Responses.IssueListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.IssueList {
+            public var ok: Components.Responses.IssueListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -67551,7 +74884,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/dependencies/POST/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -67561,7 +74894,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -67744,7 +75077,7 @@ public enum Operations {
                 /// index of the issue
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/dependencies/DELETE/path/index`.
-                public var index: Swift.String
+                public var index: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -67754,7 +75087,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    index: Swift.String
+                    index: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -67969,17 +75302,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// LabelList
+            /// LabelListWithoutPagination - Labels for a specific issue (no pagination headers)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/get(issueGetLabels)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.LabelList)
+            case ok(Components.Responses.LabelListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.LabelList {
+            public var ok: Components.Responses.LabelListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -68125,17 +75458,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// LabelList
+            /// LabelListWithoutPagination - Labels for a specific issue (no pagination headers)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/post(issueAddLabel)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.LabelList)
+            case ok(Components.Responses.LabelListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.LabelList {
+            public var ok: Components.Responses.LabelListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -68304,17 +75637,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// LabelList
+            /// LabelListWithoutPagination - Labels for a specific issue (no pagination headers)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/put(issueReplaceLabels)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.LabelList)
+            case ok(Components.Responses.LabelListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.LabelList {
+            public var ok: Components.Responses.LabelListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -68601,50 +75934,50 @@ public enum Operations {
     }
     /// Remove a label from an issue
     ///
-    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{id}`.
-    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)`.
+    /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/issues/{index}/labels/{identifier}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)`.
     public enum IssueRemoveLabel {
         public static let id: Swift.String = "issueRemoveLabel"
         public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/path`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/path`.
             public struct Path: Sendable, Hashable {
                 /// owner of the repo
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/path/owner`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/path/owner`.
                 public var owner: Swift.String
                 /// name of the repo
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/path/repo`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/path/repo`.
                 public var repo: Swift.String
                 /// index of the issue
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/path/index`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/path/index`.
                 public var index: Swift.Int64
-                /// id of the label to remove
+                /// name or id of the label to remove
                 ///
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/path/id`.
-                public var id: Swift.Int64
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/path/identifier`.
+                public var identifier: Swift.String
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - owner: owner of the repo
                 ///   - repo: name of the repo
                 ///   - index: index of the issue
-                ///   - id: id of the label to remove
+                ///   - identifier: name or id of the label to remove
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
                     index: Swift.Int64,
-                    id: Swift.Int64
+                    identifier: Swift.String
                 ) {
                     self.owner = owner
                     self.repo = repo
                     self.index = index
-                    self.id = id
+                    self.identifier = identifier
                 }
             }
             public var path: Operations.IssueRemoveLabel.Input.Path
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/header`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
                 public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.IssueRemoveLabel.AcceptableContentType>]
                 /// Creates a new `Headers`.
@@ -68656,11 +75989,11 @@ public enum Operations {
                 }
             }
             public var headers: Operations.IssueRemoveLabel.Input.Headers
-            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/requestBody`.
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/requestBody/content/application\/json`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/requestBody/content/application\/json`.
                 case json(Components.Schemas.DeleteLabelsOption)
-                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{id}/DELETE/requestBody/content/text\/plain`.
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/issues/{index}/labels/{identifier}/DELETE/requestBody/content/text\/plain`.
                 case plainText(OpenAPIRuntime.HTTPBody)
             }
             public var body: Operations.IssueRemoveLabel.Input.Body?
@@ -68683,13 +76016,13 @@ public enum Operations {
         @frozen public enum Output: Sendable, Hashable {
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)/responses/204`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             case noContent(Components.Responses.Empty)
             /// APIEmpty is an empty response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)/responses/204`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
             public static var noContent: Self {
@@ -68714,7 +76047,7 @@ public enum Operations {
             }
             /// APIForbiddenError is a forbidden error response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)/responses/403`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
             case forbidden(Components.Responses.Forbidden)
@@ -68737,7 +76070,7 @@ public enum Operations {
             }
             /// APINotFound is a not found error response
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)/responses/404`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
             case notFound(Components.Responses.NotFound)
@@ -68760,7 +76093,7 @@ public enum Operations {
             }
             /// APIValidationError is error format response related to input validation
             ///
-            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{id}/delete(issueRemoveLabel)/responses/422`.
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/labels/{identifier}/delete(issueRemoveLabel)/responses/422`.
             ///
             /// HTTP response code: `422 unprocessableContent`.
             case unprocessableContent(Components.Responses.ValidationError)
@@ -71782,6 +79115,29 @@ public enum Operations {
                     }
                 }
             }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/times/get(issueTrackedTimes)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// APINotFound is a not found error response
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/times/get(issueTrackedTimes)/responses/404`.
@@ -71800,6 +79156,29 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIValidationError is error format response related to input validation
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/issues/{index}/times/get(issueTrackedTimes)/responses/422`.
+            ///
+            /// HTTP response code: `422 unprocessableContent`.
+            case unprocessableContent(Components.Responses.ValidationError)
+            /// The associated value of the enum case if `self` is `.unprocessableContent`.
+            ///
+            /// - Throws: An error if `self` is not `.unprocessableContent`.
+            /// - SeeAlso: `.unprocessableContent`.
+            public var unprocessableContent: Components.Responses.ValidationError {
+                get throws {
+                    switch self {
+                    case let .unprocessableContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unprocessableContent",
                             response: self
                         )
                     }
@@ -73164,6 +80543,16 @@ public enum Operations {
             public var path: Operations.IssueListLabels.Input.Path
             /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/labels/GET/query`.
             public struct Query: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/labels/GET/query/sort`.
+                @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case mostissues = "mostissues"
+                    case leastissues = "leastissues"
+                    case reversealphabetically = "reversealphabetically"
+                }
+                /// Specifies the sorting method: mostissues, leastissues, or reversealphabetically.
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/labels/GET/query/sort`.
+                public var sort: Operations.IssueListLabels.Input.Query.SortPayload?
                 /// page number of results to return (1-based)
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/labels/GET/query/page`.
@@ -73175,12 +80564,15 @@ public enum Operations {
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
+                ///   - sort: Specifies the sorting method: mostissues, leastissues, or reversealphabetically.
                 ///   - page: page number of results to return (1-based)
                 ///   - limit: page size of results
                 public init(
+                    sort: Operations.IssueListLabels.Input.Query.SortPayload? = nil,
                     page: Swift.Int? = nil,
                     limit: Swift.Int? = nil
                 ) {
+                    self.sort = sort
                     self.page = page
                     self.limit = limit
                 }
@@ -74640,7 +82032,7 @@ public enum Operations {
                 /// the milestone to get, identified by ID and if not available by name
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/milestones/{id}/GET/path/id`.
-                public var id: Swift.String
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -74650,7 +82042,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.String
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -74787,7 +82179,7 @@ public enum Operations {
                 /// the milestone to edit, identified by ID and if not available by name
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/milestones/{id}/PATCH/path/id`.
-                public var id: Swift.String
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -74797,7 +82189,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.String
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -74943,7 +82335,7 @@ public enum Operations {
                 /// the milestone to delete, identified by ID and if not available by name
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/milestones/{id}/DELETE/path/id`.
-                public var id: Swift.String
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -74953,7 +82345,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.String
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -75457,7 +82849,6 @@ public enum Operations {
                 @frozen public enum SubjectTypePayloadPayload: String, Codable, Hashable, Sendable, CaseIterable {
                     case issue = "issue"
                     case pull = "pull"
-                    case commit = "commit"
                     case repository = "repository"
                 }
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/notifications/GET/query/subject-type`.
@@ -75636,7 +83027,7 @@ public enum Operations {
                 /// If true, mark all notifications on this repo. Default value is false
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/notifications/PUT/query/all`.
-                public var all: Swift.String?
+                public var all: Swift.Bool?
                 /// Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread.
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/notifications/PUT/query/status-types`.
@@ -75657,7 +83048,7 @@ public enum Operations {
                 ///   - toStatus: Status to mark notifications as. Defaults to read.
                 ///   - lastReadAt: Describes the last point that notifications were checked. Anything updated since this time will not be updated.
                 public init(
-                    all: Swift.String? = nil,
+                    all: Swift.Bool? = nil,
                     statusTypes: [Swift.String]? = nil,
                     toStatus: Swift.String? = nil,
                     lastReadAt: Foundation.Date? = nil
@@ -75698,17 +83089,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// NotificationThreadList
+            /// NotificationThreadListWithoutPagination - Notification threads without pagination headers
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/notifications/put(notifyReadRepoList)/responses/205`.
             ///
             /// HTTP response code: `205 resetContent`.
-            case resetContent(Components.Responses.NotificationThreadList)
+            case resetContent(Components.Responses.NotificationThreadListWithoutPagination)
             /// The associated value of the enum case if `self` is `.resetContent`.
             ///
             /// - Throws: An error if `self` is not `.resetContent`.
             /// - SeeAlso: `.resetContent`.
-            public var resetContent: Components.Responses.NotificationThreadList {
+            public var resetContent: Components.Responses.NotificationThreadListWithoutPagination {
                 get throws {
                     switch self {
                     case let .resetContent(response):
@@ -75758,7 +83149,7 @@ public enum Operations {
             }
         }
     }
-    /// List a repo's pull requests
+    /// List a repo's pull requests. If a pull request is selected but fails to be retrieved for any reason, it will be a null value in the list of results.
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/pulls`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/get(repoListPullRequests)`.
@@ -75805,6 +83196,7 @@ public enum Operations {
                 @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
                     case oldest = "oldest"
                     case recentupdate = "recentupdate"
+                    case recentclose = "recentclose"
                     case leastupdate = "leastupdate"
                     case mostcomment = "mostcomment"
                     case leastcomment = "leastcomment"
@@ -75910,6 +83302,29 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/get(repoListPullRequests)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
                             response: self
                         )
                     }
@@ -77405,17 +84820,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// ChangedFileList
+            /// ChangedFileListWithPagination
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/files/get(repoGetPullRequestFiles)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.ChangedFileList)
+            case ok(Components.Responses.ChangedFileListWithPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.ChangedFileList {
+            public var ok: Components.Responses.ChangedFileListWithPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -78078,7 +85493,7 @@ public enum Operations {
             }
         }
     }
-    /// create review requests for a pull request
+    /// Create review requests for a pull request
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/post(repoCreatePullReviewRequests)`.
@@ -78153,17 +85568,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// PullReviewList
+            /// PullReviewListWithoutPagination - Review requests without pagination headers
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/post(repoCreatePullReviewRequests)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
-            case created(Components.Responses.PullReviewList)
+            case created(Components.Responses.PullReviewListWithoutPagination)
             /// The associated value of the enum case if `self` is `.created`.
             ///
             /// - Throws: An error if `self` is not `.created`.
             /// - SeeAlso: `.created`.
-            public var created: Components.Responses.PullReviewList {
+            public var created: Components.Responses.PullReviewListWithoutPagination {
                 get throws {
                     switch self {
                     case let .created(response):
@@ -78171,6 +85586,29 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIForbiddenError is a forbidden error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/post(repoCreatePullReviewRequests)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Components.Responses.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Components.Responses.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
                             response: self
                         )
                     }
@@ -78259,7 +85697,7 @@ public enum Operations {
             }
         }
     }
-    /// cancel review requests for a pull request
+    /// Cancel review requests for a pull request
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/pulls/{index}/requested_reviewers`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/pulls/{index}/requested_reviewers/delete(repoDeletePullReviewRequests)`.
@@ -80965,7 +88403,7 @@ public enum Operations {
             }
         }
     }
-    /// add a push mirror to the repository
+    /// Set up a new push mirror in a repository
     ///
     /// - Remark: HTTP `POST /repos/{owner}/{repo}/push_mirrors`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/post(repoAddPushMirror)`.
@@ -81593,7 +89031,7 @@ public enum Operations {
             }
         }
     }
-    /// deletes a push mirror from a repository by remoteName
+    /// Remove a push mirror from a repository by remoteName
     ///
     /// - Remark: HTTP `DELETE /repos/{owner}/{repo}/push_mirrors/{name}`.
     /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/push_mirrors/{name}/delete(repoDeletePushMirror)`.
@@ -85629,6 +93067,688 @@ public enum Operations {
             }
         }
     }
+    /// Gets information about syncing the fork default branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)`.
+    public enum RepoSyncForkDefaultInfo {
+        public static let id: Swift.String = "repoSyncForkDefaultInfo"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/GET/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.RepoSyncForkDefaultInfo.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkDefaultInfo.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkDefaultInfo.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoSyncForkDefaultInfo.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.RepoSyncForkDefaultInfo.Input.Path,
+                headers: Operations.RepoSyncForkDefaultInfo.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// SyncForkInfo
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.SyncForkInfo)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.SyncForkInfo {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/get(repoSyncForkDefaultInfo)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Syncs the default branch of a fork with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)`.
+    public enum RepoSyncForkDefault {
+        public static let id: Swift.String = "repoSyncForkDefault"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/POST/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/POST/path/repo`.
+                public var repo: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                }
+            }
+            public var path: Operations.RepoSyncForkDefault.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkDefault.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkDefault.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoSyncForkDefault.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.RepoSyncForkDefault.Input.Path,
+                headers: Operations.RepoSyncForkDefault.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Components.Responses.Empty)
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Components.Responses.Empty {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/post(repoSyncForkDefault)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Gets information about syncing a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `GET /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)`.
+    public enum RepoSyncForkBranchInfo {
+        public static let id: Swift.String = "repoSyncForkBranchInfo"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/GET/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/GET/path/repo`.
+                public var repo: Swift.String
+                /// The branch
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/GET/path/branch`.
+                public var branch: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                ///   - branch: The branch
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String,
+                    branch: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                    self.branch = branch
+                }
+            }
+            public var path: Operations.RepoSyncForkBranchInfo.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkBranchInfo.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkBranchInfo.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoSyncForkBranchInfo.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.RepoSyncForkBranchInfo.Input.Path,
+                headers: Operations.RepoSyncForkBranchInfo.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// SyncForkInfo
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.SyncForkInfo)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.SyncForkInfo {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/get(repoSyncForkBranchInfo)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Syncs a fork branch with the base branch
+    ///
+    /// - Remark: HTTP `POST /repos/{owner}/{repo}/sync_fork/{branch}`.
+    /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)`.
+    public enum RepoSyncForkBranch {
+        public static let id: Swift.String = "repoSyncForkBranch"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// owner of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/POST/path/owner`.
+                public var owner: Swift.String
+                /// name of the repo
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/POST/path/repo`.
+                public var repo: Swift.String
+                /// The branch
+                ///
+                /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/POST/path/branch`.
+                public var branch: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - owner: owner of the repo
+                ///   - repo: name of the repo
+                ///   - branch: The branch
+                public init(
+                    owner: Swift.String,
+                    repo: Swift.String,
+                    branch: Swift.String
+                ) {
+                    self.owner = owner
+                    self.repo = repo
+                    self.branch = branch
+                }
+            }
+            public var path: Operations.RepoSyncForkBranch.Input.Path
+            /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/sync_fork/{branch}/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkBranch.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RepoSyncForkBranch.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RepoSyncForkBranch.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.RepoSyncForkBranch.Input.Path,
+                headers: Operations.RepoSyncForkBranch.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Components.Responses.Empty)
+            /// APIEmpty is an empty response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Components.Responses.Empty {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/sync_fork/{branch}/post(repoSyncForkBranch)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// List tag protections for a repository
     ///
     /// - Remark: HTTP `GET /repos/{owner}/{repo}/tag_protections`.
@@ -85984,7 +94104,7 @@ public enum Operations {
                 /// id of the tag protect to get
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/tag_protections/{id}/GET/path/id`.
-                public var id: Swift.Int
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -85994,7 +94114,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.Int
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -86131,7 +94251,7 @@ public enum Operations {
                 /// id of protected tag
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/tag_protections/{id}/PATCH/path/id`.
-                public var id: Swift.Int
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -86141,7 +94261,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.Int
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -86333,7 +94453,7 @@ public enum Operations {
                 /// id of protected tag
                 ///
                 /// - Remark: Generated from `#/paths/repos/{owner}/{repo}/tag_protections/{id}/DELETE/path/id`.
-                public var id: Swift.Int
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
@@ -86343,7 +94463,7 @@ public enum Operations {
                 public init(
                     owner: Swift.String,
                     repo: Swift.String,
-                    id: Swift.Int
+                    id: Swift.Int64
                 ) {
                     self.owner = owner
                     self.repo = repo
@@ -87384,17 +95504,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// TeamList
+            /// TeamListWithoutPagination - Teams without pagination headers
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/teams/get(repoListTeams)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.TeamList)
+            case ok(Components.Responses.TeamListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.TeamList {
+            public var ok: Components.Responses.TeamListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -87425,6 +95545,29 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/teams/get(repoListTeams)/responses/405`.
+            ///
+            /// HTTP response code: `405 methodNotAllowed`.
+            case methodNotAllowed(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.methodNotAllowed`.
+            ///
+            /// - Throws: An error if `self` is not `.methodNotAllowed`.
+            /// - SeeAlso: `.methodNotAllowed`.
+            public var methodNotAllowed: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .methodNotAllowed(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "methodNotAllowed",
                             response: self
                         )
                     }
@@ -88236,6 +96379,29 @@ public enum Operations {
                     }
                 }
             }
+            /// APIValidationError is error format response related to input validation
+            ///
+            /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/times/get(repoTrackedTimes)/responses/422`.
+            ///
+            /// HTTP response code: `422 unprocessableContent`.
+            case unprocessableContent(Components.Responses.ValidationError)
+            /// The associated value of the enum case if `self` is `.unprocessableContent`.
+            ///
+            /// - Throws: An error if `self` is not `.unprocessableContent`.
+            /// - SeeAlso: `.unprocessableContent`.
+            public var unprocessableContent: Components.Responses.ValidationError {
+                get throws {
+                    switch self {
+                    case let .unprocessableContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unprocessableContent",
+                            response: self
+                        )
+                    }
+                }
+            }
             /// Undocumented response.
             ///
             /// A response with a code that is not documented in the OpenAPI document.
@@ -88337,17 +96503,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// TrackedTimeList
+            /// TrackedTimeListWithoutPagination - Tracked times for a specific user (no pagination headers)
             ///
             /// - Remark: Generated from `#/paths//repos/{owner}/{repo}/times/{user}/get(userTrackedTimes)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.TrackedTimeList)
+            case ok(Components.Responses.TrackedTimeListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.TrackedTimeList {
+            public var ok: Components.Responses.TrackedTimeListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -91755,6 +99921,151 @@ public enum Operations {
             }
         }
     }
+    /// Get default signing-key.ssh
+    ///
+    /// - Remark: HTTP `GET /signing-key.ssh`.
+    /// - Remark: Generated from `#/paths//signing-key.ssh/get(getSSHSigningKey)`.
+    public enum GetSSHSigningKey {
+        public static let id: Swift.String = "getSSHSigningKey"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/signing-key.ssh/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetSSHSigningKey.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetSSHSigningKey.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetSSHSigningKey.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            public init(headers: Operations.GetSSHSigningKey.Input.Headers = .init()) {
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/signing-key.ssh/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/signing-key.ssh/GET/responses/200/content/text\/plain`.
+                    case plainText(OpenAPIRuntime.HTTPBody)
+                    /// The associated value of the enum case if `self` is `.plainText`.
+                    ///
+                    /// - Throws: An error if `self` is not `.plainText`.
+                    /// - SeeAlso: `.plainText`.
+                    public var plainText: OpenAPIRuntime.HTTPBody {
+                        get throws {
+                            switch self {
+                            case let .plainText(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.GetSSHSigningKey.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.GetSSHSigningKey.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// SSH public key in OpenSSH authorized key format
+            ///
+            /// - Remark: Generated from `#/paths//signing-key.ssh/get(getSSHSigningKey)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.GetSSHSigningKey.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.GetSSHSigningKey.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//signing-key.ssh/get(getSSHSigningKey)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case plainText
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "text/plain":
+                    self = .plainText
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .plainText:
+                    return "text/plain"
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .plainText,
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Get a team
     ///
     /// - Remark: HTTP `GET /teams/{id}`.
@@ -91898,12 +100209,12 @@ public enum Operations {
                 /// id of the team to edit
                 ///
                 /// - Remark: Generated from `#/paths/teams/{id}/PATCH/path/id`.
-                public var id: Swift.Int
+                public var id: Swift.Int64
                 /// Creates a new `Path`.
                 ///
                 /// - Parameters:
                 ///   - id: id of the team to edit
-                public init(id: Swift.Int) {
+                public init(id: Swift.Int64) {
                     self.id = id
                 }
             }
@@ -93591,7 +101902,7 @@ public enum Operations {
             }
         }
     }
-    /// search topics via keyword
+    /// Search for topics by keyword
     ///
     /// - Remark: HTTP `GET /topics/search`.
     /// - Remark: Generated from `#/paths//topics/search/get(topicSearch)`.
@@ -93600,7 +101911,7 @@ public enum Operations {
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/topics/search/GET/query`.
             public struct Query: Sendable, Hashable {
-                /// keywords to search
+                /// keyword to search for
                 ///
                 /// - Remark: Generated from `#/paths/topics/search/GET/query/q`.
                 public var q: Swift.String
@@ -93615,7 +101926,7 @@ public enum Operations {
                 /// Creates a new `Query`.
                 ///
                 /// - Parameters:
-                ///   - q: keywords to search
+                ///   - q: keyword to search for
                 ///   - page: page number of results to return (1-based)
                 ///   - limit: page size of results
                 public init(
@@ -93655,17 +101966,60 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// TopicListResponse
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/topics/search/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/topics/search/GET/responses/200/content/json`.
+                    public struct JsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/topics/search/GET/responses/200/content/json/topics`.
+                        public var topics: [Components.Schemas.TopicResponse]?
+                        /// Creates a new `JsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - topics:
+                        public init(topics: [Components.Schemas.TopicResponse]? = nil) {
+                            self.topics = topics
+                        }
+                        public enum CodingKeys: String, CodingKey {
+                            case topics
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/topics/search/GET/responses/200/content/application\/json`.
+                    case json(Operations.TopicSearch.Output.Ok.Body.JsonPayload)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Operations.TopicSearch.Output.Ok.Body.JsonPayload {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.TopicSearch.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.TopicSearch.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// SearchResults of a successful search
             ///
             /// - Remark: Generated from `#/paths//topics/search/get(topicSearch)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.TopicListResponse)
+            case ok(Operations.TopicSearch.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.TopicListResponse {
+            public var ok: Operations.TopicSearch.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -93895,6 +102249,367 @@ public enum Operations {
             }
         }
     }
+    /// Get the user's runners
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)`.
+    public enum GetUserRunners {
+        public static let id: Swift.String = "getUserRunners"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/user/actions/runners/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// whether to include all visible runners (true) or only those that are directly owned by the user (false)
+                ///
+                /// - Remark: Generated from `#/paths/user/actions/runners/GET/query/visible`.
+                public var visible: Swift.Bool?
+                /// page number of results to return (1-based)
+                ///
+                /// - Remark: Generated from `#/paths/user/actions/runners/GET/query/page`.
+                public var page: Swift.Int?
+                /// page size of results
+                ///
+                /// - Remark: Generated from `#/paths/user/actions/runners/GET/query/limit`.
+                public var limit: Swift.Int?
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - visible: whether to include all visible runners (true) or only those that are directly owned by the user (false)
+                ///   - page: page number of results to return (1-based)
+                ///   - limit: page size of results
+                public init(
+                    visible: Swift.Bool? = nil,
+                    page: Swift.Int? = nil,
+                    limit: Swift.Int? = nil
+                ) {
+                    self.visible = visible
+                    self.page = page
+                    self.limit = limit
+                }
+            }
+            public var query: Operations.GetUserRunners.Input.Query
+            /// - Remark: Generated from `#/paths/user/actions/runners/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetUserRunners.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetUserRunners.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetUserRunners.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - query:
+            ///   - headers:
+            public init(
+                query: Operations.GetUserRunners.Input.Query = .init(),
+                headers: Operations.GetUserRunners.Input.Headers = .init()
+            ) {
+                self.query = query
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunnerList is a list of Forgejo Action runners
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunnerList)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunnerList {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/get(getUserRunners)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Register a new user-level runner
+    ///
+    /// - Remark: HTTP `POST /user/actions/runners`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)`.
+    public enum RegisterUserRunner {
+        public static let id: Swift.String = "registerUserRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/user/actions/runners/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterUserRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.RegisterUserRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.RegisterUserRunner.Input.Headers
+            /// - Remark: Generated from `#/paths/user/actions/runners/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/user/actions/runners/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.RegisterRunnerOptions)
+            }
+            public var body: Operations.RegisterUserRunner.Input.Body?
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - headers:
+            ///   - body:
+            public init(
+                headers: Operations.RegisterUserRunner.Input.Headers = .init(),
+                body: Operations.RegisterUserRunner.Input.Body? = nil
+            ) {
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// RegisterRunnerResponse contains the details of the just registered runner.
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)/responses/201`.
+            ///
+            /// HTTP response code: `201 created`.
+            case created(Components.Responses.RegisterRunnerResponse)
+            /// The associated value of the enum case if `self` is `.created`.
+            ///
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Components.Responses.RegisterRunnerResponse {
+                get throws {
+                    switch self {
+                    case let .created(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/post(registerUserRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
     /// Search for user's action jobs according filter conditions
     ///
     /// - Remark: HTTP `GET /user/actions/runners/jobs`.
@@ -94049,7 +102764,10 @@ public enum Operations {
             }
         }
     }
-    /// Get an user's actions runner registration token
+    /// Get the user's runner registration token
+    ///
+    /// This operation has been deprecated in Forgejo 15. Use the web UI or [`/user/actions/runners`](#/user/registerUserRunner) instead.
+    ///
     ///
     /// - Remark: HTTP `GET /user/actions/runners/registration-token`.
     /// - Remark: Generated from `#/paths//user/actions/runners/registration-token/get(userGetRunnerRegistrationToken)`.
@@ -94141,6 +102859,372 @@ public enum Operations {
                     default:
                         try throwUnexpectedResponseStatus(
                             expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Get a particular runner that belongs to the user
+    ///
+    /// - Remark: HTTP `GET /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)`.
+    public enum GetUserRunner {
+        public static let id: Swift.String = "getUserRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/GET/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - runnerId: ID of the runner
+                public init(runnerId: Swift.String) {
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.GetUserRunner.Input.Path
+            /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetUserRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.GetUserRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.GetUserRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.GetUserRunner.Input.Path,
+                headers: Operations.GetUserRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            /// ActionRunner represents a runner
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Components.Responses.ActionRunner)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Components.Responses.ActionRunner {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/get(getUserRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case html
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                case "text/html":
+                    self = .html
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                case .html:
+                    return "text/html"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json,
+                    .html
+                ]
+            }
+        }
+    }
+    /// Delete a particular user-level runner
+    ///
+    /// - Remark: HTTP `DELETE /user/actions/runners/{runner_id}`.
+    /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)`.
+    public enum DeleteUserRunner {
+        public static let id: Swift.String = "deleteUserRunner"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/DELETE/path`.
+            public struct Path: Sendable, Hashable {
+                /// ID of the runner
+                ///
+                /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/DELETE/path/runner_id`.
+                public var runnerId: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - runnerId: ID of the runner
+                public init(runnerId: Swift.String) {
+                    self.runnerId = runnerId
+                }
+            }
+            public var path: Operations.DeleteUserRunner.Input.Path
+            /// - Remark: Generated from `#/paths/user/actions/runners/{runner_id}/DELETE/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteUserRunner.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.DeleteUserRunner.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.DeleteUserRunner.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.DeleteUserRunner.Input.Path,
+                headers: Operations.DeleteUserRunner.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct NoContent: Sendable, Hashable {
+                /// Creates a new `NoContent`.
+                public init() {}
+            }
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            case noContent(Operations.DeleteUserRunner.Output.NoContent)
+            /// runner has been deleted
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)/responses/204`.
+            ///
+            /// HTTP response code: `204 noContent`.
+            public static var noContent: Self {
+                .noContent(.init())
+            }
+            /// The associated value of the enum case if `self` is `.noContent`.
+            ///
+            /// - Throws: An error if `self` is not `.noContent`.
+            /// - SeeAlso: `.noContent`.
+            public var noContent: Operations.DeleteUserRunner.Output.NoContent {
+                get throws {
+                    switch self {
+                    case let .noContent(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "noContent",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIError is error format response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)/responses/400`.
+            ///
+            /// HTTP response code: `400 badRequest`.
+            case badRequest(Components.Responses._Error)
+            /// The associated value of the enum case if `self` is `.badRequest`.
+            ///
+            /// - Throws: An error if `self` is not `.badRequest`.
+            /// - SeeAlso: `.badRequest`.
+            public var badRequest: Components.Responses._Error {
+                get throws {
+                    switch self {
+                    case let .badRequest(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "badRequest",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APIUnauthorizedError is a unauthorized error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Components.Responses.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Components.Responses.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// APINotFound is a not found error response
+            ///
+            /// - Remark: Generated from `#/paths//user/actions/runners/{runner_id}/delete(deleteUserRunner)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Components.Responses.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Components.Responses.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
                             response: self
                         )
                     }
@@ -95876,7 +104960,7 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// OAuth2ApplicationList represents a list of OAuth2 applications.
+            /// OAuth2ApplicationList
             ///
             /// - Remark: Generated from `#/paths//user/applications/oauth2/get(userGetOAuth2Applications)/responses/200`.
             ///
@@ -95982,7 +105066,7 @@ public enum Operations {
             }
         }
     }
-    /// creates a new OAuth2 application
+    /// Creates a new OAuth2 application
     ///
     /// - Remark: HTTP `POST /user/applications/oauth2`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/post(userCreateOAuth2Application)`.
@@ -96152,7 +105236,7 @@ public enum Operations {
             }
         }
     }
-    /// get an OAuth2 Application
+    /// Get an OAuth2 application
     ///
     /// - Remark: HTTP `GET /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/get(userGetOAuth2Application)`.
@@ -96329,7 +105413,7 @@ public enum Operations {
             }
         }
     }
-    /// update an OAuth2 Application, this includes regenerating the client secret
+    /// Update an OAuth2 application, this includes regenerating the client secret
     ///
     /// - Remark: HTTP `PATCH /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/patch(userUpdateOAuth2Application)`.
@@ -96517,7 +105601,7 @@ public enum Operations {
             }
         }
     }
-    /// delete an OAuth2 Application
+    /// Delete an OAuth2 application
     ///
     /// - Remark: HTTP `DELETE /user/applications/oauth2/{id}`.
     /// - Remark: Generated from `#/paths//user/applications/oauth2/{id}/delete(userDeleteOAuth2Application)`.
@@ -96702,7 +105786,7 @@ public enum Operations {
             }
         }
     }
-    /// Update Avatar
+    /// Update avatar of the current user
     ///
     /// - Remark: HTTP `POST /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/post(userUpdateAvatar)`.
@@ -96857,7 +105941,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete Avatar
+    /// Delete avatar of the current user. It will be replaced by a default one
     ///
     /// - Remark: HTTP `DELETE /user/avatar`.
     /// - Remark: Generated from `#/paths//user/avatar/delete(userDeleteAvatar)`.
@@ -96999,7 +106083,7 @@ public enum Operations {
             }
         }
     }
-    /// Blocks a user from the doer.
+    /// Blocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/block/{username}`.
     /// - Remark: Generated from `#/paths//user/block/{username}/put(userBlockUser)`.
@@ -97207,7 +106291,7 @@ public enum Operations {
             }
         }
     }
-    /// List the authenticated user's email addresses
+    /// List all email addresses of the current user
     ///
     /// - Remark: HTTP `GET /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/get(userListEmails)`.
@@ -97341,7 +106425,7 @@ public enum Operations {
             }
         }
     }
-    /// Add email addresses
+    /// Add an email addresses to the current user's account
     ///
     /// - Remark: HTTP `POST /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/post(userAddEmail)`.
@@ -97511,7 +106595,7 @@ public enum Operations {
             }
         }
     }
-    /// Delete email addresses
+    /// Delete email addresses from the current user's account
     ///
     /// - Remark: HTTP `DELETE /user/emails`.
     /// - Remark: Generated from `#/paths//user/emails/delete(userDeleteEmail)`.
@@ -98746,12 +107830,23 @@ public enum Operations {
                 }
             }
             public var headers: Operations.UserVerifyGPGKey.Input.Headers
+            /// - Remark: Generated from `#/paths/user/gpg_key_verify/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/user/gpg_key_verify/POST/requestBody/content/application\/json`.
+                case json(Components.Schemas.VerifyGPGKeyOption)
+            }
+            public var body: Operations.UserVerifyGPGKey.Input.Body?
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - headers:
-            public init(headers: Operations.UserVerifyGPGKey.Input.Headers = .init()) {
+            ///   - body:
+            public init(
+                headers: Operations.UserVerifyGPGKey.Input.Headers = .init(),
+                body: Operations.UserVerifyGPGKey.Input.Body? = nil
+            ) {
                 self.headers = headers
+                self.body = body
             }
         }
         @frozen public enum Output: Sendable, Hashable {
@@ -99070,7 +108165,7 @@ public enum Operations {
             }
         }
     }
-    /// Create a GPG key
+    /// Add a GPG public key to current user's account
     ///
     /// - Remark: HTTP `POST /user/gpg_keys`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/post(userCurrentPostGPGKey)`.
@@ -99438,7 +108533,7 @@ public enum Operations {
             }
         }
     }
-    /// Remove a GPG key
+    /// Remove a GPG public key from current user's account
     ///
     /// - Remark: HTTP `DELETE /user/gpg_keys/{id}`.
     /// - Remark: Generated from `#/paths//user/gpg_keys/{id}/delete(userCurrentDeleteGPGKey)`.
@@ -99680,17 +108775,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// HookList
+            /// HookListWithoutPagination - Hooks without pagination headers
             ///
             /// - Remark: Generated from `#/paths//user/hooks/get(userListHooks)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.HookList)
+            case ok(Components.Responses.HookListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.HookList {
+            public var ok: Components.Responses.HookListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -101330,17 +110425,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// OrganizationList
+            /// OrganizationListWithoutPagination - Organizations without pagination headers
             ///
             /// - Remark: Generated from `#/paths//user/orgs/get(orgListCurrentUserOrgs)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.OrganizationList)
+            case ok(Components.Responses.OrganizationListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.OrganizationList {
+            public var ok: Components.Responses.OrganizationListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -101926,6 +111021,21 @@ public enum Operations {
     public enum UserCheckQuota {
         public static let id: Swift.String = "userCheckQuota"
         public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/user/quota/check/GET/query`.
+            public struct Query: Sendable, Hashable {
+                /// subject of the quota
+                ///
+                /// - Remark: Generated from `#/paths/user/quota/check/GET/query/subject`.
+                public var subject: Swift.String
+                /// Creates a new `Query`.
+                ///
+                /// - Parameters:
+                ///   - subject: subject of the quota
+                public init(subject: Swift.String) {
+                    self.subject = subject
+                }
+            }
+            public var query: Operations.UserCheckQuota.Input.Query
             /// - Remark: Generated from `#/paths/user/quota/check/GET/header`.
             public struct Headers: Sendable, Hashable {
                 public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.UserCheckQuota.AcceptableContentType>]
@@ -101941,31 +111051,56 @@ public enum Operations {
             /// Creates a new `Input`.
             ///
             /// - Parameters:
+            ///   - query:
             ///   - headers:
-            public init(headers: Operations.UserCheckQuota.Input.Headers = .init()) {
+            public init(
+                query: Operations.UserCheckQuota.Input.Query,
+                headers: Operations.UserCheckQuota.Input.Headers = .init()
+            ) {
+                self.query = query
                 self.headers = headers
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// Boolean
-            ///
-            /// - Remark: Generated from `#/paths//user/quota/check/get(userCheckQuota)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.Boolean)
-            /// Boolean
-            ///
-            /// - Remark: Generated from `#/paths//user/quota/check/get(userCheckQuota)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            public static var ok: Self {
-                .ok(.init())
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/user/quota/check/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/user/quota/check/GET/responses/200/content/application\/json`.
+                    case json(Swift.Bool)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Swift.Bool {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.UserCheckQuota.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.UserCheckQuota.Output.Ok.Body) {
+                    self.body = body
+                }
             }
+            /// Returns true if the action is accepted.
+            ///
+            /// - Remark: Generated from `#/paths//user/quota/check/get(userCheckQuota)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.UserCheckQuota.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.Boolean {
+            public var ok: Operations.UserCheckQuota.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -102710,7 +111845,7 @@ public enum Operations {
             }
         }
     }
-    /// Get user settings
+    /// Get current user's account settings
     ///
     /// - Remark: HTTP `GET /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/get(getUserSettings)`.
@@ -102844,7 +111979,7 @@ public enum Operations {
             }
         }
     }
-    /// Update user settings
+    /// Update settings in current user's account
     ///
     /// - Remark: HTTP `PATCH /user/settings`.
     /// - Remark: Generated from `#/paths//user/settings/patch(updateUserSettings)`.
@@ -104402,7 +113537,7 @@ public enum Operations {
             }
         }
     }
-    /// Unblocks a user from the doer.
+    /// Unblocks a user from the doer
     ///
     /// - Remark: HTTP `PUT /user/unblock/{username}`.
     /// - Remark: Generated from `#/paths//user/unblock/{username}/put(userUnblockUser)`.
@@ -104627,6 +113762,19 @@ public enum Operations {
                 ///
                 /// - Remark: Generated from `#/paths/users/search/GET/query/uid`.
                 public var uid: Swift.Int64?
+                /// - Remark: Generated from `#/paths/users/search/GET/query/sort`.
+                @frozen public enum SortPayload: String, Codable, Hashable, Sendable, CaseIterable {
+                    case oldest = "oldest"
+                    case newest = "newest"
+                    case alphabetically = "alphabetically"
+                    case reversealphabetically = "reversealphabetically"
+                    case recentupdate = "recentupdate"
+                    case leastupdate = "leastupdate"
+                }
+                /// sort order of results
+                ///
+                /// - Remark: Generated from `#/paths/users/search/GET/query/sort`.
+                public var sort: Operations.UserSearch.Input.Query.SortPayload?
                 /// page number of results to return (1-based)
                 ///
                 /// - Remark: Generated from `#/paths/users/search/GET/query/page`.
@@ -104640,16 +113788,19 @@ public enum Operations {
                 /// - Parameters:
                 ///   - q: keyword
                 ///   - uid: ID of the user to search for
+                ///   - sort: sort order of results
                 ///   - page: page number of results to return (1-based)
                 ///   - limit: page size of results
                 public init(
                     q: Swift.String? = nil,
                     uid: Swift.Int64? = nil,
+                    sort: Operations.UserSearch.Input.Query.SortPayload? = nil,
                     page: Swift.Int? = nil,
                     limit: Swift.Int? = nil
                 ) {
                     self.q = q
                     self.uid = uid
+                    self.sort = sort
                     self.page = page
                     self.limit = limit
                 }
@@ -106082,17 +115233,17 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// OrganizationList
+            /// OrganizationListWithoutPagination - Organizations without pagination headers
             ///
             /// - Remark: Generated from `#/paths//users/{username}/orgs/get(orgListUserOrgs)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Components.Responses.OrganizationList)
+            case ok(Components.Responses.OrganizationListWithoutPagination)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Components.Responses.OrganizationList {
+            public var ok: Components.Responses.OrganizationListWithoutPagination {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -106802,7 +115953,7 @@ public enum Operations {
             }
         }
     }
-    /// List the authenticated user's access tokens
+    /// List the specified user's access tokens
     ///
     /// - Remark: HTTP `GET /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/get(userGetTokens)`.
@@ -106877,7 +116028,7 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
-            /// AccessTokenList represents a list of API access token.
+            /// AccessTokenList
             ///
             /// - Remark: Generated from `#/paths//users/{username}/tokens/get(userGetTokens)/responses/200`.
             ///
@@ -106983,7 +116134,7 @@ public enum Operations {
             }
         }
     }
-    /// Create an access token
+    /// Generate an access token for the specified user
     ///
     /// - Remark: HTTP `POST /users/{username}/tokens`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/post(userCreateToken)`.
@@ -107169,7 +116320,7 @@ public enum Operations {
             }
         }
     }
-    /// delete an access token
+    /// Delete an access token from the specified user's account
     ///
     /// - Remark: HTTP `DELETE /users/{username}/tokens/{token}`.
     /// - Remark: Generated from `#/paths//users/{username}/tokens/{token}/delete(userDeleteAccessToken)`.
